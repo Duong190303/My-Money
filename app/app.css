@@ -13,3 +13,480 @@ body {
     color-scheme: dark;
   }
 }
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/*************************************Register******************************************/
+.design-background {
+  background-color: rgba(69, 196, 190, 1);
+  width: 100%;
+  height: 736px;
+}
+
+.input-design-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(69, 196, 190, 1);
+  width: 100%;
+  height: 720px;
+}
+
+/* Form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 500px;
+  height: 620px;
+  background-color: white;
+  border-radius: 30px;
+}
+.m_6d731127 {
+
+}
+/* Logo container */
+.logo-container {
+  margin-left: 4rem;
+  width: 80%;
+  /* max-width: 32rem; */
+}
+
+.logo-image {
+  width: 100%;
+  height: auto;
+}
+
+/* Form fields container */
+.form-register-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+  margin-top: 3.5rem;
+  width: 443px;
+  align-items: center;
+
+}
+.password-input{
+  display: flex;
+  align-items: center;
+  color: #979595;
+  
+}
+.password-input-icon {
+  position: relative;
+  display: flex;
+}
+.mantine-password{
+  color: #191414;
+}
+
+
+.m_6c018570{
+
+  width: 70%;
+}
+.m_82577fc2{
+  /* margin-left: 100px; */
+}
+.m_6d731127 {
+  background-color: #ffffff;
+  width: 100%;
+  height: 70%;
+}
+.m_b1072d44 {
+  margin-left: 150px;
+}
+.m_6c018570{
+  width: 70%;
+}
+.m_f2d85dd2{
+  width: 70%;
+}
+.m_f61ca620 {
+  margin-bottom: 16px;}
+
+
+/* Login text */
+.login-text {
+  font-size: 1.25rem;
+  color: #000000;
+  font-family: Arial, sans-serif;
+}
+.login-text a {
+  color: #2F727B;
+}
+.login-link:hover{
+  color: #0e7490;
+  /* cyan-700 */
+  cursor: pointer;
+}
+.login-text a:hover {
+  text-decoration: underline;
+  color: rgba(69, 196, 190, 1);
+}
+.image-section1 {
+  justify-content: left;
+  align-items: left;
+  width: 650px;
+  height: 680px;
+}
+
+.image-container1 {
+  position: relative;
+  width: 650px;
+  height: 650px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+.image-container1 img {
+  width: 100%;
+  height: 80%;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 991px) {
+  .input-design-container {
+    flex-direction: column;
+    padding: 1.25rem;
+    max-width: 991px;
+  }
+
+  .illustration-container {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .input-design-container {
+    max-width: 640px;
+  }
+
+  .form-container {
+    padding: 1.25rem;
+  }
+
+  .input-field {
+    font-size: 1.125rem;
+    height: 50px;
+  }
+
+  .login-text {
+    font-size: 1.125rem;
+  }
+
+  .register-button {
+    width: 100%;
+  }
+}
+/************************************************************Login Page************************************************************/
+/* Main container */
+.login-container {
+  display: flex;
+  width: 100%;
+  max-height: 100vh;
+  background: white;
+  flex-direction: row;
+}
+
+/* Form section (left side) */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.5rem;
+  background-color: #C3BDBD;
+  /* bg-stone-300 */
+  width: 50%;
+  justify-content: center;
+}
+
+/* Welcome text */
+.welcome-title {
+  margin-bottom: 1rem;
+  font-size: 48px;
+  line-height: 2.25rem;
+  color: #14b8a6;
+  /* text-teal-500 */
+}
+
+.welcome-subtitle {
+  margin-bottom: 2.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  color: #000000;
+  font-family: Arial, sans-serif;
+
+}
+.form{
+  width: 443px;
+}
+/* Form container */
+.form-login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* Input  */
+.form-input {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  width: 350px;
+  font-size: 20px;
+  line-height: 2rem;
+  background-color: white;
+  height: 45px;
+  border-radius: 60px;
+  border: none;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.form-input:focus {
+  outline: none;
+  border: 1px solid #14b8a6;
+}
+
+/* Login button */
+.login-button {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: white;
+  background-color: rgba(53, 167, 185, 1);
+  /* bg-teal-500 */
+  height: 44px;
+  border-radius: 30px;
+  width: 210px;
+  border: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+.login-button:hover {
+  background-color: rgba(69, 196, 190, 1);
+}
+
+.register-text {
+  color: #010101;
+  /* text-cyan-700 */
+  cursor: pointer;
+  padding-top: 25px;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+.register-text a{
+  color: #28818F;
+}
+.register-text a:hover {
+  text-decoration: underline;
+  color: rgba(69, 196, 190, 1);
+}
+
+/* Image section (right side) */
+.image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 2.5rem; */
+  background-color: white;
+  max-width: 1140px;
+  /* width: 100%; */
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  /* object-fit: contain; */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .form-section {
+    width: 100%;
+  }
+
+  .image-section {
+    display: none;
+  }
+}
+
+/***************************************Home***********************************************/
+.home-background {
+  background-image: url(/public/home-background.png);
+  background-size: cover;
+  background-Position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+}
+
+.home-header-container {
+  width: 1440px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+  /* margin-right: 400px; */
+
+}
+
+.home-logo {
+  height: 50px;
+}
+
+.home-navigation {
+  display: flex;
+  gap: 60px;
+}
+
+.home-nav-item {
+  color: rgb(10, 10, 10);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+
+}
+
+.home-nav-item:hover {
+  color: rgba(69, 196, 190, 1);
+  font-size: 150%;
+}
+
+.home-login-container {
+  display: flex;
+  align-items: center;
+  width: 130px;
+  background-color: rgb(255 255 255);
+  border-radius: 20px;
+}
+
+.home-login-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.home-profile-icon {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.home-login-text {
+  font-size: 1.25rem;
+  color: #000;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+}
+/*******************************************Income***********************************************/
+.income-background {
+  background-image: url(/public/Income-background.png);
+  background-size: cover;
+  background-Position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+}
+.income-container{
+    background-image: url(/public/income.png);
+    background-size: cover;
+    background-Position: center;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+}
+
+
+
+
+
+/******************************************Header*******************************************/
+.header-container {
+  width: 1440px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+  /* margin-right: 400px; */  
+}

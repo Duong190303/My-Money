@@ -1,7 +1,7 @@
 import { Text } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 
-export function Home() {
+export function Header() {
   if (typeof window === "undefined") return null;
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export function Home() {
   };
   return (
     
-  <div className="home-background">
+  <div className="header-background">
     {/* Header nằm trong background */}
     <div className="home-header-container">
       <img
