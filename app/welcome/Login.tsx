@@ -2,9 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure } from "@mantine/hooks";
 import { PasswordInput, Stack, TextInput, Button, Loader } from "@mantine/core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from "@mantine/form";
+import "../welcome/Style/Login.css";
+import Home from "../welcome/Home";
+
 
 export function Login() {
   const [loading, setLoading] = useState(false);
@@ -39,9 +43,9 @@ export function Login() {
         .single();
 
       if (error || !data) {
-        setError("Email hoặc mật khẩu không đúng");
+        setError("Email hoặc mật khẩu không đúng!");
       } else if (data.password !== values.password) {
-        setError("Email hoặc mật khẩu không đúng");
+        setError("Email hoặc mật khẩu không đúng!");
       } else {
         // Lưu thông tin đăng nhập vào localStorage (hoặc context)
         localStorage.setItem("user", JSON.stringify(data));
@@ -54,8 +58,10 @@ export function Login() {
     }
     setLoading(false);
   };
+  const handleHomeClick = () => {
+    window.location.href = "/"; // Chuyển đến trang chủ
+  };
 
-  
   return (
     <div className="login-container">
       <div className="form-section">
@@ -63,18 +69,20 @@ export function Login() {
         <div className="welcome-subtitle">
           This web helps you manage your money effectively
         </div>
-<div className="form">
-        <form
+        <div className="form">
+          <form
             onSubmit={form.onSubmit(handleLogin)}
             className="form-login-container"
           >
             <Stack
-            style={{ width: "400px",  backgroundColor:"#C3BDBD"}
-
-          }
+              style={{
+                width: "310px",
+                height: "150px",
+                backgroundColor: "#C3BDBD",
+              }}
             >
               <TextInput
-              type="email"
+                type="email"
                 placeholder="Email"
                 {...form.getInputProps("email")}
                 styles={{
@@ -83,12 +91,11 @@ export function Login() {
                     backgroundColor: "white", // Màu nền input
                     height: "42px",
                     width: "310px",
-                    marginLeft: "45px",
                   },
                 }}
               />
               <PasswordInput
-              type="password"
+                type="password"
                 placeholder="Password"
                 visible={visible}
                 onVisibilityChange={toggle}
@@ -101,38 +108,41 @@ export function Login() {
                     height: "42px",
                     marginTop: "16px",
                     width: "310px",
-                    marginLeft: "45px",
                   },
                 }}
               />
-              
-              <Button
-                type="submit"
-                disabled={loading}
-                className="register-button"
-                styles={{
-                  root: {
-                    borderRadius: "20px",
-                    backgroundColor: "#35A7B9", // Màu nền input
-                    height: "40px",
-                    width: "150px",
-                    marginTop: "30px",
-                    marginLeft: "32%",
-                    marginBottom: "20px",
-                    
-                  },
-                }}
-              >
-                {loading ? <Loader size="xs" /> : "Login"}
-              </Button>
             </Stack>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="register-button"
+              styles={{
+                root: {
+                  borderRadius: "20px",
+                  backgroundColor: "#35A7B9", // Màu nền input
+                  height: "40px",
+                  width: "150px",
+                  marginBottom: "20px",
+                },
+              }}
+            >
+              {loading ? <Loader size="xs" /> : "Login"}
+            </Button>
             <div className="register-link-container">
-            <span className="register-text">
-            You have't had an account? <Link to="/register">Register</Link>
-            </span>
-          </div>
+              <span className="register-text">
+                You have't had an account? <Link to="/register">Register</Link>
+              </span>
+            </div>
+            {error && (
+              <div className="error-message" style={{ color: "red" }}>
+                {error}
+              </div>
+            )}
           </form>
-          </div>
+        </div>
+        <Link to="/" className="back-link" onClick={handleHomeClick} >
+        {/* <FontAwesomeIcon icon="fa-solid fa-house" />         */}
+        </Link>
       </div>
       <div className="image-section">
         <div className="image-container">
@@ -144,5 +154,5 @@ export function Login() {
       </div>
     </div>
   );
-};
+}
 export default Login;

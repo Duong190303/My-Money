@@ -38,20 +38,29 @@ const Register: React.FC = () => {
     setError(null);
 
     try {
-      const { error } = await supabase.from("users").insert([
+      const { data,error } = await supabase.auth.signUp(
         {
           email: values.email,
           password: values.password, // Lưu trực tiếp mật khẩu
         },
+      );
+
+      if (error) throw error;
+
+      // Nếu đăng ký thành công, lưu thông tin vào bảng users
+      const { error: insertError } = await supabase.from("users").insert([
+        {
+          id_user: data.user?.id, // Lưu ID của user từ Auth
+          email: values.email,
+          password: values.password,
+        },
       ]);
 
-      if (error) {
-        setError(error.message);
-      } else {
-        navigate("/login");
-      }
-    } catch (err) {
-      setError("Đăng ký thất bại. Vui lòng thử lại.");
+      if (insertError) throw insertError;
+
+      navigate("/");
+    } catch (err: any) {
+      setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
     }
     setLoading(false);
   };
@@ -72,7 +81,7 @@ const Register: React.FC = () => {
             className="form-register-container"
           >
             <Stack
-            style={{ width: "310px"  }}>
+            style={{ width: "310px",height: "250px", }}>
               <TextInput
                 placeholder="Email"
                 {...form.getInputProps("email")}
@@ -82,6 +91,7 @@ const Register: React.FC = () => {
                     backgroundColor: "#D9D9D9A6", // Màu nền input
                     height: "42px",
                     width: "310px",
+                    marginLeft: "0px",
                   },
                 }}
               />
@@ -114,7 +124,9 @@ const Register: React.FC = () => {
                   },
                 }}
               />
-              <Button
+              
+            </Stack>
+            <Button
                 type="submit"
                 disabled={loading}
                 className="register-button"
@@ -122,16 +134,14 @@ const Register: React.FC = () => {
                   root: {
                     borderRadius: "20px",
                     backgroundColor: "#35A7B9", // Màu nền input
-                    height: "90px",
+                    height: "40px",
                     width: "150px",
-                    marginTop: "15px",
-                    marginLeft: "26%",
+                    // marginTop: "15px",                  
                   },
                 }}
               >
                 {loading ? <Loader size="xs" /> : "Register"}
               </Button>
-            </Stack>
             <div className="login-link-container">
             <span className="login-text">
             Already have account? <Link to="/login">Login</Link>

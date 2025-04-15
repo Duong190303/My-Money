@@ -14,7 +14,13 @@ export function Header() {
   };
   return (
     
-  <div className="header-background">
+  <div className="header-background"
+  style={{
+    display: "flex",
+    width: "105%",
+    justifyContent: "space-evenly"
+  }}
+  >
     {/* Header nằm trong background */}
     <div className="home-header-container">
       <img

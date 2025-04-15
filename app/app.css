@@ -1,66 +1,156 @@
 @import "tailwindcss";
+/* import { css } from '@mantine/core'; */
 
-@theme {
+/* @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
+} */
 
-html,
+/* html,
 body {
   @apply bg-white dark:bg-gray-950;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
-}
+} */
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
+
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
 }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
+
 /*************************************Register******************************************/
 .design-background {
   background-color: rgba(69, 196, 190, 1);
@@ -89,9 +179,7 @@ table {
   background-color: white;
   border-radius: 30px;
 }
-.m_6d731127 {
 
-}
 /* Logo container */
 .logo-container {
   margin-left: 4rem;
@@ -115,44 +203,54 @@ table {
   align-items: center;
 
 }
-.password-input{
+
+.password-input {
   display: flex;
   align-items: center;
   color: #979595;
-  
+
 }
+
 .password-input-icon {
   position: relative;
   display: flex;
 }
-.mantine-password{
+
+.mantine-password {
   color: #191414;
 }
 
 
-.m_6c018570{
+.m_6c018570 {
 
   width: 70%;
 }
-.m_82577fc2{
+
+.m_82577fc2 {
   /* margin-left: 100px; */
 }
+
 .m_6d731127 {
   background-color: #ffffff;
   width: 100%;
   height: 70%;
 }
+
 .m_b1072d44 {
   margin-left: 150px;
 }
-.m_6c018570{
+
+.m_6c018570 {
   width: 70%;
 }
-.m_f2d85dd2{
+
+.m_f2d85dd2 {
   width: 70%;
 }
+
 .m_f61ca620 {
-  margin-bottom: 16px;}
+  margin-bottom: 16px;
+}
 
 
 /* Login text */
@@ -161,18 +259,22 @@ table {
   color: #000000;
   font-family: Arial, sans-serif;
 }
+
 .login-text a {
   color: #2F727B;
 }
-.login-link:hover{
+
+.login-link:hover {
   color: #0e7490;
   /* cyan-700 */
   cursor: pointer;
 }
+
 .login-text a:hover {
   text-decoration: underline;
   color: rgba(69, 196, 190, 1);
 }
+
 .image-section1 {
   justify-content: left;
   align-items: left;
@@ -231,6 +333,7 @@ table {
     width: 100%;
   }
 }
+
 /************************************************************Login Page************************************************************/
 /* Main container */
 .login-container {
@@ -270,9 +373,20 @@ table {
   font-family: Arial, sans-serif;
 
 }
-.form{
+
+.form {
   width: 443px;
+
 }
+
+.m_46b77525 {
+  /* margin-left: 50px; */
+}
+
+.m_8f816625 {
+  margin-left: 50px;
+}
+
 /* Form container */
 .form-login-container {
   display: flex;
@@ -340,9 +454,11 @@ table {
   text-align: center;
   font-family: Arial, sans-serif;
 }
-.register-text a{
+
+.register-text a {
   color: #28818F;
 }
+
 .register-text a:hover {
   text-decoration: underline;
   color: rgba(69, 196, 190, 1);
@@ -385,23 +501,24 @@ table {
 /***************************************Home***********************************************/
 .home-background {
   background-image: url(/public/home-background.png);
-  background-size: cover;
+  background-size: 100%;
   background-Position: center;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   color: white;
 }
 
 .home-header-container {
-  width: 1440px;
+  width: 90%;
   display: flex;
   padding-top: 20px;
   align-items: center;
   justify-content: space-between;
-  /* margin-right: 400px; */
+  /* margin-right: 40px;
+  margin-left: 40px; */
 
 }
 
@@ -453,33 +570,6 @@ table {
   text-decoration: none;
   font-family: Arial, sans-serif;
 }
-/*******************************************Income***********************************************/
-.income-background {
-  background-image: url(/public/Income-background.png);
-  background-size: cover;
-  background-Position: center;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  color: white;
-}
-.income-container{
-    background-image: url(/public/income.png);
-    background-size: cover;
-    background-Position: center;
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    color: white;
-}
-
-
-
-
 
 /******************************************Header*******************************************/
 .header-container {
@@ -488,5 +578,5 @@ table {
   padding-top: 20px;
   align-items: center;
   justify-content: space-between;
-  /* margin-right: 400px; */  
+  /* margin-right: 400px; */
 }

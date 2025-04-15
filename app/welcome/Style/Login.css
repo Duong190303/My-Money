@@ -1,0 +1,7 @@
+.back-link{
+    margin-right: 100%;
+    margin-bottom: 0%;
+}
+.back-link:hover {
+    color: rgba(69, 196, 190, 1);
+}
