@@ -49,9 +49,9 @@ export function Header() {
             className="home-profile-icon"
             alt=""
           />
-          <Link className="home-login-text" to="/login">
+          <span className="home-login-text">
             Log out
-          </Link>
+          </span>
         </div>
       </div>
     </div>

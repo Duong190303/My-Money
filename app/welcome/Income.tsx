@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { Header } from "./Header";
 import {
   Select,
@@ -7,19 +6,17 @@ import {
   Table,
   Text,
   ScrollArea,
-  TableTbody,
+  Textarea,
+  NumberInput,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
-import {
-  IconChevronDown,
-  IconChevronUp,
-  IconSearch,
-  IconSelector,
-} from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { DateInput } from "@mantine/dates";
 import { supabase } from "../supabase";
+import { Notifications } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
-
+import { useField, useForm } from "@mantine/form";
+import type { s } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 type Transaction = {
   id: number;
   id_user: string;
@@ -27,7 +24,7 @@ type Transaction = {
   amount: number;
   note: string;
   date: string;
-  categories: { name: string } // thêm thuộc tính categories
+  categories: { name: string }; // thêm thuộc tính categories
 };
 export default function Income() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -42,11 +39,24 @@ export default function Income() {
   const [userId, setUserId] = useState<string>("");
   const [search, setSearch] = useState("");
   const [sortedTransactions, setSortedTransactions] = useState(transactions);
-  const [sortBy, setSortBy] = useState<keyof Transaction | null>(null);
-  const [reverseSort, setReverseSort] = useState(false);
-  const [editingTransactionId, setEditingTransactionId] = useState<number | null>(null);
+  const [editingTransactionId, setEditingTransactionId] = useState<
+    number | null
+  >(null);
 
-
+  // const form = useForm({
+  //   initialValues: {
+  //     catalogies: "",
+  //     amount: "",
+  //     date: "",
+  //     note: "",
+  //   },
+  //   validate: {
+  //     catalogies: (value) => (value ? null : "Vui lòng chọn catalogies"),
+  //     amount: (value) => (value ? null : "Vui lòng nhập số lượng"),
+  //     date: (value) => (value ? null : "Vui lòng chọn ngày"),
+  //     note: (value) => (value ? null : "Vui lòng nhập ghi chú"),
+  //   },
+  // });
   // 1. Lấy thông tin user hiện tại từ Supabase Auth
   useEffect(() => {
     async function getCurrentUser() {
@@ -88,54 +98,37 @@ export default function Income() {
     fetchCategories();
   }, []);
 
-  // useEffect(() => {
-  //   async function fetchTransactions() {
-  //     if (!userId) return;
-  //     const { data: transactionsData, error } = await supabase
-  //       .from("transactions")
-  //       .select("*, categories(name, id_type)")
-  //       .eq("id_user", userId)
-  //       .eq("categories.id_type", 11111);
-  //     // .join("categories", "transactions.id_cate", "categories.id_cate");
-  //     if (transactionsData) {
-  //       setTransactions(transactionsData);
-  //     } else {
-  //       console.error("Error fetching transactions:", error);
-  //     }
-  //   }
-  //   fetchTransactions();
-  // }, [userId]);
   useEffect(() => {
-    async function fetchTransactions() {
-      if (!userId) return;
-  
-      const { data, error } = await supabase
-        .from("transactions")
-        .select(`
+    if (userId) {
+      fetchTransactions();
+    }
+  }, [userId]);
+  const fetchTransactions = async () => {
+    if (!userId) return;
+    const { data, error } = await supabase
+      .from("transactions")
+      .select(
+        `
           *,
           categories (
             name,
             id_type
           )
-        `)
-        .eq("id_user", userId);
-  
-      if (error) {
-        console.error("Error fetching transactions:", error);
-        return;
-      }
-  
-      const filtered = data?.filter(
-        (tran) => tran.categories?.id_type === 11111
-      ) || [];
-  
-      setTransactions(filtered);
-      setSortedTransactions(filtered); // Khởi tạo mảng đã sắp xếp
+        `
+      )
+      .eq("id_user", userId);
+
+    if (error) {
+      console.error("Error fetching transactions:", error);
+      return;
     }
-  
-    fetchTransactions();
-  }, [userId]);
-  
+
+    const filtered =
+      data?.filter((tran) => tran.categories?.id_type === 11111) || [];
+
+    setTransactions(filtered);
+    setSortedTransactions(filtered);
+  };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
@@ -147,141 +140,80 @@ export default function Income() {
     );
     setSortedTransactions(filteredTransactions);
   };
-// const handleSort = (field: keyof Transaction | ((transaction: Transaction) => any)) => {
-//   if (typeof field === 'function') {
-//     throw new Error('Cannot sort by a function');
-//   }
-//   setSortBy(field);
-//   setReverseSort(!reverseSort);
-//   const sortedTransactions = transactions.sort((a, b) => {
-//     let aValue, bValue;
-//     aValue = a[field];
-//     bValue = b[field];
-//     if (aValue < bValue) return reverseSort ? 1 : -1;
-//     if (aValue > bValue) return reverseSort ? -1 : 1;
-//     return 0;
-//   });
-//   setSortedTransactions(sortedTransactions);
-// };
-// const handleSort = (field: keyof Transaction) => {
-//   setSortBy(field);
-//   const newReverse = !reverseSort;
-//   setReverseSort(newReverse);
 
-//   const sorted = [...transactions].sort((a, b) => {
-//     const aValue = a[field];
-//     const bValue = b[field];
+  const handleSaveOrUpdate = async () => {
+    if (!selectedCategory || !date || !amount) {
+      Notifications.show({
+        title: "Thiếu thông tin",
+        message: "Vui lòng điền đầy đủ thông tin trước khi lưu.",
+        color: "red",
+      });
+      return;
+    }
 
-//     if (aValue == null || bValue == null) return 0;
+    const payload = {
+      id_user: userId,
+      id_cate: parseInt(selectedCategory),
+      amount: parseFloat(amount),
+      note: note,
+      date: date.toISOString().split("T")[0],
+    };
 
-//     if (aValue < bValue) return newReverse ? 1 : -1;
-//     if (aValue > bValue) return newReverse ? -1 : 1;
-//     return 0;
-//   });
+    let error;
 
-//   setSortedTransactions(sorted);
-// };
-const handleSaveOrUpdate = async () => {
-  if (!selectedCategory || !date || !amount) {
-    alert("Vui lòng điền đầy đủ thông tin");
-    return;
-  }
+    if (editingTransactionId) {
+      // Update
+      const result = await supabase
+        .from("transactions")
+        .update(payload)
+        .eq("id", editingTransactionId); // dùng ID để update chính xác
+      error = result.error;
+    } else {
+      // Insert
+      const result = await supabase.from("transactions").insert(payload);
+      error = result.error;
+    }
 
-  const payload = {
-    id_user: userId,
-    id_cate: parseInt(selectedCategory),
-    amount: parseFloat(amount),
-    note: note,
-    date: date.toISOString().split("T")[0],
+    if (error) {
+      console.error("Lỗi lưu giao dịch:", error);
+      Notifications.show({
+        title: "Lỗi",
+        message: "Không thể lưu giao dịch. Vui lòng thử lại.",
+        color: "red",
+      });
+    } else {
+      Notifications.show({
+        title: editingTransactionId
+          ? "Cập nhật thành công"
+          : "Thêm mới thành công",
+        message: editingTransactionId
+          ? "Giao dịch đã được cập nhật."
+          : "Thu nhập đã được lưu!",
+        color: "green",
+      });
+      setAmount("");
+      setNote("");
+      setDate(null);
+      setSelectedCategory(null);
+      setEditingTransactionId(null); // reset lại để trở về trạng thái thêm mới
+      await fetchTransactions();
+    }
   };
-
-  let error;
-
-  if (editingTransactionId) {
-    // Update
-    const result = await supabase
-      .from("transactions")
-      .update(payload)
-      .eq("id", editingTransactionId); // dùng ID để update chính xác
-    error = result.error;
-  } else {
-    // Insert
-    const result = await supabase
-      .from("transactions")
-      .insert(payload);
-    error = result.error;
-  }
-
-  if (error) {
-    console.error("Lỗi lưu giao dịch:", error);
-  } else {
-    alert("Thu nhập đã được lưu!");
-    setAmount("");
-    setNote("");
-    setDate(null);
-    setSelectedCategory(null);
-    setEditingTransactionId(null); // reset lại để trở về trạng thái thêm mới
-  }
-};
-
-  // const handleSave = async () => {
-  //   if (!selectedCategory || !date || !amount) {
-  //     alert("Vui lòng điền đầy đủ thông tin");
-  //     return;
-  //   }
-
-  //   const { error } = await supabase.from("transactions").insert({
-  //     id_user: userId,
-  //     id_cate: parseInt(selectedCategory),
-  //     amount: parseFloat(amount),
-  //     note: note,
-  //     date: date.toISOString().split("T")[0],
-  //   });
-
-  //   if (error) {
-  //     console.error("Lỗi lưu giao dịch:", error);
-  //   } else {
-  //     alert("Thu nhập đã được lưu!");
-  //     setAmount("");
-  //     setNote("");
-  //     setDate(null);
-  //     setSelectedCategory(null);
-  //   }
-  // };
-  // const handUpdate = async () => {
-  //   if (!selectedCategory || !date || !amount) {
-  //     alert("Vui lòng điền đày đủ thông tin");
-  //     return;
-  //   }
-
-  //   const { error } = await supabase.from("transactions").update({
-  //     id_cate: parseInt(selectedCategory),
-  //     amount: parseFloat(amount),
-  //     note: note,
-  //     date: date.toISOString().split("T")[0],
-  //   }).eq("id_user", userId).eq("id_cate", parseInt(selectedCategory)).eq("date", date.toISOString().split("T")[0]).eq("amount", parseFloat(amount));
-
-  //   if (error) {
-  //     console.error("Lỗi lưu giao dịch:", error);
-  //   } else {
-  //     alert("Thu nhập đã được lưu!");
-  //     setAmount("");
-  //     setNote("");
-  //     setDate(null);
-  //     setSelectedCategory(null);
-  //   }
-  // };
 
   const handleRowClick = (transaction: Transaction) => {
     setSelectedCategory(transaction.id_cate.toString());
     setAmount(transaction.amount.toString());
-    setNote(transaction.note||"");
+    setNote(transaction.note || "");
     setDate(new Date(transaction.date));
     setEditingTransactionId(transaction.id);
-  }
+  };
   const handleDelete = async () => {
     if (!selectedCategory || !date || !amount) {
-      alert("Vui lòng điền đầy đủ thông tin");
+      Notifications.show({
+        title: "Thiếu thông tin",
+        message: "Vui lòng điền đầy đủ thông tin để xoá giao dịch!",
+        color: "red",
+      });
       return;
     }
 
@@ -296,21 +228,30 @@ const handleSaveOrUpdate = async () => {
     if (error) {
       console.error("Lỗi xóa giao dịch:", error);
     } else {
-      alert("Giao dịch đã được xóa!");
+      Notifications.show({
+        title: "Xoá thành công",
+        message: "Giao dịch đã được xoá!",
+        color: "green",
+      });
       setAmount("");
       setNote("");
       setDate(null);
       setSelectedCategory(null);
+      await fetchTransactions();
     }
   };
   return (
     <div className="income-background">
       <Header />
       <div id="income-container">
+        <div className="income-notification">
+          {" "}
+          <Notifications position="bottom-right" zIndex={300} />
+        </div>
         <div className="income-container1"></div>
         <div className="income-container2">
           <div id="income-text">
-            <ScrollArea id="transaction-table-container">               
+            <ScrollArea id="transaction-table-container">
               <TextInput
                 id="search-input"
                 mb="md"
@@ -328,68 +269,49 @@ const handleSaveOrUpdate = async () => {
               >
                 <Table.Tbody id="transaction-tablethead">
                   <Table.Tr id="transaction-tabletr">
-                    <Table.Th
-                      id="transaction-tableth"
-                      // onClick={() => handleSort("date")}
-                    >
-                      Date
-                    </Table.Th>
-                    <Table.Th
-                      id="transaction-tableth"
-                      // onClick={() => handleSort("categories.name")}
-                      >
-                      Categories
-                    </Table.Th>
-                    <Table.Th
-                      id="transaction-tableth"
-                      // onClick={() => handleSort("amount")}
-                    >
-                      Amount
-                    </Table.Th>
-                    <Table.Th
-                      id="transaction-tableth"
-                      // onClick={() => handleSort("note")}
-                    >
-                      Note
-                    </Table.Th>
+                    <Table.Td>Catelogies</Table.Td>
+                    <Table.Td>Date</Table.Td>
+                    <Table.Td>Amount</Table.Td>
+                    <Table.Td>Note</Table.Td>
                   </Table.Tr>
                 </Table.Tbody>
               </Table>
-              <Table >
-              <Table.Tbody styles={{ tbody: { overflow: "auto" }}}>
-                {transactions.length > 0 ? (              
-                  sortedTransactions.map((transaction) => (
-                    
-                    <Table.Tr key={transaction.id_user} onClick={() => handleRowClick(transaction)}>
-                      <Table.Td>
-                        <Text>{transaction.date}</Text>
-                      </Table.Td>
-                      <Table.Td>
+              <Table id="transaction-table-content">
+                <Table.Tbody styles={{ tbody: { overflow: "auto" } }}>
+                  {transactions.length > 0 ? (
+                    sortedTransactions.map((transaction) => (
+                      <Table.Tr
+                        key={transaction.id_user}
+                        onClick={() => handleRowClick(transaction)}
+                      >
+                        <Table.Td>
+                          <Text>
+                            {transaction.categories?.name ?? "Unknown Category"}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text>{transaction.date}</Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text>{transaction.amount} $</Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text>{transaction.note}</Text>
+                        </Table.Td>
+                      </Table.Tr>
+                    ))
+                  ) : (
+                    <Table.Tr id="transaction-text">
+                      <Table.Td colSpan={4}>
                         <Text>
-                          {transaction.categories?.name ?? "Unknown Category"}
+                          There isn’t any transaction recorded for this period
+                          yet.
                         </Text>
                       </Table.Td>
-                      <Table.Td>
-                        <Text>{transaction.amount}</Text>
-                      </Table.Td>
-                      <Table.Td>
-                        <Text>{transaction.note}</Text>
-                      </Table.Td>
                     </Table.Tr>
-                  )))   : (
-
-                    <Table.Tr>
-                    <Table.Td colSpan={4}>
-                      <Text>
-                        There isn’t any transaction recorded for this period
-                        yet.
-                      </Text>
-                    </Table.Td>
-                  </Table.Tr>
-                  )           
-                }
+                  )}
                 </Table.Tbody>
-                </Table>
+              </Table>
             </ScrollArea>
           </div>
         </div>
@@ -416,35 +338,37 @@ const handleSaveOrUpdate = async () => {
                   id="income-date"
                   size="sm"
                   placeholder="Date"
+                  valueFormat="DD/MM/YYYY"
                   value={date}
                   onChange={setDate}
                   popoverProps={{
                     withinPortal: true,
                     styles: {
-                      dropdown: { fontSize: 13, maxWidth: 300 },
+                      dropdown: { fontSize: 10, maxWidth: 200, hight: "100px" },
                       calendarHeaderControl: {
+                        width: 10,
+                        height: 10,
                         svg: {
-                          width: 16,
-                          height: 16,
+                          width: 10,
+                          height: 10,
                         },
                       },
                     } as any,
                   }}
                 />
                 <TextInput
-                  id="income-amount"
                   type="number"
+                  id="income-amount"
                   placeholder="Amount"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => setAmount(e.target.value.trim())}
                 ></TextInput>
-
-                <TextInput
+                <Textarea
                   id="income-note"
                   placeholder="Note"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                ></TextInput>
+                ></Textarea>
               </div>
               <div id="income-form-button">
                 <Button
@@ -458,8 +382,8 @@ const handleSaveOrUpdate = async () => {
                   type="button"
                   id="income-save-button"
                   onClick={handleSaveOrUpdate}
-                  >
-                    {editingTransactionId ? "Update" : "Save"}                
+                >
+                  {editingTransactionId ? "Update" : "Save"}
                 </Button>
               </div>
             </div>
