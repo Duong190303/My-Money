@@ -15,6 +15,7 @@ import { DateInput } from "@mantine/dates";
 import { supabase } from "../supabase";
 import { Notifications } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
+import '@mantine/dates/styles.css';
 import { useField, useForm } from "@mantine/form";
 import type { s } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 type Transaction = {
@@ -24,9 +25,9 @@ type Transaction = {
   amount: number;
   note: string;
   date: string;
-  categories: { name: string }; // thêm thuộc tính categories
+  categories: { name: string }; // thêm thuộc tính categoriSSes
 };
-export default function Income() {
+export default function Expenses() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categories, setCategories] = useState<
     { label: string; value: string }[]
@@ -81,7 +82,7 @@ export default function Income() {
       const { data: categoriesData, error } = await supabase
         .from("categories")
         .select("id_cate, name")
-        .eq("id_type", 11111);
+        .eq("id_type", 22222);
       if (categoriesData) {
         setCategories(
           categoriesData.map((item) => ({
@@ -124,7 +125,7 @@ export default function Income() {
     }
 
     const filtered =
-      data?.filter((tran) => tran.categories?.id_type === 11111) || [];
+      data?.filter((tran) => tran.categories?.id_type === 22222) || [];
 
     setTransactions(filtered);
     setSortedTransactions(filtered);
@@ -315,7 +316,7 @@ export default function Income() {
           </div>
         </div>
         <div className="income-container3">
-          <h1>INCOME</h1>
+          <h1>EXPENSES</h1>
           <form
             id="income-form"
             onSubmit={(e) => {
@@ -342,18 +343,21 @@ export default function Income() {
                   onChange={setDate}
                   popoverProps={{
                     withinPortal: true,
-                    // styles: {
-                    //   dropdown: { fontSize: 10, },
-                    //   calendarHeaderControl: {
-                    //     width: 10,
-                    //     height: 10,
-                    //     svg: {
-                    //       width: 10,
-                    //       height: 10,
-                    //     },
-                    //   },
-                    // } as any,
                   }}
+                  // popoverProps={{
+                  //   withinPortal: true,
+                  //   styles: {
+                  //     dropdown: { fontSize: 10, },
+                  //     calendarHeaderControl: {
+                  //       width: 10,
+                  //       height: 10,
+                  //       svg: {
+                  //         width: 10,
+                  //         height: 10,
+                  //       },
+                  //     },
+                  //   } as any,
+                  // }}
                 />
                 <TextInput
                   type="number"

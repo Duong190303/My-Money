@@ -7,5 +7,6 @@ export default [
     route("login", "welcome/Login.tsx"),
     route("register", "welcome/Register.tsx"),
     route("income", "welcome/Income.tsx"),
+    route("expenses", "welcome/Expenses.tsx"),
     // route("/", "welcome/Home.tsx"), 
 ] satisfies RouteConfig;
