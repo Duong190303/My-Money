@@ -7,7 +7,6 @@ import {
   Text,
   ScrollArea,
   Textarea,
-  NumberInput,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
@@ -15,9 +14,8 @@ import { DateInput } from "@mantine/dates";
 import { supabase } from "../supabase";
 import { Notifications } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
-import '@mantine/dates/styles.css';
-import { useField, useForm } from "@mantine/form";
-import type { s } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
+import { Pagination } from "@mantine/core";
+
 type Transaction = {
   id: number;
   id_user: string;
@@ -25,7 +23,7 @@ type Transaction = {
   amount: number;
   note: string;
   date: string;
-  categories: { name: string }; // thêm thuộc tính categoriSSes
+  categories: { name: string }; // thêm thuộc tính categories
 };
 export default function Expenses() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -43,21 +41,9 @@ export default function Expenses() {
   const [editingTransactionId, setEditingTransactionId] = useState<
     number | null
   >(null);
-
-  // const form = useForm({
-  //   initialValues: {
-  //     catalogies: "",
-  //     amount: "",
-  //     date: "",
-  //     note: "",
-  //   },
-  //   validate: {
-  //     catalogies: (value) => (value ? null : "Vui lòng chọn catalogies"),
-  //     amount: (value) => (value ? null : "Vui lòng nhập số lượng"),
-  //     date: (value) => (value ? null : "Vui lòng chọn ngày"),
-  //     note: (value) => (value ? null : "Vui lòng nhập ghi chú"),
-  //   },
-  // });
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 10;
+  const [tatalPages, setTotalPages] = useState(1);
   // 1. Lấy thông tin user hiện tại từ Supabase Auth
   useEffect(() => {
     async function getCurrentUser() {
@@ -99,6 +85,43 @@ export default function Expenses() {
     fetchCategories();
   }, []);
 
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchTransactions();
+  //   }
+  // }, [userId, activePage]);
+  // const fetchTransactions = async () => {
+  //   if (!userId) return;
+  //   const form = (activePage - 1) * itemsPerPage;
+  //   const to = form + itemsPerPage - 1;
+  //   const { data, error, count } = await supabase
+  //     .from("transactions")
+  //     .select(
+  //       `
+  //         *,
+  //         categories (
+  //           name,
+  //           id_type
+  //         )
+  //       `,
+  //       { count: "exact" }
+  //     )
+  //     .eq("id_user", userId)
+  //     // .eq("categories.id_type", 11111)
+  //     .range(form, to);
+
+  //   if (error) {
+  //     console.error("Error fetching transactions:", error);
+  //     return;
+  //   }
+
+  //   const filtered =
+  //     data?.filter((tran) => tran.categories?.id_type === 22222) || [];
+
+  //   setTransactions(filtered);
+  //   setSortedTransactions(filtered);
+  //   setTotalPages(Math.ceil((count || 1) / itemsPerPage));
+  // };
   useEffect(() => {
     if (userId) {
       fetchTransactions();
@@ -106,6 +129,8 @@ export default function Expenses() {
   }, [userId]);
   const fetchTransactions = async () => {
     if (!userId) return;
+
+    // Lấy toàn bộ transaction trước để lọc đúng
     const { data, error } = await supabase
       .from("transactions")
       .select(
@@ -124,21 +149,44 @@ export default function Expenses() {
       return;
     }
 
-    const filtered =
-      data?.filter((tran) => tran.categories?.id_type === 22222) || [];
-
-    setTransactions(filtered);
-    setSortedTransactions(filtered);
-  };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
-    setSearch(searchTerm);
-    const filteredTransactions = transactions.filter((transaction) =>
-      Object.values(transaction).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    // Lọc ra các giao dịch có id_type là 22222
+    const filtered = (data || []).filter(
+      (tran) => tran.categories?.id_type === 22222
     );
+
+    const totalFiltered = filtered.length;
+    const pages = Math.ceil(totalFiltered / itemsPerPage);
+
+    if (activePage > pages) {
+      setPage(pages || 1);
+    }
+
+    const start = (activePage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginated = filtered.slice(start, end);
+
+    setTransactions(paginated);
+    setSortedTransactions(paginated);
+    setTotalPages(pages);
+  };
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearch(searchTerm);
+
+    const filteredTransactions = transactions.filter((transaction) => {
+      // Kiểm tra các trường trực tiếp trong transaction
+      const basicMatch = Object.values(transaction).some((value) =>
+        String(value).toLowerCase().includes(searchTerm)
+      );
+
+      // Kiểm tra riêng cho categories.name nếu tồn tại
+      const categoryMatch = transaction.categories?.name
+        ?.toLowerCase()
+        .includes(searchTerm);
+
+      return basicMatch || categoryMatch;
+    });
+
     setSortedTransactions(filteredTransactions);
   };
 
@@ -241,6 +289,7 @@ export default function Expenses() {
       await fetchTransactions();
     }
   };
+
   return (
     <div className="income-background">
       <Header />
@@ -277,7 +326,7 @@ export default function Expenses() {
                 </Table.Tbody>
               </Table>
               <Table id="transaction-table-content">
-                <Table.Tbody styles={{ tbody: { overflow: "auto" } }}>
+                <Table.Tbody>
                   {transactions.length > 0 ? (
                     sortedTransactions.map((transaction) => (
                       <Table.Tr
@@ -285,7 +334,7 @@ export default function Expenses() {
                         onClick={() => handleRowClick(transaction)}
                       >
                         <Table.Td>
-                          <Text>
+                          <Text style={{ position: "absolute" }}>
                             {transaction.categories?.name ?? "Unknown Category"}
                           </Text>
                         </Table.Td>
@@ -293,7 +342,10 @@ export default function Expenses() {
                           <Text>{transaction.date}</Text>
                         </Table.Td>
                         <Table.Td>
-                          <Text>{transaction.amount} $</Text>
+                          <Text>
+                            {transaction.amount}
+                            <span style={{ position: "absolute" }}> $</span>
+                          </Text>
                         </Table.Td>
                         <Table.Td>
                           <Text>{transaction.note}</Text>
@@ -312,6 +364,25 @@ export default function Expenses() {
                   )}
                 </Table.Tbody>
               </Table>
+              {/* Pagination - placed outside of table, centered */}
+              {transactions.length > 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "16px",
+                  }}
+                >
+                  <Pagination
+                    value={activePage}
+                    onChange={setPage}
+                    total={tatalPages}
+                    size="xs"
+                    color="69 196 190 0.26"
+                    radius="md"
+                  />
+                </div>
+              )}
             </ScrollArea>
           </div>
         </div>
@@ -344,20 +415,6 @@ export default function Expenses() {
                   popoverProps={{
                     withinPortal: true,
                   }}
-                  // popoverProps={{
-                  //   withinPortal: true,
-                  //   styles: {
-                  //     dropdown: { fontSize: 10, },
-                  //     calendarHeaderControl: {
-                  //       width: 10,
-                  //       height: 10,
-                  //       svg: {
-                  //         width: 10,
-                  //         height: 10,
-                  //       },
-                  //     },
-                  //   } as any,
-                  // }}
                 />
                 <TextInput
                   type="number"

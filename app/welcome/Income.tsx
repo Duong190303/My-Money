@@ -7,7 +7,6 @@ import {
   Text,
   ScrollArea,
   Textarea,
-  NumberInput,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
@@ -15,8 +14,8 @@ import { DateInput } from "@mantine/dates";
 import { supabase } from "../supabase";
 import { Notifications } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
-import { useField, useForm } from "@mantine/form";
-import type { s } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
+import { Pagination } from "@mantine/core";
+
 type Transaction = {
   id: number;
   id_user: string;
@@ -24,13 +23,11 @@ type Transaction = {
   amount: number;
   note: string;
   date: string;
-  categories: { name: string }; // thêm thuộc tính categories
+  categories: { name: string,id_type:number }; // thêm thuộc tính categories
 };
 export default function Income() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [categories, setCategories] = useState<
-    { label: string; value: string }[]
-  >([]);
+  const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -39,24 +36,11 @@ export default function Income() {
   const [userId, setUserId] = useState<string>("");
   const [search, setSearch] = useState("");
   const [sortedTransactions, setSortedTransactions] = useState(transactions);
-  const [editingTransactionId, setEditingTransactionId] = useState<
-    number | null
-  >(null);
+  const [editingTransactionId, setEditingTransactionId] = useState< number | null>(null);
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(1);
 
-  // const form = useForm({
-  //   initialValues: {
-  //     catalogies: "",
-  //     amount: "",
-  //     date: "",
-  //     note: "",
-  //   },
-  //   validate: {
-  //     catalogies: (value) => (value ? null : "Vui lòng chọn catalogies"),
-  //     amount: (value) => (value ? null : "Vui lòng nhập số lượng"),
-  //     date: (value) => (value ? null : "Vui lòng chọn ngày"),
-  //     note: (value) => (value ? null : "Vui lòng nhập ghi chú"),
-  //   },
-  // });
   // 1. Lấy thông tin user hiện tại từ Supabase Auth
   useEffect(() => {
     async function getCurrentUser() {
@@ -102,9 +86,12 @@ export default function Income() {
     if (userId) {
       fetchTransactions();
     }
-  }, [userId]);
+  }, [userId, activePage]);
+
   const fetchTransactions = async () => {
     if (!userId) return;
+  
+    // Lấy toàn bộ transaction trước để lọc đúng
     const { data, error } = await supabase
       .from("transactions")
       .select(
@@ -117,27 +104,52 @@ export default function Income() {
         `
       )
       .eq("id_user", userId);
-
+  
     if (error) {
       console.error("Error fetching transactions:", error);
       return;
     }
-
-    const filtered =
-      data?.filter((tran) => tran.categories?.id_type === 11111) || [];
-
-    setTransactions(filtered);
-    setSortedTransactions(filtered);
+  
+    // Lọc ra các giao dịch có id_type là 11111
+    const filtered = (data || []).filter(
+      (tran) => tran.categories?.id_type === 11111
+    );
+  
+    const totalFiltered = filtered.length;
+    const pages = Math.ceil(totalFiltered / itemsPerPage);
+  
+    if (activePage > pages) {
+      setPage(pages || 1);
+    }
+  
+    const start = (activePage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginated = filtered.slice(start, end);
+  
+    setTransactions(paginated);
+    setSortedTransactions(paginated);
+    setTotalPages(pages);
   };
+  
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
+    const searchTerm = event.target.value.toLowerCase();
     setSearch(searchTerm);
-    const filteredTransactions = transactions.filter((transaction) =>
-      Object.values(transaction).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
+
+    const filteredTransactions = transactions.filter((transaction) => {
+      // Kiểm tra các trường trực tiếp trong transaction
+      const basicMatch = Object.values(transaction).some((value) =>
+        String(value).toLowerCase().includes(searchTerm)
+      );
+
+      // Kiểm tra riêng cho categories.name nếu tồn tại
+      const categoryMatch = transaction.categories?.name
+        ?.toLowerCase()
+        .includes(searchTerm);
+
+      return basicMatch || categoryMatch;
+    });
+
     setSortedTransactions(filteredTransactions);
   };
 
@@ -240,13 +252,12 @@ export default function Income() {
       await fetchTransactions();
     }
   };
+
   return (
+    <>  <Notifications position="bottom-right" zIndex={300} />
     <div className="income-background">
       <Header />
       <div id="income-container">
-        <div className="income-notification">
-          <Notifications position="bottom-right" zIndex={300} />
-        </div>
         <div className="income-container1"></div>
         <div className="income-container2">
           <div id="income-text">
@@ -276,7 +287,7 @@ export default function Income() {
                 </Table.Tbody>
               </Table>
               <Table id="transaction-table-content">
-                <Table.Tbody styles={{ tbody: { overflow: "auto" } }}>
+                <Table.Tbody >
                   {transactions.length > 0 ? (
                     sortedTransactions.map((transaction) => (
                       <Table.Tr
@@ -284,7 +295,7 @@ export default function Income() {
                         onClick={() => handleRowClick(transaction)}
                       >
                         <Table.Td>
-                          <Text>
+                          <Text style={{ position: "absolute" }}>
                             {transaction.categories?.name ?? "Unknown Category"}
                           </Text>
                         </Table.Td>
@@ -292,7 +303,10 @@ export default function Income() {
                           <Text>{transaction.date}</Text>
                         </Table.Td>
                         <Table.Td>
-                          <Text>{transaction.amount} $</Text>
+                          <Text>
+                            {transaction.amount}
+                            <span style={{ position: "absolute" }}> $</span>
+                          </Text>
                         </Table.Td>
                         <Table.Td>
                           <Text>{transaction.note}</Text>
@@ -311,6 +325,25 @@ export default function Income() {
                   )}
                 </Table.Tbody>
               </Table>
+              {/* Pagination - placed outside of table, centered */}
+              {transactions.length > 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "16px",
+                  }}
+                >
+                  <Pagination
+                    value={activePage}
+                    onChange={setPage}
+                    total={totalPages}
+                    size="xs"
+                    color="69 196 190 0.26"
+                    radius="md"
+                  />
+                </div>
+              )}
             </ScrollArea>
           </div>
         </div>
@@ -342,17 +375,6 @@ export default function Income() {
                   onChange={setDate}
                   popoverProps={{
                     withinPortal: true,
-                    // styles: {
-                    //   dropdown: { fontSize: 10, },
-                    //   calendarHeaderControl: {
-                    //     width: 10,
-                    //     height: 10,
-                    //     svg: {
-                    //       width: 10,
-                    //       height: 10,
-                    //     },
-                    //   },
-                    // } as any,
                   }}
                 />
                 <TextInput
@@ -390,5 +412,6 @@ export default function Income() {
         </div>
       </div>
     </div>
+    </>
   );
 }

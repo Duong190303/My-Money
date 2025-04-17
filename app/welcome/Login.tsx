@@ -35,27 +35,36 @@ export function Login() {
     setError(null);
 
     try {
-      // Tìm người dùng theo email
-      const { data, error } = await supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error || !data.user) {
+        setError("Email hoặc mật khẩu không đúng!");
+        setLoading(false);
+        return;
+      }
+
+      // Lưu user info vào localStorage (hoặc context)
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // Lấy thêm thông tin mở rộng từ bảng users (nếu cần)
+      const { data: userInfo } = await supabase
         .from("users")
-        .select("id_user, email, password") // Chọn cả mật khẩu để kiểm tra
-        .eq("email", values.email)
+        .select("*")
+        .eq("id_user", data.user.id)
         .single();
 
-      if (error || !data) {
-        setError("Email hoặc mật khẩu không đúng!");
-      } else if (data.password !== values.password) {
-        setError("Email hoặc mật khẩu không đúng!");
-      } else {
-        // Lưu thông tin đăng nhập vào localStorage (hoặc context)
-        localStorage.setItem("user", JSON.stringify(data));
-
-        // Chuyển hướng sau khi đăng nhập thành công
-        navigate("/");
+      if (userInfo) {
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
       }
+
+      navigate("/");
     } catch (err) {
       setError("Đăng nhập thất bại. Vui lòng thử lại.");
     }
+
     setLoading(false);
   };
   const handleHomeClick = () => {
@@ -141,7 +150,6 @@ export function Login() {
           </form>
         </div>
         <Link to="/" className="back-link" onClick={handleHomeClick} >
-        {/* <FontAwesomeIcon icon="fa-solid fa-house" />         */}
         </Link>
       </div>
       <div className="image-section">

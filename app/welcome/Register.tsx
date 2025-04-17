@@ -33,38 +33,70 @@ const Register: React.FC = () => {
     },
   });
 
+  // const handleRegister = async (values: typeof form.values) => {
+  //   setLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     const { data,error } = await supabase.auth.signUp(
+  //       {
+  //         email: values.email,
+  //         password: values.password, // Lưu trực tiếp mật khẩu
+  //       },
+  //     );
+
+  //     if (error) throw error;
+
+  //     // Nếu đăng ký thành công, lưu thông tin vào bảng users
+  //     const { error: insertError } = await supabase.from("users").insert([
+  //       {
+  //         id_user: data.user?.id, // Lưu ID của user từ Auth
+  //         email: values.email,
+  //         password: values.password,
+  //       },
+  //     ]);
+
+  //     if (insertError) throw insertError;
+
+  //     navigate("/");
+  //   } catch (err: any) {
+  //     setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
+  //   }
+  //   setLoading(false);
+  // };
   const handleRegister = async (values: typeof form.values) => {
     setLoading(true);
     setError(null);
-
+  
     try {
-      const { data,error } = await supabase.auth.signUp(
-        {
-          email: values.email,
-          password: values.password, // Lưu trực tiếp mật khẩu
-        },
-      );
-
-      if (error) throw error;
-
-      // Nếu đăng ký thành công, lưu thông tin vào bảng users
+      // Đăng ký bằng Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+      });
+  
+      if (error || !data.user) throw error;
+  
+      // Insert thêm thông tin vào bảng users (KHÔNG chứa mật khẩu)
       const { error: insertError } = await supabase.from("users").insert([
         {
-          id_user: data.user?.id, // Lưu ID của user từ Auth
+          id_user: data.user.id,
           email: values.email,
-          password: values.password,
+          // name: values.name, // nếu có input thêm
         },
       ]);
-
+  
       if (insertError) throw insertError;
-
+  
+      // Chuyển hướng sau khi đăng ký thành công
       navigate("/");
     } catch (err: any) {
       setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
     }
+  
     setLoading(false);
   };
-
+  
   return (
     <div className="design-background">
       <div className="input-design-container">
