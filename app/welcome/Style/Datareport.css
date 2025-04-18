@@ -1,0 +1,116 @@
+/******************************************Datareport*******************************************/
+.datareport-background {
+    background-image: url(/public/Datareport-background.png);
+    background-size: cover;
+    background-Position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+}
+
+.container {
+    padding: 50px 30px 30px;
+    display: grid;
+    grid-template-areas:
+        "donutchart total history"
+        "piechart piechart history";
+    gap: 20px;
+    /* grid-template-columns: 2fr 1fr 1fr; */
+}
+
+.box {
+    background-color: rgba(53, 167, 185, 1);
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.box p,
+input {
+    font-size: 18px;
+    font-style: italic;
+    color: #065f69;
+
+}
+
+
+
+.income-expense {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.income,
+.expense {
+    flex: 1;
+    padding: 10px 50px 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.income {
+    color: red;
+}
+
+.expense {
+    color: #003366;
+}
+
+/* Grid areas */
+.donutchart {
+    grid-area: donutchart;
+    background-color: #aad0d7;
+    /*background-color: #e5d3c8;*/
+    min-height: 250px;
+}
+
+.total {
+    grid-area: total;
+    background-color: #8cc7c6;
+    min-height: 250px;
+}
+
+.history {
+    grid-area: history;
+    background-color: #99c7cf;
+    min-height: 300px;
+}
+
+.title {
+    font-family: 'Archivo Black', sans-serif;
+}
+
+
+.piechart {
+    grid-area: piechart;
+    background-color: #b8dfe6;
+    min-height: 350px;
+    font-family: 'Lexend';
+    font-style: normal;
+    font-size: 20px;
+    text-align: center;
+    color: #065f69;
+
+}
+
+/* Animation */
+.box {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

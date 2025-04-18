@@ -38,7 +38,7 @@ export function Header() {
         <Link className="home-nav-item" to="/expenses">
           EXPENSES
         </Link>
-        <Link className="home-nav-item" to="/report">
+        <Link className="home-nav-item" to="/datareport">
           DATA REPORT
         </Link>
       </nav>

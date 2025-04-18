@@ -8,5 +8,6 @@ export default [
     route("register", "welcome/Register.tsx"),
     route("income", "welcome/Income.tsx"),
     route("expenses", "welcome/Expenses.tsx"),
+    route("datareport", "welcome/Datareport.tsx"),
     // route("/", "welcome/Home.tsx"), 
 ] satisfies RouteConfig;
