@@ -27,9 +27,7 @@ type Transaction = {
 };
 export default function Expenses() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [categories, setCategories] = useState<
-    { label: string; value: string }[]
-  >([]);
+  const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -38,12 +36,10 @@ export default function Expenses() {
   const [userId, setUserId] = useState<string>("");
   const [search, setSearch] = useState("");
   const [sortedTransactions, setSortedTransactions] = useState(transactions);
-  const [editingTransactionId, setEditingTransactionId] = useState<
-    number | null
-  >(null);
+  const [editingTransactionId, setEditingTransactionId] = useState< number | null>(null);
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 10;
-  const [tatalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   // 1. Lấy thông tin user hiện tại từ Supabase Auth
   useEffect(() => {
     async function getCurrentUser() {
@@ -85,48 +81,11 @@ export default function Expenses() {
     fetchCategories();
   }, []);
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     fetchTransactions();
-  //   }
-  // }, [userId, activePage]);
-  // const fetchTransactions = async () => {
-  //   if (!userId) return;
-  //   const form = (activePage - 1) * itemsPerPage;
-  //   const to = form + itemsPerPage - 1;
-  //   const { data, error, count } = await supabase
-  //     .from("transactions")
-  //     .select(
-  //       `
-  //         *,
-  //         categories (
-  //           name,
-  //           id_type
-  //         )
-  //       `,
-  //       { count: "exact" }
-  //     )
-  //     .eq("id_user", userId)
-  //     // .eq("categories.id_type", 11111)
-  //     .range(form, to);
-
-  //   if (error) {
-  //     console.error("Error fetching transactions:", error);
-  //     return;
-  //   }
-
-  //   const filtered =
-  //     data?.filter((tran) => tran.categories?.id_type === 22222) || [];
-
-  //   setTransactions(filtered);
-  //   setSortedTransactions(filtered);
-  //   setTotalPages(Math.ceil((count || 1) / itemsPerPage));
-  // };
   useEffect(() => {
     if (userId) {
       fetchTransactions();
     }
-  }, [userId]);
+  }, [userId, activePage]);
   const fetchTransactions = async () => {
     if (!userId) return;
 
@@ -376,7 +335,7 @@ export default function Expenses() {
                   <Pagination
                     value={activePage}
                     onChange={setPage}
-                    total={tatalPages}
+                    total={totalPages}
                     size="xs"
                     color="69 196 190 0.26"
                     radius="md"
