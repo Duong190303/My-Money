@@ -105,7 +105,6 @@
   width: 25%;
   justify-items: anchor-center;
   text-align: center;
-  justify-content: baseline;
 }
 
 #transaction-table tbody {

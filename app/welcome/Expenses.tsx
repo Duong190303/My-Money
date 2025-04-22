@@ -23,6 +23,7 @@ type Transaction = {
   amount: number;
   note: string;
   date: string;
+  transaction_type: string;
   categories: { name: string }; // thêm thuộc tính categories
 };
 export default function Expenses() {
@@ -165,6 +166,7 @@ export default function Expenses() {
       amount: parseFloat(amount),
       note: note,
       date: date.toISOString().split("T")[0],
+      transaction_type: "Expenses",
     };
 
     let error;

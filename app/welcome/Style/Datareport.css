@@ -11,12 +11,12 @@
 
 }
 
-.container {
-    padding: 50px 30px 30px;
+.datareport-container {
+    padding: 40px 30px 30px;
     display: grid;
     grid-template-areas:
-        "donutchart total history"
-        "piechart piechart history";
+        "piechart total history"
+        "chart chart history";
     gap: 20px;
     /* grid-template-columns: 2fr 1fr 1fr; */
 }
@@ -56,25 +56,40 @@ input {
 }
 
 .income {
-    color: red;
+    color: #3c9987;
 }
 
 .expense {
-    color: #003366;
+    color: #f76d6d;
+}
+
+.mantine-Input-wrapper {
+    width: 80%;
 }
 
 /* Grid areas */
-.donutchart {
-    grid-area: donutchart;
+.piechart {
+    grid-area: piechart;
     background-color: #aad0d7;
     /*background-color: #e5d3c8;*/
     min-height: 250px;
+    display: flex;
+    justify-content: center;
 }
 
 .total {
+    display: flex;
     grid-area: total;
     background-color: #8cc7c6;
     min-height: 250px;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#select-full-date {
+    margin: none;
+    width: 30vh;
 }
 
 .history {
@@ -83,13 +98,21 @@ input {
     min-height: 300px;
 }
 
+/* .history-item {
+    display: flex;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.72); */
+    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px; */
+/* } */
+
 .title {
     font-family: 'Archivo Black', sans-serif;
 }
 
 
-.piechart {
-    grid-area: piechart;
+.chart {
+    grid-area: chart;
     background-color: #b8dfe6;
     min-height: 350px;
     font-family: 'Lexend';
@@ -98,6 +121,10 @@ input {
     text-align: center;
     color: #065f69;
 
+}
+
+.select-datechart {
+    display: flex;
 }
 
 /* Animation */
@@ -113,4 +140,3 @@ input {
         transform: translateY(0);
     }
 }
-
