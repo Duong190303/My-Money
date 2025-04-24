@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { supabase } from "../supabase";
 import { useNavigate } from "react-router-dom";
@@ -13,17 +12,18 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [visible, { toggle }] = useDisclosure(false);
-    if (typeof window === "undefined") return null;
-    
-
+  if (typeof window === "undefined") return null;
 
   const form = useForm({
     initialValues: {
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
     validate: {
+      username: (value) =>
+        value.length >= 5 ? null : "Tên người dùng ít nhất 5 ký tự",
       email: (value) =>
         /^\S+@\S+\.\S+$/.test(value) ? null : "Email không hợp lệ",
       password: (value) =>
@@ -67,36 +67,36 @@ const Register: React.FC = () => {
   const handleRegister = async (values: typeof form.values) => {
     setLoading(true);
     setError(null);
-  
+
     try {
       // Đăng ký bằng Supabase Auth
       const { data, error } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
       });
-  
+
       if (error || !data.user) throw error;
-  
+
       // Insert thêm thông tin vào bảng users (KHÔNG chứa mật khẩu)
       const { error: insertError } = await supabase.from("users").insert([
         {
           id_user: data.user.id,
           email: values.email,
-          // name: values.name, // nếu có input thêm
+          username: values.username, // nếu có input thêm
         },
       ]);
-  
+
       if (insertError) throw insertError;
-  
+
       // Chuyển hướng sau khi đăng ký thành công
       navigate("/");
     } catch (err: any) {
       setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
     }
-  
+
     setLoading(false);
   };
-  
+
   return (
     <div className="design-background">
       <div className="input-design-container">
@@ -112,8 +112,20 @@ const Register: React.FC = () => {
             onSubmit={form.onSubmit(handleRegister)}
             className="form-register-container"
           >
-            <Stack
-            style={{ width: "310px",height: "250px", }}>
+            <Stack style={{ width: "310px", height: "250px" }}>
+              <TextInput
+                placeholder="Username"
+                {...form.getInputProps("username")}
+                styles={{
+                  input: {
+                    borderRadius: "20px",
+                    backgroundColor: "#D9D9D9A6", // Màu nền input
+                    height: "42px",
+                    width: "310px",
+                    marginLeft: "0px",
+                  },
+                }}
+              />
               <TextInput
                 placeholder="Email"
                 {...form.getInputProps("email")}
@@ -137,7 +149,6 @@ const Register: React.FC = () => {
                     borderRadius: "20px",
                     backgroundColor: "#D9D9D9A6", // Màu nền input
                     height: "42px",
-                    marginTop: "16px",
                     width: "310px",
                   },
                 }}
@@ -156,39 +167,38 @@ const Register: React.FC = () => {
                   },
                 }}
               />
-              
             </Stack>
             <Button
-                type="submit"
-                disabled={loading}
-                className="register-button"
-                styles={{
-                  root: {
-                    borderRadius: "20px",
-                    backgroundColor: "#35A7B9", // Màu nền input
-                    height: "40px",
-                    width: "150px",
-                    // marginTop: "15px",                  
-                  },
-                }}
-              >
-                {loading ? <Loader size="xs" /> : "Register"}
-              </Button>
+              type="submit"
+              disabled={loading}
+              className="register-button"
+              styles={{
+                root: {
+                  borderRadius: "20px",
+                  backgroundColor: "#35A7B9", // Màu nền input
+                  height: "40px",
+                  width: "150px",
+                  // marginTop: "15px",
+                },
+              }}
+            >
+              {loading ? <Loader size="xs" /> : "Register"}
+            </Button>
             <div className="login-link-container">
-            <span className="login-text">
-            Already have account? <Link to="/login">Login</Link>
-            </span>
-          </div>
+              <span className="login-text">
+                Already have account? <Link to="/login">Login</Link>
+              </span>
+            </div>
           </form>
-          </div>
+        </div>
         <div className="image-section1">
           <div className="image-container1">
             <img src="/public/img1.png" alt="img1" />
-           </div>
-       </div>
+          </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Register;

@@ -23,6 +23,8 @@ type transaction = {
   note: string;
 };
 export default function TransactionPieChart() {
+  if (typeof window === "undefined") return null;
+
   const [userId, setUserId] = useState<string>("");
   const [timeRange, setTimeRange] = useState("week");
   const [selectFullDate, setSelectFullDate] = useState<Date | null>(new Date());
@@ -321,13 +323,11 @@ export default function TransactionPieChart() {
           </div>
         </div>
         <div className="box history">
-          {" "}
           <h3 className="title">TRANSACTION HISTORY</h3>
           <Table>
             {transactions.length > 0 ? (
               latestTransactions.map((item) => (
                 <Table.Tr key={item.id}>
-                  <div className="history-item">
                     <Table.Td>
                       <Text>{item.categories?.name}</Text>
                       <Text style={{ fontSize: "12px" }}>{item.note}</Text>
@@ -350,7 +350,6 @@ export default function TransactionPieChart() {
                     <Table.Td>
                       <Text>{item.date}</Text>
                     </Table.Td>
-                  </div>
                 </Table.Tr>
               ))
             ) : (
