@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Alfa+Slab+One&family=Archivo+Black&family=Lexend:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
 /* import { css } from '@mantine/core'; */
 
 /* @theme {
@@ -501,6 +503,7 @@ table {
   background-size: 100%;
   background-Position: center;
   height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -545,7 +548,7 @@ table {
 .home-login-container {
   display: flex;
   align-items: center;
-  width: 15%;
+  width: 3%;
   /* background-color: rgb(255 255 255); */
   border-radius: 20px;
 }
@@ -576,6 +579,7 @@ table {
   align-items: center;
   justify-content: space-between;
   /* margin-right: 400px; */
+  font-family: 'Merriweather', sans-serif;
 }
 
 .user {
@@ -587,4 +591,39 @@ table {
   @mixin hover {
     background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
   }
+}
+
+#popover-dropdown {
+  background: #99c7cf;
+  filter: blur(0.35px);
+  border-radius: 10px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  pointer-events: auto;
+  backdrop-filter: blur(200px);
+  -webkit-backdrop-filter: blur(200px);
+}
+
+#paper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff0000;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  margin-top: 10px;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 100%;
 }
