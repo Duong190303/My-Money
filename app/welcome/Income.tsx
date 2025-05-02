@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
 import { DateInput } from "@mantine/dates";
 import { supabase } from "../supabase";
-import { Notifications } from "@mantine/notifications";
+import { showNotification } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
 import { Pagination } from "@mantine/core";
 
@@ -160,7 +160,7 @@ export default function Income() {
 
   const handleSaveOrUpdate = async () => {
     if (!selectedCategory || !date || !amount) {
-      Notifications.show({
+      showNotification({
         title: "Thiếu thông tin",
         message: "Vui lòng điền đầy đủ thông tin trước khi lưu.",
         color: "red",
@@ -194,13 +194,13 @@ export default function Income() {
 
     if (error) {
       console.error("Lỗi lưu giao dịch:", error);
-      Notifications.show({
+      showNotification({
         title: "Lỗi",
         message: "Không thể lưu giao dịch. Vui lòng thử lại.",
         color: "red",
       });
     } else {
-      Notifications.show({
+      showNotification({
         title: editingTransactionId
           ? "Cập nhật thành công"
           : "Thêm mới thành công",
@@ -227,7 +227,7 @@ export default function Income() {
   };
   const handleDelete = async () => {
     if (!selectedCategory || !date || !amount) {
-      Notifications.show({
+      showNotification({
         title: "Thiếu thông tin",
         message: "Vui lòng điền đầy đủ thông tin để xoá giao dịch!",
         color: "red",
@@ -246,7 +246,7 @@ export default function Income() {
     if (error) {
       console.error("Lỗi xóa giao dịch:", error);
     } else {
-      Notifications.show({
+      showNotification({
         title: "Xoá thành công",
         message: "Giao dịch đã được xoá!",
         color: "green",
@@ -260,167 +260,164 @@ export default function Income() {
   };
 
   return (
-    <>
-      {" "}
-      <Notifications position="bottom-right" zIndex={300} />
-      <div className="income-background">
-        <Header />
-        <div id="income-container">
-          <div className="income-container1"></div>
-          <div className="income-container2">
-            <div id="income-text">
-              <ScrollArea id="transaction-table-container">
-                <TextInput
-                  id="search-input"
-                  mb="md"
-                  leftSection={<IconSearch size={16} stroke={1.5} />}
-                  placeholder="Search transactions"
-                  value={search}
-                  onChange={handleSearch}
-                />
-                <Table
-                  id="transaction-table"
-                  horizontalSpacing="md"
-                  verticalSpacing="xs"
-                  miw={700}
-                  layout="fixed"
-                >
-                  <Table.Tbody id="transaction-tablethead">
-                    <Table.Tr id="transaction-tabletr">
-                      <Table.Td>Catelogies</Table.Td>
-                      <Table.Td>Date</Table.Td>
-                      <Table.Td>Amount</Table.Td>
-                      <Table.Td>Note</Table.Td>
-                    </Table.Tr>
-                  </Table.Tbody>
-                </Table>
-                <Table id="transaction-table-content">
-                  <Table.Tbody>
-                    {transactions.length > 0 ? (
-                      sortedTransactions.map((transaction) => (
-                        <Table.Tr
-                          key={transaction.id_user}
-                          onClick={() => handleRowClick(transaction)}
-                        >
-                          <Table.Td>
-                            <Text style={{ position: "absolute" }}>
-                              {transaction.categories?.name ??
-                                "Unknown Category"}
-                            </Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <Text>{transaction.date}</Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <Text>
-                              {transaction.amount}
-                              <span> $</span>
-                            </Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <Text>{transaction.note}</Text>
-                          </Table.Td>
-                        </Table.Tr>
-                      ))
-                    ) : (
-                      <Table.Tr id="transaction-text">
-                        <Table.Td colSpan={4}>
-                          <Text>
-                            There isn’t any transaction recorded for this period
-                            yet.
+    <div className="income-background">
+      <Header />
+      <div id="income-container">
+        <div className="income-container1"></div>
+        <div className="income-container2">
+          <div id="income-text">
+            <ScrollArea id="transaction-table-container">
+              <TextInput
+                id="search-input"
+                mb="md"
+                leftSection={<IconSearch size={16} stroke={1.5} />}
+                placeholder="Search transactions"
+                value={search}
+                onChange={handleSearch}
+              />
+              <Table
+                id="transaction-table"
+                horizontalSpacing="md"
+                verticalSpacing="xs"
+                miw={700}
+                layout="fixed"
+              >
+                <Table.Tbody id="transaction-tablethead">
+                  <Table.Tr id="transaction-tabletr">
+                    <Table.Td>Catelogies</Table.Td>
+                    <Table.Td>Date</Table.Td>
+                    <Table.Td>Amount</Table.Td>
+                    <Table.Td>Note</Table.Td>
+                  </Table.Tr>
+                </Table.Tbody>
+              </Table>
+              <Table id="transaction-table-content">
+                <Table.Tbody>
+                  {transactions.length > 0 ? (
+                    sortedTransactions.map((transaction) => (
+                      <Table.Tr
+                        key={transaction.id_user}
+                        onClick={() => handleRowClick(transaction)}
+                      >
+                        <Table.Td>
+                          <Text style={{ position: "absolute" }}>
+                            {transaction.categories?.name ?? "Unknown Category"}
                           </Text>
                         </Table.Td>
+                        <Table.Td>
+                          <Text>{transaction.date}</Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text>
+                            {transaction.amount}
+                            <span> $</span>
+                          </Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text>{transaction.note}</Text>
+                        </Table.Td>
                       </Table.Tr>
-                    )}
-                  </Table.Tbody>
-                </Table>
-                {/* Pagination - placed outside of table, centered */}
-                {transactions.length > 0 && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "16px",
-                    }}
-                  >
-                    <Pagination
-                      value={activePage}
-                      onChange={setPage}
-                      total={totalPages}
-                      size="xs"
-                      color="69 196 190 0.26"
-                      radius="md"
-                    />
-                  </div>
-                )}
-              </ScrollArea>
-            </div>
-          </div>
-          <div className="income-container3">
-            <h1>INCOME</h1>
-            <form
-              id="income-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <div id="income-form-content">
-                <div id="income-title">
-                  <Select
-                    id="income-select-category"
-                    placeholder={"Categories"}
-                    data={categories}
-                    value={selectedCategory}
-                    onChange={setSelectedCategory}
-                    clearable
-                    searchable
-                  ></Select>
-                  <DateInput
-                    id="income-date"
-                    size="sm"
-                    placeholder="Date"
-                    valueFormat="DD/MM/YYYY"
-                    value={date}
-                    onChange={setDate}
-                    popoverProps={{
-                      withinPortal: true,
-                    }}
+                    ))
+                  ) : (
+                    <Table.Tr id="transaction-text">
+                      <Table.Td colSpan={4}>
+                        <Text>
+                          There isn’t any transaction recorded for this period
+                          yet.
+                        </Text>
+                      </Table.Td>
+                    </Table.Tr>
+                  )}
+                </Table.Tbody>
+              </Table>
+              {/* Pagination - placed outside of table, centered */}
+              {transactions.length > 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "16px",
+                  }}
+                >
+                  <Pagination
+                    value={activePage}
+                    onChange={setPage}
+                    total={totalPages}
+                    size="xs"
+                    color="69 196 190 0.26"
+                    radius="md"
                   />
-                  <TextInput
-                    type="number"
-                    id="income-amount"
-                    placeholder="Amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value.trim())}
-                  ></TextInput>
-                  <Textarea
-                    id="income-note"
-                    placeholder="Note"
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                  ></Textarea>
                 </div>
-                <div id="income-form-button">
-                  <Button
-                    type="button"
-                    id="income-delete-button"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    type="button"
-                    id="income-save-button"
-                    onClick={handleSaveOrUpdate}
-                  >
-                    {editingTransactionId ? "Update" : "Save"}
-                  </Button>
-                </div>
-              </div>
-            </form>
+              )}
+            </ScrollArea>
           </div>
         </div>
+        <div className="income-container3">
+          <h1>INCOME</h1>
+          <form
+            id="income-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div id="income-form-content">
+              <div id="income-title">
+                <Select
+                  id="income-select-category"
+                  placeholder={"Categories"}
+                  data={categories}
+                  value={selectedCategory}
+                  onChange={setSelectedCategory}
+                  clearable
+                  searchable
+                ></Select>
+                <DateInput
+                  id="income-date"
+                  size="sm"
+                  placeholder="Date"
+                  valueFormat="DD/MM/YYYY"
+                  value={date}
+                  onChange={setDate}
+                  popoverProps={{
+                    withinPortal: true,
+                  }}
+                />
+                <TextInput
+                  type="number"
+                  id="income-amount"
+                  placeholder="Amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value.trim())}
+                ></TextInput>
+                <Textarea
+                  id="income-note"
+                  placeholder="Note"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                ></Textarea>
+              </div>
+              <div id="income-form-button">
+                {transactions.length > 0 ? (
+                <Button
+                  type="button"
+                  id="income-delete-button"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+                ): null}
+                <Button
+                  type="button"
+                  id="income-save-button"
+                  onClick={handleSaveOrUpdate}
+                >
+                  {editingTransactionId ? "Update" : "Save"}
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -198,8 +198,8 @@ export default function Expenses() {
           : "Thêm mới thành công",
         message: editingTransactionId
           ? "Giao dịch đã được cập nhật."
-          : "Thu nhập đã được lưu!",
-        color: "green",
+          : "Chi tiêu đã được lưu!",
+        color: "red",
       });
       setAmount("");
       setNote("");

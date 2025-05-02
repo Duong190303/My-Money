@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Alfa+Slab+One&family=Archivo+Black&family=Lexend:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 /* import { css } from '@mantine/core'; */
 
 /* @theme {
@@ -151,6 +153,10 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
 }
 
 /*************************************Register******************************************/
@@ -369,7 +375,7 @@ table {
   font-size: 1.25rem;
   line-height: 1.5rem;
   color: #000000;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
 
 }
 
@@ -436,7 +442,7 @@ table {
   width: 210px;
   border: none;
   cursor: pointer;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .login-button:hover {
@@ -451,7 +457,7 @@ table {
   font-size: 1.25rem;
   line-height: 2rem;
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .register-text a {
@@ -497,6 +503,35 @@ table {
   }
 }
 
+#or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #999;
+  margin: 20px 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 136%;
+  letter-spacing: 0%;
+
+}
+
+#or::before,
+#or::after {
+  content: '';
+  flex: 1;
+  border: 1px solid rgb(179, 74, 74)
+}
+
+#or:not(:empty)::before {
+  margin-right: .75em;
+}
+
+#or:not(:empty)::after {
+  margin-left: .75em;
+}
+
 /***************************************Home***********************************************/
 .home-background {
   background-image: url(/public/home-background.png);
@@ -517,8 +552,7 @@ table {
   padding-top: 20px;
   align-items: center;
   justify-content: space-between;
-  /* margin-right: 40px;
-  margin-left: 40px; */
+
 
 }
 
@@ -529,22 +563,28 @@ table {
 .home-navigation {
   display: flex;
   gap: 60px;
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background-color: rgba(185, 181, 181, 0.2);
+  border-radius: 25px;
+  font-size: 32px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  padding: 5px 10px;
 }
 
-.home-nav-item {
-  color: rgb(10, 10, 10);
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
+.home-navigation button {
+  background-color: transparent;
 
 }
+.home-navigation button:hover {
+  border: 1px solid rgba(0, 0, 0, 0.2);
 
-.home-nav-item:hover {
-  color: rgba(69, 196, 190, 1);
-  font-size: 150%;
 }
-
 .home-login-container {
   display: flex;
   align-items: center;
@@ -594,7 +634,7 @@ table {
 }
 
 #popover-dropdown {
-  background: #99c7cf;
+  background: #ffffff;
   filter: blur(0.35px);
   border-radius: 10px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
@@ -602,6 +642,7 @@ table {
   pointer-events: auto;
   backdrop-filter: blur(200px);
   -webkit-backdrop-filter: blur(200px);
+
 }
 
 #paper {
@@ -611,11 +652,29 @@ table {
   flex-direction: column;
 }
 
-#logout-button {
+#logout-button,
+#login-button {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #ff0000;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  margin-top: 10px;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+#login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #20df59;
   border: none;
   cursor: pointer;
   font-size: 1rem;

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { PasswordInput, Stack, TextInput, Button, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
 
 const Register: React.FC = () => {
   if (typeof window === "undefined") return null;
@@ -16,15 +17,18 @@ const Register: React.FC = () => {
 
   const form = useForm({
     initialValues: {
-      displayName: "",
-      username: "",
+      data: {
+        user_name: "",
+      },
       email: "",
       password: "",
       confirmPassword: "",
     },
     validate: {
-      username: (value) =>
-        value.length >= 5 ? null : "Tên người dùng ít nhất 5 ký tự",
+      data: {
+        user_name: (value) =>
+          value.length >= 3 ? null : "Username ít nhất 3 ký tự",
+      },
       email: (value) =>
         /^\S+@\S+\.\S+$/.test(value) ? null : "Email không hợp lệ",
       password: (value) =>
@@ -34,39 +38,77 @@ const Register: React.FC = () => {
     },
   });
 
+  // const handleRegister = async (values: typeof form.values) => {
+  //   setLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     // Đăng ký bằng Supabase Auth + lưu username vào metadata
+  //     const { data, error } = await supabase.auth.signUp({
+  //       email: values.email,
+  //       password: values.password,
+  //       options: {
+  //         data: {
+  //           user_name: values.data.user_name,
+  //         },
+  //       },
+  //     });
+
+  //     if (error || !data.user) throw error;
+
+  //     // Insert thêm thông tin vào bảng users (KHÔNG chứa mật khẩu)
+  //     const { data: datauser, error: insertError } = await supabase
+  //       .from("users")
+  //       .insert({
+  //         id: data.user.id,
+  //         email: data.user.email,
+  //         user_name: data.user.user_metadata.user_name,
+  //       });
+
+  //     if (insertError) throw insertError;
+
+  //     // Chuyển hướng sau khi đăng ký thành công
+  //     navigate("/");
+  //   } catch (err: any) {
+  //     setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
+  //   }
+
+  //   setLoading(false);
+  // };
   const handleRegister = async (values: typeof form.values) => {
     setLoading(true);
     setError(null);
-
+  
     try {
-      // Đăng ký bằng Supabase Auth + lưu username vào metadata
       const { data, error } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
-      });
-
-      if (error || !data.user) throw error;
-      
-      // Insert thêm thông tin vào bảng users (KHÔNG chứa mật khẩu)
-      const { error: insertError } = await supabase.from("users").insert([
-        {
-          id_user: data.user.id,
-          email: values.email,
-          username: values.username,
+        options: {
+          data: {
+            user_name: values.data.user_name,
+          },
         },
-      ]);
-
-      if (insertError) throw insertError;
-
-      // Chuyển hướng sau khi đăng ký thành công
-      navigate("/");
+      });
+  
+      if (error) throw error;
+  
+      showNotification({
+        title: "Đăng ký thành công",
+        message: "Kiểm tra email để xác nhận đăng ký",
+        color: "teal",
+      });
+      navigate("/"); // hoặc chuyển hướng tới trang xác nhận
     } catch (err: any) {
-      setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
+      showNotification({
+        title: "Đăng ký thất bại",
+        message: err.message || "Vui lòng thử lại",
+        color: "red",
+      });
     }
-
+  
     setLoading(false);
   };
-
+  
   return (
     <div className="design-background">
       <div className="input-design-container">
@@ -85,7 +127,7 @@ const Register: React.FC = () => {
             <Stack style={{ width: "310px", height: "250px" }}>
               <TextInput
                 placeholder="Username"
-                {...form.getInputProps("username")}
+                {...form.getInputProps("data.user_name")}
                 styles={{
                   input: {
                     borderRadius: "20px",

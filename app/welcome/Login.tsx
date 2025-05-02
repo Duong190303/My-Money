@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
 import { useDisclosure } from "@mantine/hooks";
 import { PasswordInput, Stack, TextInput, Button, Loader } from "@mantine/core";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "@mantine/form";
 import "../welcome/Style/Login.css";
 import Home from "../welcome/Home";
+import { FcGoogle } from "react-icons/fc";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { showNotification } from "@mantine/notifications";
 
 
 export function Login() {
@@ -33,42 +36,62 @@ export function Login() {
   const handleLogin = async (values: typeof form.values) => {
     setLoading(true);
     setError(null);
-
+  
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
-
+  
       if (error || !data.user) {
-        setError("Email hoặc mật khẩu không đúng!");
+        showNotification({
+          title: "Đăng nhập thất bại",
+          message: "Email hoặc mật khẩu không đúng",
+          color: "red",
+        });
         setLoading(false);
         return;
       }
-
+  
       // Lưu user info vào localStorage (hoặc context)
       localStorage.setItem("user", JSON.stringify(data.user));
-
+  
       // Lấy thêm thông tin mở rộng từ bảng users (nếu cần)
       const { data: userInfo } = await supabase
         .from("users")
         .select("*")
         .eq("id_user", data.user.id)
         .single();
-
+  
       if (userInfo) {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
       }
-
+  
+      showNotification({
+        title: "Đăng nhập thành công",
+        message: "Chào mừng bạn đã đăng nhập",
+        color: "teal",
+      });
       navigate("/");
     } catch (err) {
-      setError("Đăng nhập thất bại. Vui lòng thử lại.");
+      showNotification({
+        title: "Đăng nhập thất bại",
+        message: "Vui lòng thử lại",
+        color: "red",
+      });
     }
-
+  
     setLoading(false);
-  };
-  const handleHomeClick = () => {
+  };  const handleHomeClick = () => {
     window.location.href = "/"; // Chuyển đến trang chủ
+  };
+  const handleGoogleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) {
+      console.error("Error logging in:", error.message);
+    }
   };
 
   return (
@@ -142,6 +165,29 @@ export function Login() {
                 You have't had an account? <Link to="/register">Register</Link>
               </span>
             </div>
+            <div id="or">
+              <span>OR</span>
+            </div>
+
+            <Button
+              variant="outline"
+              onClick={handleGoogleLogin}
+              // leftIcon={<FcGoogle size={18} />}
+              styles={{
+                root: {
+                  borderRadius: "20px",
+                  backgroundColor: "white",
+                  color: "#333",
+                  border: "1px solid #ccc",
+                  height: "40px",
+                  width: "310px",
+                  marginBottom: "10px",
+                },
+              }}
+            >
+              Đăng nhập với Google
+              <FontAwesomeIcon icon={["fab", "google"]} size="lg" />
+            </Button>
             {error && (
               <div className="error-message" style={{ color: "red" }}>
                 {error}
@@ -149,8 +195,7 @@ export function Login() {
             )}
           </form>
         </div>
-        <Link to="/" className="back-link" onClick={handleHomeClick} >
-        </Link>
+        <Link to="/" className="back-link" onClick={handleHomeClick}></Link>
       </div>
       <div className="image-section">
         <div className="image-container">
