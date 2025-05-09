@@ -27,54 +27,17 @@ const Register: React.FC = () => {
     validate: {
       data: {
         user_name: (value) =>
-          value.length >= 3 ? null : "Username ít nhất 3 ký tự",
+          value.length >= 3 ? null : "Username at least 3 characters",
       },
       email: (value) =>
-        /^\S+@\S+\.\S+$/.test(value) ? null : "Email không hợp lệ",
+        /^\S+@\S+\.\S+$/.test(value) ? null : "Invalid email",
       password: (value) =>
-        value.length >= 8 ? null : "Mật khẩu ít nhất 8 ký tự",
+        value.length >= 8 ? null : "Password at least 8 characters",
       confirmPassword: (value, values) =>
-        value === values.password ? null : "Mật khẩu nhập lại không khớp",
+        value === values.password ? null : "The password is not matched",
     },
   });
 
-  // const handleRegister = async (values: typeof form.values) => {
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     // Đăng ký bằng Supabase Auth + lưu username vào metadata
-  //     const { data, error } = await supabase.auth.signUp({
-  //       email: values.email,
-  //       password: values.password,
-  //       options: {
-  //         data: {
-  //           user_name: values.data.user_name,
-  //         },
-  //       },
-  //     });
-
-  //     if (error || !data.user) throw error;
-
-  //     // Insert thêm thông tin vào bảng users (KHÔNG chứa mật khẩu)
-  //     const { data: datauser, error: insertError } = await supabase
-  //       .from("users")
-  //       .insert({
-  //         id: data.user.id,
-  //         email: data.user.email,
-  //         user_name: data.user.user_metadata.user_name,
-  //       });
-
-  //     if (insertError) throw insertError;
-
-  //     // Chuyển hướng sau khi đăng ký thành công
-  //     navigate("/");
-  //   } catch (err: any) {
-  //     setError(err.message || "Đăng ký thất bại. Vui lòng thử lại.");
-  //   }
-
-  //   setLoading(false);
-  // };
   const handleRegister = async (values: typeof form.values) => {
     setLoading(true);
     setError(null);
@@ -92,16 +55,16 @@ const Register: React.FC = () => {
   
       if (error) throw error;
   
-      showNotification({
-        title: "Đăng ký thành công",
-        message: "Kiểm tra email để xác nhận đăng ký",
-        color: "teal",
-      });
+      // showNotification({
+      //   title: "Đăng ký thành công",
+      //   message: "Kiểm tra email để xác nhận đăng ký",
+      //   color: "teal",
+      // });
       navigate("/"); // hoặc chuyển hướng tới trang xác nhận
     } catch (err: any) {
       showNotification({
-        title: "Đăng ký thất bại",
-        message: err.message || "Vui lòng thử lại",
+        title: "Register for failure",
+        message: err.message || "Please try again",
         color: "red",
       });
     }

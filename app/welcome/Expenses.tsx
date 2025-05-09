@@ -153,8 +153,8 @@ export default function Expenses() {
   const handleSaveOrUpdate = async () => {
     if (!selectedCategory || !date || !amount) {
       Notifications.show({
-        title: "Thiếu thông tin",
-        message: "Vui lòng điền đầy đủ thông tin trước khi lưu.",
+        title: "Lack of information",
+        message: "Please fill in the information before saving.",
         color: "red",
       });
       return;
@@ -187,19 +187,19 @@ export default function Expenses() {
     if (error) {
       console.error("Lỗi lưu giao dịch:", error);
       Notifications.show({
-        title: "Lỗi",
-        message: "Không thể lưu giao dịch. Vui lòng thử lại.",
+        title: "Error",
+        message: "Can not transfer transactions. Please try again.",
         color: "red",
       });
     } else {
       Notifications.show({
         title: editingTransactionId
-          ? "Cập nhật thành công"
-          : "Thêm mới thành công",
+          ? "Success update"
+          : "Add new successfully",
         message: editingTransactionId
-          ? "Giao dịch đã được cập nhật."
-          : "Chi tiêu đã được lưu!",
-        color: "red",
+          ? "The transaction has been updated."
+          : "Spending has been saved!",
+        color: "green",
       });
       setAmount("");
       setNote("");
@@ -220,8 +220,8 @@ export default function Expenses() {
   const handleDelete = async () => {
     if (!selectedCategory || !date || !amount) {
       Notifications.show({
-        title: "Thiếu thông tin",
-        message: "Vui lòng điền đầy đủ thông tin để xoá giao dịch!",
+        title: "Lack of information",
+        message: "Please fill out the information to delete transactions!",
         color: "red",
       });
       return;
@@ -239,8 +239,8 @@ export default function Expenses() {
       console.error("Lỗi xóa giao dịch:", error);
     } else {
       Notifications.show({
-        title: "Xoá thành công",
-        message: "Giao dịch đã được xoá!",
+        title: "Delete successfully",
+        message: "The transaction has been deleted!",
         color: "green",
       });
       setAmount("");
@@ -261,7 +261,7 @@ export default function Expenses() {
         <div className="income-container1"></div>
         <div className="income-container2">
           <div id="income-text">
-            <ScrollArea id="transaction-table-container">
+            {/* <ScrollArea id="transaction-table-container"> */}
               <TextInput
                 id="search-input"
                 mb="md"
@@ -325,15 +325,9 @@ export default function Expenses() {
                   )}
                 </Table.Tbody>
               </Table>
-              {/* Pagination - placed outside of table, centered */}
-              {transactions.length > 0 && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "16px",
-                  }}
-                >
+          </div>
+          {transactions.length > 0 && (
+                <div id="pagination-container">
                   <Pagination
                     value={activePage}
                     onChange={setPage}
@@ -344,8 +338,6 @@ export default function Expenses() {
                   />
                 </div>
               )}
-            </ScrollArea>
-          </div>
         </div>
         <div className="income-container3">
           <h1>EXPENSES</h1>

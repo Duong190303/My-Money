@@ -48,7 +48,7 @@ body {
   background-color: rgba(69, 196, 190, 0.26);
   align-items: center;
   justify-content: flex-end;
-
+  flex-direction: column;
 }
 
 #income-text {
@@ -230,4 +230,8 @@ body {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-evenly;
+}
+#pagination-container{
+  margin-left: 25vh;
+  margin-bottom: 2vh;
 }

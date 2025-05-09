@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
 import { useDisclosure } from "@mantine/hooks";
-import { PasswordInput, Stack, TextInput, Button, Loader } from "@mantine/core";
+import { PasswordInput, Stack, TextInput, Button, Loader, ThemeIcon } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "@mantine/form";
 import "../welcome/Style/Login.css";
-import Home from "../welcome/Home";
-import { FcGoogle } from "react-icons/fc";
+// import Home from "../welcome/Home";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { showNotification } from "@mantine/notifications";
 
@@ -27,9 +26,9 @@ export function Login() {
     },
     validate: {
       email: (value) =>
-        /^\S+@\S+\.\S+$/.test(value) ? null : "Email không hợp lệ",
+        /^\S+@\S+\.\S+$/.test(value) ? null : "Invalid email",
       password: (value) =>
-        value.length >= 8 ? null : "Mật khẩu ít nhất 8 ký tự",
+        value.length >= 8 ? null : "Password at least 8 characters",
     },
   });
 
@@ -45,8 +44,8 @@ export function Login() {
   
       if (error || !data.user) {
         showNotification({
-          title: "Đăng nhập thất bại",
-          message: "Email hoặc mật khẩu không đúng",
+          title: "Login failed",
+          message: "Email or password incorrectly",
           color: "red",
         });
         setLoading(false);
@@ -68,15 +67,15 @@ export function Login() {
       }
   
       showNotification({
-        title: "Đăng nhập thành công",
-        message: "Chào mừng bạn đã đăng nhập",
+        title: "Login successfully",
+        message: "Welcome to login",
         color: "teal",
       });
       navigate("/");
     } catch (err) {
       showNotification({
-        title: "Đăng nhập thất bại",
-        message: "Vui lòng thử lại",
+        title: "Login failed",
+        message: "Please try again",
         color: "red",
       });
     }
@@ -185,10 +184,10 @@ export function Login() {
                 },
               }}
             >
-              Đăng nhập với Google
-              <FontAwesomeIcon icon={["fab", "google"]} size="lg" />
+              <FontAwesomeIcon icon={faGoogle} size="lg" color="#4285F4" style={{ marginRight: "1 0px" }}/>
+              Log in with Google
             </Button>
-            {error && (
+            {error && (     
               <div className="error-message" style={{ color: "red" }}>
                 {error}
               </div>

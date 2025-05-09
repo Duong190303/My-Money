@@ -26,7 +26,7 @@ export default function TransactionPieChart() {
   if (typeof window === "undefined") return null;
 
   const [userId, setUserId] = useState<string>("");
-  const [timeRange, setTimeRange] = useState("week");
+  const [timeRange, setTimeRange] = useState("Day");
   const [selectFullDate, setSelectFullDate] = useState<Date | null>(new Date());
 
   const [pieChartData, setPieChartData] = useState<any[]>([]);
@@ -105,21 +105,20 @@ export default function TransactionPieChart() {
       const filtered = (data as any[]).filter((item) => {
         const d = dayjs(item.date);
         const selected = dayjs(selectFullDate);
-
-        if (timeRange === "Week") {
+      
+        if (timeRange === "Day") {
+          return d.isSame(selected, "day");
+        } else if (timeRange === "Week") {
           return d.week() === selected.week() && d.year() === selected.year();
-        }
-
-        if (timeRange === "Month") {
+        } else if (timeRange === "Month") {
           return d.month() === selected.month() && d.year() === selected.year();
-        }
-
-        if (timeRange === "Year") {
+        } else if (timeRange === "Year") {
           return d.year() === selected.year();
         }
-
-        return d.isSame(selected, "day");
+      
+        return false;
       });
+      
 
       setTransactions(filtered);
     };
@@ -137,7 +136,10 @@ export default function TransactionPieChart() {
       const d = dayjs(item.date);
       let label = "";
 
-      if (timeRange === "Week") {
+      if (timeRange === "Day") {
+        // Gom theo ngày
+        label = d.format("YYYY-MM-DD"); // mỗi ngày riêng
+      } else if (timeRange === "Week") {
         // Gom theo từng ngày trong tuần
         label = d.format("YYYY-MM-DD"); // mỗi ngày riêng
       } else if (timeRange === "Month") {
@@ -204,20 +206,38 @@ export default function TransactionPieChart() {
 
       const selected = dayjs(selectFullDate);
 
-      const filtered = (data as transaction[]).filter((item) => {
-        const d = dayjs(item.date);
-
-        if (timeRange === "Week") {
+      // const filtered = (data as transaction[]).filter((item) => {
+      //   const d = dayjs(item.date);
+      
+      //   if (timeRange === "Day") {
+      //     return d.isSame(selected, "day");
+      //   } else if (timeRange === "Week") {
+      //     return d.week() === selected.week() && d.year() === selected.year();
+      //   } else if (timeRange === "Month") {
+      //     return d.month() === selected.month() && d.year() === selected.year();
+      //   } else if (timeRange === "Year") {
+      //     return d.year() === selected.year();
+      //   }
+      
+      //   return false;
+      // });
+      const filtered = (data as any[]).filter((item) => {
+        const d = dayjs(item.date).startOf("day");
+        const selected = dayjs(selectFullDate).startOf("day");
+      
+        if (timeRange === "Day") {
+          return d.isSame(selected);
+        } else if (timeRange === "Week") {
           return d.week() === selected.week() && d.year() === selected.year();
         } else if (timeRange === "Month") {
           return d.month() === selected.month() && d.year() === selected.year();
         } else if (timeRange === "Year") {
           return d.year() === selected.year();
-        } else {
-          return d.isSame(selected, "day");
         }
+      
+        return false;
       });
-
+      
       // Lọc thêm theo loại giao dịch
       const final =
         transactionType === "All"
@@ -354,10 +374,11 @@ export default function TransactionPieChart() {
           <Select
             // styles={{ input: { backgroundColor: "#b8dfe6", border: "none" } }}
             placeholder="Time Range"
-            // defaultValue="Week"
+            defaultValue="Day"
             value={timeRange}
             onChange={handleTimeRangeChange}
             data={[
+              { value: "Day", label: "Day" },
               { value: "Week", label: "Week" },
               { value: "Month", label: "Month" },
               { value: "Year", label: "Year" },
@@ -366,7 +387,7 @@ export default function TransactionPieChart() {
             mb="md"
           />
 
-          {areaChartData.length > 0 ? (
+          {areaChartData.length > 0 && transactions.length > 0 ? (
             <BarChart
               id="barchart"
               h={250}

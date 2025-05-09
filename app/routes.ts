@@ -9,5 +9,6 @@ export default [
     route("income", "welcome/Income.tsx"),
     route("expenses", "welcome/Expenses.tsx"),
     route("datareport", "welcome/Datareport.tsx"),
+    route("profile", "welcome/Profile.tsx"),
     // route("/", "welcome/Home.tsx"), 
 ] satisfies RouteConfig;
