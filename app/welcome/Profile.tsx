@@ -19,7 +19,7 @@ import { supabase } from "../supabase";
 import { Header } from "./Header";
 import { IconMail, IconUser } from "@tabler/icons-react";
 import "../welcome/Style/Profile.css";
-
+import { useNavigate } from "react-router-dom";
 type ProfileData = {
   id: string;
   user_name: string;
@@ -36,9 +36,21 @@ export default function Profile() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  if (typeof window === "undefined") return null;
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchProfile();
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(
+          event === "SIGNED_IN" || event === "TOKEN_REFRESHED"
+            ? session?.user
+            : null
+        );
+      }
+    );
+
+    return () => authListener.subscription.unsubscribe();
   }, []);
 
   const fetchProfile = async () => {
@@ -84,6 +96,9 @@ export default function Profile() {
     setIsLoading(false);
   };
 
+    useEffect(() => {
+    fetchProfile();
+  }, []);
   const handleUpdate = async () => {
     if (!profile || !user) return;
 
@@ -119,6 +134,7 @@ export default function Profile() {
         avatar_url: avatar_url,
       },
     });
+
     const { error } = await supabase
       .from("users")
       .update({ user_name: username })
@@ -145,6 +161,7 @@ export default function Profile() {
 
     setIsEditing(false);
     fetchProfile();
+    // navigate("/");
   };
 
   const handleFileChange = (file: File | null) => {
@@ -153,6 +170,12 @@ export default function Profile() {
       setAvatarPreview(URL.createObjectURL(file));
     }
   };
+//chuyển về trang chủ khi ở trạng thái không có user
+useEffect(() => {
+  if (!isLoading && !user) {
+    navigate("/");}
+}, [isLoading, user]);
+
 
   return (
     <BackgroundImage id="background-image" src="/public/Income-background.png">

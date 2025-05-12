@@ -1,28 +1,9 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Alfa+Slab+One&family=Archivo+Black&family=Lexend:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Alfa+Slab+One&family=Archivo+Black&family=Lexend:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Alfa+Slab+One&family=Lexend:wght@100..900&display=swap');
 
-/* import { css } from '@mantine/core'; */
-
-/* @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-} */
-
-/* html,
-body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
-} */
-
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 
 html,
 body,
@@ -155,12 +136,10 @@ table {
   border-spacing: 0;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-}
+
 
 /*************************************Register******************************************/
-.design-background {
+/* .design-background {
   background-color: rgba(69, 196, 190, 1);
   width: 100%;
   height: 100vh;
@@ -175,7 +154,7 @@ body {
   height: 100%;
 }
 
-/* Form container */
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -188,11 +167,9 @@ body {
   border-radius: 30px;
 }
 
-/* Logo container */
 .logo-container {
   margin-left: 4rem;
   width: 80%;
-  /* max-width: 32rem; */
 }
 
 .logo-image {
@@ -200,7 +177,6 @@ body {
   height: auto;
 }
 
-/* Form fields container */
 .form-register-container {
   display: flex;
   flex-direction: column;
@@ -209,351 +185,24 @@ body {
   margin-top: 3.5rem;
   width: 443px;
   align-items: center;
-
-}
-
-.password-input {
-  display: flex;
-  align-items: center;
-  color: #979595;
-
-}
-
-.password-input-icon {
-  position: relative;
-  display: flex;
-}
-
-.mantine-password {
-  color: #191414;
-}
-
-
-.m_6c018570 {
-
-  width: 70%;
-}
-
-.m_82577fc2 {
-  /* margin-left: 100px; */
-}
-
-.m_6d731127 {
-  background-color: #ffffff;
-  width: 100%;
-  height: 70%;
-}
-
-.m_b1072d44 {
-  margin-left: 150px;
 }
 
 .m_6c018570 {
-  width: 70%;
-}
+  width: 85%;
+} */
 
-.m_f2d85dd2 {
-  width: 70%;
-}
-
-
-
-/* Login text */
-.login-text {
-  font-size: 1.25rem;
-  color: #000000;
-  font-family: Arial, sans-serif;
-}
-
-.login-text a {
-  color: #2F727B;
-}
-
-.login-link:hover {
-  color: #0e7490;
-  /* cyan-700 */
-  cursor: pointer;
-}
-
-.login-text a:hover {
-  text-decoration: underline;
-  color: rgba(69, 196, 190, 1);
-}
-
-.image-section1 {
-  justify-content: left;
-  align-items: left;
-  width: 650px;
-  height: 680px;
-}
-
-.image-container1 {
-  position: relative;
-  width: 650px;
-  height: 650px;
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-}
-
-.image-container1 img {
-  width: 100%;
-  height: 80%;
-}
-
-/* Media queries for responsive design */
-@media (max-width: 991px) {
-  .input-design-container {
-    flex-direction: column;
-    padding: 1.25rem;
-    max-width: 991px;
-  }
-
-  .illustration-container {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .input-design-container {
-    max-width: 640px;
-  }
-
-  .form-container {
-    padding: 1.25rem;
-  }
-
-  .input-field {
-    font-size: 1.125rem;
-    height: 50px;
-  }
-
-  .login-text {
-    font-size: 1.125rem;
-  }
-
-  .register-button {
-    width: 100%;
-  }
-}
 
 /************************************************************Login Page************************************************************/
-/* Main container */
-.login-container {
-  display: flex;
-  width: 100%;
-  max-height: 100vh;
-  background: white;
-  flex-direction: row;
-}
 
-/* Form section (left side) */
-.form-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2.5rem 1.5rem;
-  background-color: #C3BDBD;
-  /* bg-stone-300 */
-  width: 50%;
-  justify-content: center;
-}
 
-/* Welcome text */
-.welcome-title {
-  margin-bottom: 1rem;
-  font-size: 48px;
-  line-height: 2.25rem;
-  color: #14b8a6;
-  /* text-teal-500 */
-}
-
-.welcome-subtitle {
-  margin-bottom: 2.5rem;
-  font-size: 1.25rem;
-  line-height: 1.5rem;
-  color: #000000;
-  font-family: "Poppins", sans-serif;
-
-}
-
-.form {
-  width: 443px;
-
-}
-
-.m_46b77525 {
-  /* margin-left: 50px; */
-}
-
-.m_8f816625 {
-  margin-left: 50px;
-}
-
-/* Form container */
-.form-login-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-
-/* Input  */
-.form-input {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  width: 350px;
-  font-size: 20px;
-  line-height: 2rem;
-  background-color: white;
-  height: 45px;
-  border-radius: 60px;
-  border: none;
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.form-input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.form-input:focus {
-  outline: none;
-  border: 1px solid #14b8a6;
-}
-
-/* Login button */
-.login-button {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2.5rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  color: white;
-  background-color: rgba(53, 167, 185, 1);
-  /* bg-teal-500 */
-  height: 44px;
-  border-radius: 30px;
-  width: 210px;
-  border: none;
-  cursor: pointer;
-  font-family: "Poppins", sans-serif;
-}
-
-.login-button:hover {
-  background-color: rgba(69, 196, 190, 1);
-}
-
-.register-text {
-  color: #010101;
-  /* text-cyan-700 */
-  cursor: pointer;
-  padding-top: 25px;
-  font-size: 1.25rem;
-  line-height: 2rem;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-}
-
-.register-text a {
-  color: #28818F;
-}
-
-.register-text a:hover {
-  text-decoration: underline;
-  color: rgba(69, 196, 190, 1);
-}
-
-/* Image section (right side) */
-.image-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* padding: 2.5rem; */
-  background-color: white;
-  max-width: 1140px;
-  /* width: 100%; */
-}
-
-.image-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.image-container img {
-  width: 100%;
-  height: 100%;
-  /* object-fit: contain; */
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .form-section {
-    width: 100%;
-  }
-
-  .image-section {
-    display: none;
-  }
-}
-
-#or {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #999;
-  margin: 20px 0;
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 136%;
-  letter-spacing: 0%;
-
-}
-
-#or::before,
-#or::after {
-  content: '';
-  flex: 1;
-  border: 1px solid rgb(179, 74, 74)
-}
-
-#or:not(:empty)::before {
-  margin-right: .75em;
-}
-
-#or:not(:empty)::after {
-  margin-left: .75em;
-}
 
 /***************************************Home***********************************************/
-.home-background {
-  background-image: url(/public/home-background.png);
-  background-size: 100%;
-  background-Position: center;
-  height: 100vh;
-  width: 100vw;
-  /* background-repeat: no-repeat; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-}
-
 .home-header-container {
   width: 100vw;
   display: flex;
   padding-top: 20px;
   align-items: center;
   justify-content: space-between;
-
 
 }
 
@@ -579,13 +228,16 @@ body {
 }
 
 .home-navigation button {
+  color: #ffffff;
   background-color: transparent;
 
 }
+
 .home-navigation button:hover {
   border: 1px solid rgba(0, 0, 0, 0.2);
 
 }
+
 .home-login-container {
   display: flex;
   align-items: center;
@@ -612,6 +264,174 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.home-background {
+  height: 100vh;
+  background: linear-gradient(59deg, #177D82, #3CA6A5, #ebfffd);
+  position: relative;
+  padding: 0 2rem;
+  color: white;
+  /* font-family: 'Segoe UI', sans-serif; */
+  overflow: hidden;
+
+}
+
+.home-header-container {
+  width: 1440px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+  /* margin-right: 400px; */
+  position: relative;
+
+}
+
+
+.coin-bg {
+  width: 494px;
+  /* Chỉ định kích thước cụ thể cho ảnh */
+  height: 636px;
+  /* Chỉ định kích thước cụ thể cho ảnh */
+  background-image: url('shiny-coins-loop.gif');
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 116px;
+  right: 86px;
+  width: 580px;
+  z-index: 2;
+  animation: Coin-bg 0.8s ease-out forwards;
+  transform: translateZ(0);
+  will-change: transform;
+  image-rendering: auto;
+}
+
+@keyframes Coin-bg {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes elip-bg {
+  from {
+    transform: translateX(200px);
+    /* bắt đầu ở vị trí lệch phải */
+    opacity: 0;
+    /* bắt đầu mờ */
+  }
+
+  to {
+    transform: translateX(0);
+    /* kết thúc ở vị trí ban đầu */
+    opacity: 1;
+    /* hiển thị rõ */
+  }
+}
+
+.Tittle-01 {
+
+
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 60px;
+  font-weight: 800;
+  color: #dfeeed;
+  position: absolute;
+  width: 8px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  top: 19%;
+  left: -1%;
+  white-space: nowrap;
+  animation: Coin-bg 0.8s ease-out forwards;
+
+
+}
+
+.Tittle-01 h1 span {
+  color: #87D7ED;
+  /* màu xanh pastel để nhấn mạnh từ khóa */
+}
+
+.Tittle-02 {
+  font-family: "Afacad", sans-serif;
+  font-size: 20px;
+  color: #b3ffff;
+  position: absolute;
+  width: 8px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  top: 43%;
+  left: -1%;
+  white-space: nowrap;
+  animation: Coin-bg 0.8s ease-out forwards;
+}
+
+.title {
+  margin-left: 16vh;
+
+}
+
+#Tittle-02 h6 {
+  font-family: "Afacad", sans-serif;
+
+}
+
+#btn-with-mymoney {
+  font-family: "Afacad", sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  position: absolute;
+  width: 210px;
+  height: 40px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  top: 60%;
+  left: 10%;
+  white-space: nowrap;
+  animation: Coin-bg 0.8s ease-out forwards;
+  background: linear-gradient(90deg, #63BDE2 20%, #41D3AA 99.99%, #63BDE2 100%);
+  border: 1px solid #14b8a6;
+  border-radius: 40px;
+  margin-left: 20vh;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+#btn-with-mymoney:hover {
+  color: #004f5b;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+#Tittle-03 {
+  background-image: url(/public/Ellipse03.svg);
+  text-orientation: mixed;
+  align-items: center;
+  font-family: "Afacad", sans-serif;
+  font-size: 20px;
+  color: #274947;
+  position: absolute;
+  width: 8px;
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+  top: 43%;
+  right: 0%;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+
+
 /******************************************Header*******************************************/
 /* .header-container {
   width: 1000vh;
@@ -619,14 +439,15 @@ body {
   padding-top: 20px;
   align-items: center;
   justify-content: space-between; */
-  /* margin-right: 400px; */
-  /* font-family: 'Merriweather', sans-serif;
+/* margin-right: 400px; */
+/* font-family: 'Merriweather', sans-serif;
 } */
-.header-background{
+.header-background {
   width: 197vh;
   display: flex;
   justify-content: space-evenly;
 }
+
 .user {
   display: block;
   width: 100%;

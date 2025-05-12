@@ -4,7 +4,7 @@ import "./Style/Datareport.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 import { PieChart, AreaChart, BarChart } from "@mantine/charts";
-import { Select } from "@mantine/core";
+import { Center, Select } from "@mantine/core";
 import dayjs from "dayjs";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 dayjs.extend(weekOfYear);
@@ -105,7 +105,7 @@ export default function TransactionPieChart() {
       const filtered = (data as any[]).filter((item) => {
         const d = dayjs(item.date);
         const selected = dayjs(selectFullDate);
-      
+
         if (timeRange === "Day") {
           return d.isSame(selected, "day");
         } else if (timeRange === "Week") {
@@ -115,10 +115,9 @@ export default function TransactionPieChart() {
         } else if (timeRange === "Year") {
           return d.year() === selected.year();
         }
-      
+
         return false;
       });
-      
 
       setTransactions(filtered);
     };
@@ -206,25 +205,10 @@ export default function TransactionPieChart() {
 
       const selected = dayjs(selectFullDate);
 
-      // const filtered = (data as transaction[]).filter((item) => {
-      //   const d = dayjs(item.date);
-      
-      //   if (timeRange === "Day") {
-      //     return d.isSame(selected, "day");
-      //   } else if (timeRange === "Week") {
-      //     return d.week() === selected.week() && d.year() === selected.year();
-      //   } else if (timeRange === "Month") {
-      //     return d.month() === selected.month() && d.year() === selected.year();
-      //   } else if (timeRange === "Year") {
-      //     return d.year() === selected.year();
-      //   }
-      
-      //   return false;
-      // });
       const filtered = (data as any[]).filter((item) => {
         const d = dayjs(item.date).startOf("day");
         const selected = dayjs(selectFullDate).startOf("day");
-      
+
         if (timeRange === "Day") {
           return d.isSame(selected);
         } else if (timeRange === "Week") {
@@ -234,10 +218,10 @@ export default function TransactionPieChart() {
         } else if (timeRange === "Year") {
           return d.year() === selected.year();
         }
-      
+
         return false;
       });
-      
+
       // Lọc thêm theo loại giao dịch
       const final =
         transactionType === "All"
@@ -295,7 +279,7 @@ export default function TransactionPieChart() {
           )}
         </div>
         <div className="box total">
-          <DatePickerInput 
+          <DatePickerInput
             id="select-full-date"
             value={selectFullDate}
             onChange={setSelectFullDate}
@@ -325,7 +309,9 @@ export default function TransactionPieChart() {
           </div>
         </div>
         <div className="box history">
-          <h3 className="title">TRANSACTION HISTORY</h3>
+          <div className="titles">
+            <h3>Transaction History</h3>
+          </div>
           <Table id="title-table">
             {paginatedTransactions.length > 0 ? (
               paginatedTransactions.map((item) => (
@@ -358,7 +344,8 @@ export default function TransactionPieChart() {
               </Text>
             )}
             {latestTransactions.length > itemsPerPage && (
-              <Pagination id="pagination"
+              <Pagination
+                id="pagination"
                 value={page}
                 onChange={setPage}
                 total={Math.ceil(latestTransactions.length / itemsPerPage)}

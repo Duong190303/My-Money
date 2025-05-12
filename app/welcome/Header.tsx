@@ -2,7 +2,7 @@ import { Button, Text } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import { Avatar, Group} from "@mantine/core";
+import { Avatar, Group } from "@mantine/core";
 import { supabase } from "../supabase"; // Đường dẫn đến tệp supabase.ts
 import { Popover, Paper, Box } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
@@ -11,7 +11,7 @@ export function Header() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [userId, setUserId] = useState<string | null>(null); // Thay đổi kiểu dữ liệu của userId thành string | null
+  const [userId, setUserId] = useState<string | null>(null);
   const [opened, setOpened] = useState(false);
   const [avatar, setAvatar] = useState<string | null>(null); // Thay đổi kiểu dữ liệu của avatar thành string | null
 
@@ -56,6 +56,7 @@ export function Header() {
   const handleLogout = async () => {
     // Đăng xuất khỏi phiên Supabase
     const { error } = await supabase.auth.signOut();
+    setUserId(null);
     if (error) {
       showNotification({
         title: "Lỗi đăng xuất",
@@ -68,10 +69,10 @@ export function Header() {
     // Xóa dữ liệu lưu trữ cục bộ (nếu cần)
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
-  // Reload toàn bộ trang để reset toàn bộ state, bao gồm useState
-  window.location.reload();  
-};
+    // Reload toàn bộ trang để reset toàn bộ state, bao gồm useState
+    window.location.reload();
+    navigate("/"); // Chuyển về trang chính
+  };
 
   const handleLogin = () => {
     navigate("/login"); // Chuyển về trang Login
@@ -92,9 +93,7 @@ export function Header() {
   const handleIncome = () =>
     handleNotifications("/income", "Please login to access Income");
   const handleDataReport = () =>
-    handleNotifications(
-      "/datareport","Please login to access Data Report"
-    );
+    handleNotifications("/datareport", "Please login to access Data Report");
   const handleExpenses = () =>
     handleNotifications("/expenses", "Please login to access Expenses");
   return (
@@ -107,6 +106,9 @@ export function Header() {
         />
         <nav className="home-navigation">
           <Button
+            styles={{
+              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+            }}
             variant="white"
             color="Black"
             size="md"
@@ -117,6 +119,9 @@ export function Header() {
             HOME
           </Button>
           <Button
+            styles={{
+              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+            }}
             variant="white"
             color="Black"
             size="md"
@@ -127,6 +132,9 @@ export function Header() {
             INCOME
           </Button>
           <Button
+            styles={{
+              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+            }}
             variant="white"
             color="Black"
             size="md"
@@ -137,6 +145,9 @@ export function Header() {
             EXPENSES
           </Button>
           <Button
+            styles={{
+              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+            }}
             variant="white"
             color="Black"
             size="md"
