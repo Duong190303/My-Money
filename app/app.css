@@ -230,22 +230,19 @@ table {
 
 
 .coin-bg {
-  width: 494px;
-  /* Chỉ định kích thước cụ thể cho ảnh */
   height: 636px;
-  /* Chỉ định kích thước cụ thể cho ảnh */
-  background-image: url('shiny-coins-loop.gif');
   background-size: cover;
   background-position: center;
   position: absolute;
   top: 116px;
   right: 86px;
-  width: 580px;
+  width: 1200px;
   z-index: 2;
   animation: Coin-bg 0.8s ease-out forwards;
   transform: translateZ(0);
   will-change: transform;
   image-rendering: auto;
+  left: 40%;
 }
 
 @keyframes Coin-bg {
@@ -358,23 +355,6 @@ table {
   transition: all 0.3s ease;
 }
 
-#Tittle-03 {
-  background-image: url(/public/Ellipse03.svg);
-  text-orientation: mixed;
-  align-items: center;
-  font-family: "Afacad", sans-serif;
-  font-size: 20px;
-  color: #274947;
-  position: absolute;
-  width: 8px;
-  display: flex;
-  padding-top: 20px;
-  align-items: center;
-  top: 43%;
-  right: 0%;
-  white-space: nowrap;
-  writing-mode: vertical-rl;
-}
 
 
 /******************************************Header*******************************************/

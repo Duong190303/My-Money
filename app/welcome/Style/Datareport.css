@@ -40,7 +40,9 @@ body {
         "piechart total history"
         "chart chart history";
     gap: 20px;
-    /* grid-template-columns: 2fr 1fr 1fr; */
+        height: 85vh;
+    width: 175vh;
+    margin-left: 5%;
 }
 
 .box {

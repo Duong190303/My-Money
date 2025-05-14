@@ -270,7 +270,7 @@ export default function TransactionPieChart() {
               data={pieChartData}
               withLabelsLine
               withTooltip
-              size={220}
+              size={190}
               strokeColor="#fff"
               tooltipDataSource="segment"
             />
