@@ -179,11 +179,6 @@ width: 100%;
     color: #065f69;
 }
 
-#barchart {
-    height: 25%;
-
-}
-
 .select-datechart {
     display: flex;
 }
