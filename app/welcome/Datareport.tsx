@@ -377,7 +377,7 @@ export default function TransactionPieChart() {
           {areaChartData.length > 0 && transactions.length > 0 ? (
             <BarChart
               id="barchart"
-              h={250}
+              h={240}
               data={areaChartData}
               dataKey="date"
               series={[
