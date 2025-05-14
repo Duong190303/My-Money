@@ -223,6 +223,39 @@ export function Login() {
               >
                 {loading ? <Loader size="xs" /> : "Register"}{" "}
               </Button>
+              <div id="or">
+                <span>OR</span>
+              </div>
+              <Button
+                id="google-button"
+                variant="outline"
+                onClick={handleGoogleLogin}
+                styles={{
+                  root: {
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                    color: "#333",
+                    border: "1px solid #ccc",
+                    height: "40px",
+                    width: "250px",
+                    marginLeft: "12%",
+                    fontFamily: "Afaria, sans-serif",
+                  },
+                }}
+              >
+                <Image
+                  src="/Google.png"
+                  alt="google"
+                  width={20}
+                  height={20}
+                  style={{
+                    marginRight: "10px",
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
+                Log in with Google
+              </Button>
             </Form>
           </div>
         </div>

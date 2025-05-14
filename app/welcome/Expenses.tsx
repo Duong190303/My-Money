@@ -7,6 +7,7 @@ import {
   Text,
   ScrollArea,
   Textarea,
+  Group,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
@@ -28,7 +29,9 @@ type Transaction = {
 };
 export default function Expenses() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [categories, setCategories] = useState<{ label: string; value: string }[]>([]);
+  const [categories, setCategories] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
@@ -37,7 +40,9 @@ export default function Expenses() {
   const [userId, setUserId] = useState<string>("");
   const [search, setSearch] = useState("");
   const [sortedTransactions, setSortedTransactions] = useState(transactions);
-  const [editingTransactionId, setEditingTransactionId] = useState< number | null>(null);
+  const [editingTransactionId, setEditingTransactionId] = useState<
+    number | null
+  >(null);
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 10;
   const [totalPages, setTotalPages] = useState(1);
@@ -193,9 +198,7 @@ export default function Expenses() {
       });
     } else {
       Notifications.show({
-        title: editingTransactionId
-          ? "Success update"
-          : "Add new successfully",
+        title: editingTransactionId ? "Success update" : "Add new successfully",
         message: editingTransactionId
           ? "The transaction has been updated."
           : "Spending has been saved!",
@@ -255,13 +258,20 @@ export default function Expenses() {
     <div className="income-background">
       <Header />
       <div id="income-container">
-        <div className="income-notification">
+        {/* <div className="income-notification">
           <Notifications position="bottom-right" zIndex={300} />
-        </div>
-        <div className="income-container1"></div>
-        <div className="income-container2">
-          <div id="income-text">
-            {/* <ScrollArea id="transaction-table-container"> */}
+        </div> */}
+        <Group
+          style={{
+            height: "70vh",
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "flex-end",
+          }}
+        >
+          <div id="income-container2">
+            <div id="income-text">
+              {/* <ScrollArea id="transaction-table-container"> */}
               <TextInput
                 id="search-input"
                 mb="md"
@@ -325,20 +335,22 @@ export default function Expenses() {
                   )}
                 </Table.Tbody>
               </Table>
+            </div>
+            {transactions.length > 0 && (
+              <div id="pagination-container">
+                <Pagination
+                  value={activePage}
+                  onChange={setPage}
+                  total={totalPages}
+                  size="xs"
+                  color="69 196 190 0.26"
+                  radius="md"
+                />
+              </div>
+            )}
           </div>
-          {transactions.length > 0 && (
-                <div id="pagination-container">
-                  <Pagination
-                    value={activePage}
-                    onChange={setPage}
-                    total={totalPages}
-                    size="xs"
-                    color="69 196 190 0.26"
-                    radius="md"
-                  />
-                </div>
-              )}
-        </div>
+          <div className="income-container1"></div>
+        </Group>
         <div className="income-container3">
           <h1>EXPENSES</h1>
           <form

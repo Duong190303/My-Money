@@ -7,6 +7,7 @@ import {
   Text,
   ScrollArea,
   Textarea,
+  Group,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
@@ -15,7 +16,7 @@ import { supabase } from "../supabase";
 import { showNotification } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
 import { Pagination } from "@mantine/core";
-
+import { Grid } from "@mantine/core";
 type Transaction = {
   id: number;
   id_user: string;
@@ -201,13 +202,11 @@ export default function Income() {
       });
     } else {
       showNotification({
-        title: editingTransactionId
-        ? "Success update"
-        : "Add new successfully",
+        title: editingTransactionId ? "Success update" : "Add new successfully",
         message: editingTransactionId
-        ? "The transaction has been updated."
-        : "Spending has been saved!",
-      color: "green",
+          ? "The transaction has been updated."
+          : "Spending has been saved!",
+        color: "green",
       });
       setAmount("");
       setNote("");
@@ -260,12 +259,174 @@ export default function Income() {
   };
 
   return (
+    // <div className="income-background">
+    //   <Header />
+    //   <div id="income-container">
+    //     <div className="income-container1"></div>
+    //     <div className="income-container2">
+    //       <div id="income-text">
+    //           <TextInput
+    //             id="search-input"
+    //             mb="md"
+    //             leftSection={<IconSearch size={16} stroke={1.5} />}
+    //             placeholder="Search transactions"
+    //             value={search}
+    //             onChange={handleSearch}
+    //           />
+    //           <Table
+    //             id="transaction-table"
+    //             horizontalSpacing="md"
+    //             verticalSpacing="xs"
+    //             miw={700}
+    //             layout="fixed"
+    //           >
+    //             <Table.Tbody id="transaction-tablethead">
+    //               <Table.Tr id="transaction-tabletr">
+    //                 <Table.Td>Catelogies</Table.Td>
+    //                 <Table.Td>Date</Table.Td>
+    //                 <Table.Td>Amount</Table.Td>
+    //                 <Table.Td>Note</Table.Td>
+    //               </Table.Tr>
+    //             </Table.Tbody>
+    //           </Table>
+    //           <Table id="transaction-table-content">
+    //             <Table.Tbody>
+    //               {transactions.length > 0 ? (
+    //                 sortedTransactions.map((transaction) => (
+    //                   <Table.Tr
+    //                     key={transaction.id_user}
+    //                     onClick={() => handleRowClick(transaction)}
+    //                   >
+    //                     <Table.Td>
+    //                       <Text style={{ position: "absolute" }}>
+    //                         {transaction.categories?.name ?? "Unknown Category"}
+    //                       </Text>
+    //                     </Table.Td>
+    //                     <Table.Td>
+    //                       <Text>{transaction.date}</Text>
+    //                     </Table.Td>
+    //                     <Table.Td>
+    //                       <Text>
+    //                         {transaction.amount}
+    //                         <span> $</span>
+    //                       </Text>
+    //                     </Table.Td>
+    //                     <Table.Td>
+    //                       <Text>{transaction.note}</Text>
+    //                     </Table.Td>
+    //                   </Table.Tr>
+    //                 ))
+    //               ) : (
+    //                 <Table.Tr id="transaction-text">
+    //                   <Table.Td colSpan={4}>
+    //                     <Text>
+    //                       There isn’t any transaction recorded for this period
+    //                       yet.
+    //                     </Text>
+    //                   </Table.Td>
+    //                 </Table.Tr>
+    //               )}
+    //             </Table.Tbody>
+    //           </Table>
+    //       </div>
+    //       {transactions.length > 0 && (
+    //             <div id="pagination-container">
+    //               <Pagination
+    //                 value={activePage}
+    //                 onChange={setPage}
+    //                 total={totalPages}
+    //                 size="xs"
+    //                 color="69 196 190 0.26"
+    //                 radius="md"
+    //               />
+    //             </div>
+    //           )}
+    //     </div>
+    //     <div className="income-container3">
+    //       <h1>INCOME</h1>
+    //       <form
+    //         id="income-form"
+    //         onSubmit={(e) => {
+    //           e.preventDefault();
+    //         }}
+    //       >
+    //         <div id="income-form-content">
+    //           <div id="income-title">
+    //             <Select
+    //               id="income-select-category"
+    //               placeholder={"Categories"}
+    //               data={categories}
+    //               value={selectedCategory}
+    //               onChange={setSelectedCategory}
+    //               clearable
+    //               searchable
+    //             ></Select>
+    //             <DateInput
+    //               id="income-date"
+    //               size="sm"
+    //               placeholder="Date"
+    //               valueFormat="DD/MM/YYYY"
+    //               value={date}
+    //               onChange={setDate}
+    //               popoverProps={{
+    //                 withinPortal: true,
+    //               }}
+    //             />
+    //             <TextInput
+    //               type="number"
+    //               id="income-amount"
+    //               placeholder="Amount"
+    //               value={amount}
+    //               onChange={(e) => setAmount(e.target.value.trim())}
+    //             ></TextInput>
+    //             <Textarea
+    //               id="income-note"
+    //               placeholder="Note"
+    //               value={note}
+    //               onChange={(e) => setNote(e.target.value)}
+    //             ></Textarea>
+    //           </div>
+    //           <div id="income-form-button">
+    //             {transactions.length > 0 ? (
+    //             <Button
+    //               type="button"
+    //               id="income-delete-button"
+    //               onClick={handleDelete}
+    //             >
+    //               Delete
+    //             </Button>
+    //             ): null}
+    //             <Button
+    //               type="button"
+    //               id="income-save-button"
+    //               onClick={handleSaveOrUpdate}
+    //             >
+    //               {editingTransactionId ? "Update" : "Save"}
+    //             </Button>
+    //           </div>
+    //         </div>
+    //       </form>
+    //     </div>
+    //   </div>
+    // </div>
+
     <div className="income-background">
       <Header />
       <div id="income-container">
-        <div className="income-container1"></div>
-        <div className="income-container2">
-          <div id="income-text">
+        {/* <div className="income-notification">
+          <Notifications position="bottom-right" zIndex={300} />
+        </div> */}
+        <Group
+          style={{
+            height: "70vh",
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "flex-end",
+          }}
+        >
+          <div id="income-container2">
+            <div id="income-text">
+              {/* <ScrollArea id="transaction-table-container"> */}
               <TextInput
                 id="search-input"
                 mb="md"
@@ -309,7 +470,7 @@ export default function Income() {
                         <Table.Td>
                           <Text>
                             {transaction.amount}
-                            <span> $</span>
+                            <span style={{ position: "absolute" }}> $</span>
                           </Text>
                         </Table.Td>
                         <Table.Td>
@@ -329,20 +490,22 @@ export default function Income() {
                   )}
                 </Table.Tbody>
               </Table>
+            </div>
+            {transactions.length > 0 && (
+              <div id="pagination-container">
+                <Pagination
+                  value={activePage}
+                  onChange={setPage}
+                  total={totalPages}
+                  size="xs"
+                  color="69 196 190 0.26"
+                  radius="md"
+                />
+              </div>
+            )}
           </div>
-          {transactions.length > 0 && (
-                <div id="pagination-container">     
-                  <Pagination
-                    value={activePage}
-                    onChange={setPage}
-                    total={totalPages}
-                    size="xs"
-                    color="69 196 190 0.26"
-                    radius="md"
-                  />
-                </div>
-              )}
-        </div>
+          <div className="income-container1"></div>
+        </Group>
         <div className="income-container3">
           <h1>INCOME</h1>
           <form
@@ -388,7 +551,6 @@ export default function Income() {
                 ></Textarea>
               </div>
               <div id="income-form-button">
-                {transactions.length > 0 ? (
                 <Button
                   type="button"
                   id="income-delete-button"
@@ -396,7 +558,6 @@ export default function Income() {
                 >
                   Delete
                 </Button>
-                ): null}
                 <Button
                   type="button"
                   id="income-save-button"

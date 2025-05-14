@@ -6,6 +6,7 @@ import { Avatar, Group } from "@mantine/core";
 import { supabase } from "../supabase"; // Đường dẫn đến tệp supabase.ts
 import { Popover, Paper, Box } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+import { Container, Grid } from "@mantine/core";
 export function Header() {
   if (typeof window === "undefined") return null;
   const navigate = useNavigate();
@@ -97,151 +98,141 @@ export function Header() {
   const handleExpenses = () =>
     handleNotifications("/expenses", "Please login to access Expenses");
   return (
-    <div className="header-background">
-      <div className="home-header-container">
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/18083109a25a67b4d19a5291268bdd2c91ef258e"
-          className="home-logo"
-          alt="My Money"
-        />
-        <nav className="home-navigation">
-          <Button
-            styles={{
-              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
-            }}
-            variant="white"
-            color="Black"
-            size="md"
-            radius="xl"
-            className="home-nav-item"
-            onClick={() => navigate("/")}
-          >
-            HOME
-          </Button>
-          <Button
-            styles={{
-              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
-            }}
-            variant="white"
-            color="Black"
-            size="md"
-            radius="xl"
-            className="home-nav-item"
-            onClick={() => handleIncome()}
-          >
-            INCOME
-          </Button>
-          <Button
-            styles={{
-              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
-            }}
-            variant="white"
-            color="Black"
-            size="md"
-            radius="xl"
-            className="home-nav-item"
-            onClick={() => handleExpenses()}
-          >
-            EXPENSES
-          </Button>
-          <Button
-            styles={{
-              label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
-            }}
-            variant="white"
-            color="Black"
-            size="md"
-            radius="xl"
-            className="home-nav-item"
-            onClick={() => handleDataReport()}
-          >
-            DATA REPORT
-          </Button>
-        </nav>
-        <div className="home-login-container">
-          <Popover
-            id="popover"
-            width={200}
-            opened={opened}
-            onChange={setOpened}
-            position="bottom"
-            withArrow
-            shadow="md"
-          >
-            <Popover.Target>
-              <Avatar
-                id="avatar"
-                src={avatar}
-                alt="User Avatar"
-                color="black"
-                radius="xl"
-                onMouseEnter={() => setOpened(true)}
-                onMouseLeave={() => setOpened(false)}
-                style={{ cursor: "pointer", backgroundColor: "white" }}
-              />
-            </Popover.Target>
-            <Popover.Dropdown
-              id="popover-dropdown"
+    <Container fluid className="header-background" px="lg" py="sm">
+  <Grid align="center" justify="space-between" className="home-header-container">
+    {/* Logo */}
+    <Grid.Col span="content">
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/18083109a25a67b4d19a5291268bdd2c91ef258e"
+        className="home-logo"
+        alt="My Money"
+        style={{ height: "50px" }}
+      />
+    </Grid.Col>
+
+    {/* Navigation */}
+    <Grid.Col span="auto"
+      style={{ display: "flex", justifyContent: "center" }}>
+      <Group p="center" className="home-navigation"
+        style={{ display: "flex", justifyContent: "space-between",alignContent: "center" }}>
+        <Button
+          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
+          variant="white"
+          color="black"
+          size="md"
+          radius="xl"
+          className="home-nav-item"
+          onClick={() => navigate("/")}
+        >
+          HOME
+        </Button>
+        <Button
+          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
+          variant="white"
+          color="black"
+          size="md"
+          radius="xl"
+          className="home-nav-item"
+          onClick={handleIncome}
+        >
+          INCOME
+        </Button>
+        <Button
+          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
+          variant="white"
+          color="black"
+          size="md"
+          radius="xl"
+          className="home-nav-item"
+          onClick={handleExpenses}
+        >
+          EXPENSES
+        </Button>
+        <Button
+          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
+          variant="white"
+          color="black"
+          size="md"
+          radius="xl"
+          className="home-nav-item"
+          onClick={handleDataReport}
+        >
+          DATA REPORT
+        </Button>
+      </Group>
+    </Grid.Col>
+
+    {/* Avatar / Popover */}
+    <Grid.Col span="content">
+      <div className="home-login-container">
+        <Popover
+          width={200}
+          opened={opened}
+          onChange={setOpened}
+          position="bottom"
+          withArrow
+          shadow="md"
+        >
+          <Popover.Target>
+            <Avatar
+              src={avatar}
+              alt="User Avatar"
+              color="black"
+              radius="xl"
               onMouseEnter={() => setOpened(true)}
               onMouseLeave={() => setOpened(false)}
-            >
-              {userId ? (
-                <>
-                  <Paper shadow="sm" radius="md" p="md" id="paper">
-                    <Group align="bottom-left">
-                      <Avatar
-                        style={{ display: "flex", justifyContent: "center" }}
-                        src={avatar}
-                        radius="xl"
-                        size="md"
-                      />
-                      <Box>
-                        <Text fw={500} size="sm">
-                          {username || "Loading..."}
-                        </Text>
-                        <Text size="xs" c="dimmed">
-                          {email || "Loading..."}
-                        </Text>
-                      </Box>
-                    </Group>
-                  </Paper>
-                  <Button
-                    id="profile-button"
-                    variant="subtle"
-                    component={Link}
-                    to="/profile"
-                    fullWidth
-                    mt="sm"
-                  >
-                    Profile
-                    <IconChevronRight size={16} style={{ marginLeft: 5 }} />
-                  </Button>
-                  <Button
-                    id="logout-button"
-                    variant="subtle"
-                    component="button"
-                    onClick={handleLogout}
-                    fullWidth
-                    mt="sm"
-                  >
-                    Log out
-                  </Button>
-                </>
-              ) : (
+              style={{ cursor: "pointer", backgroundColor: "white" }}
+            />
+          </Popover.Target>
+          <Popover.Dropdown
+            onMouseEnter={() => setOpened(true)}
+            onMouseLeave={() => setOpened(false)}
+          >
+            {userId ? (
+              <>
+                <Paper shadow="sm" radius="md" p="md">
+                  <Group align="bottom-left">
+                    <Avatar src={avatar} radius="xl" size="md" />
+                    <Box>
+                      <Text fw={500} size="sm">{username || "Loading..."}</Text>
+                      <Text size="xs" c="dimmed">{email || "Loading..."}</Text>
+                    </Box>
+                  </Group>
+                </Paper>
                 <Button
-                  id="login-button"
                   variant="subtle"
-                  component="button"
-                  onClick={handleLogin}
+                  component={Link}
+                  to="/profile"
                   fullWidth
+                  mt="sm"
                 >
-                  Log in
+                  Profile <IconChevronRight size={16} style={{ marginLeft: 5 }} />
                 </Button>
-              )}
-            </Popover.Dropdown>
-          </Popover>
-        </div>
+                <Button
+                  variant="subtle"
+                  onClick={handleLogout}
+                  fullWidth
+                  mt="sm"
+                  style={{ backgroundColor: "red", color: "white" }}
+                >
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="subtle"
+                onClick={handleLogin}
+                fullWidth
+              >
+                Log in
+              </Button>
+            )}
+          </Popover.Dropdown>
+        </Popover>
       </div>
-    </div>
+    </Grid.Col>
+  </Grid>
+</Container>
+
   );
 }

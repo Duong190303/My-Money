@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import { Header } from "./Header";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -27,10 +27,8 @@ export function Home() {
   return (
     <div className="home-background">
       <Header />
-
-      <div className="coin-bg"> </div>
-      <div className="elip-bg-right"> </div>
-      <div className="elip-bg-left"> </div>
+<Group p="center">
+      
       <div className="Tittle-01 title">
         {" "}
         <h1>
@@ -55,6 +53,8 @@ export function Home() {
           Start with MyMoney
         </Button>
       )}
+      <div className="coin-bg"> </div>
+    </Group>
     </div>
   );
 }
