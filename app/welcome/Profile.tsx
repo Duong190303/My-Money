@@ -178,7 +178,7 @@ useEffect(() => {
 
 
   return (
-    <BackgroundImage id="background-image" src="/public/Income-background.png">
+    <BackgroundImage id="background-image" src="/public/Income-background.png" >
       <Header />
       <Center>
         <Container>
