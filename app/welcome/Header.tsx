@@ -184,7 +184,7 @@ export function Header() {
               style={{ cursor: "pointer", backgroundColor: "white" }}
             />
           </Popover.Target>
-          <Popover.Dropdown
+          <Popover.Dropdown style={{ width: "30vh" }}
             onMouseEnter={() => setOpened(true)}
             onMouseLeave={() => setOpened(false)}
           >

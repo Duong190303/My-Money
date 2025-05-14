@@ -1,5 +1,4 @@
 #background-image {
-  /* background-image: url(/public/Income-background.png); */
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -7,17 +6,30 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  background: linear-gradient(59deg, #177D82, #3CA6A5, #ebfffd);
+
 }
-#profile-container{
+
+#profile-container {
   display: flex;
   flex-direction: row;
   gap: 10px;
 
 }
-#profile-stack {
-background-color: none;
+
+#profile-stack, #profile-stack-update {
+  background-color: #5bb3b3;
 }
-#username , #avatar {
+
+#profile-box {
+  background-color: #5bb3b3;
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 1);
+}
+
+#username,
+#avatar {
   font-size: 18px;
   width: 40vh;
 }
@@ -27,6 +39,7 @@ background-color: none;
   transform: scale(1.05);
   transition: transform 0.2s ease-in-out;
 }
+
 #username:hover {
   cursor: pointer;
   transform: scale(1.05);

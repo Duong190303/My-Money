@@ -1,6 +1,5 @@
 import {
   Avatar,
-  BackgroundImage,
   Box,
   Button,
   Center,
@@ -178,12 +177,12 @@ useEffect(() => {
 
 
   return (
-    <BackgroundImage id="background-image" src="/public/Income-background.png" >
+    <div id="background-image"  >
       <Header />
       <Center>
         <Container>
           <Box
-            bg="#289F99"
+            id="profile-box"
             w={500}
             mx="auto"
             p="xl"
@@ -198,7 +197,7 @@ useEffect(() => {
             }}
           >
             {isEditing ? (
-              <Stack align="center" bg={"#289F99"}>
+              <Stack align="center"  id="profile-stack">
                 <Avatar
                   src={avatarPreview || profile?.avatar_url}
                   radius="xl"
@@ -230,7 +229,7 @@ useEffect(() => {
                 </Group>
               </Stack>
             ) : (
-              <Stack align="center" id="profile-stack" bg={"#289F99"}>
+              <Stack align="center" id="profile-stack-update" >
                 <Avatar src={profile?.avatar_url} radius="xl" size="xl" />
                 <Title order={3}>Profile</Title>
                 <Container id="profile-container" p={0} mt="md">
@@ -277,6 +276,6 @@ useEffect(() => {
           </Box>
         </Container>
       </Center>
-    </BackgroundImage>
+    </div>
   );
 }
