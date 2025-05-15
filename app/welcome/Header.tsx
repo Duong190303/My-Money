@@ -37,25 +37,25 @@ export function Header() {
         if (error) {
           console.error("No User!", error.message);
         } else if (data) {
-          setUsername(data.user_name);
-          setEmail(data.email);
+          // setEmail(data.email);
           setAvatar(data.avatar_url || "https://cdn.builder.io/api/v1/image/assets/TEMP/79bd5203f63e2a5e79bf3c947570b8ed31965494"); // Lấy avatar từ bảng users);
         }
         // Ưu tiên user_name (từ đăng ký thường), sau đó full_name / name (Google), cuối cùng dùng phần đầu email
-        // const fallbackUsername =
-        //   user.user_metadata.user_name ||
-        //   user.user_metadata.full_name ||
-        //   user.user_metadata.name ||
-        //   user.email?.split("@")[0] || // phần trước @ trong email
-        //   "anonymous";
+        const fallbackUsername =
+          user.user_metadata.user_name ||
+          user.user_metadata.full_name ||
+          user.user_metadata.name ||
+          user.email?.split("@")[0] || // phần trước @ trong email
+          "anonymous";
 
-      //   setUsername(fallbackUsername);
-      //   setEmail(user.email ?? "");
-      //   setAvatar(
-      //     user.user_metadata.avatar_url ||
-      //       "https://cdn.builder.io/api/v1/image/assets/TEMP/79bd5203f63e2a5e79bf3c947570b8ed31965494"
-      //   ); // Lấy avatar từ user metadata
-      // } 
+        setUsername(fallbackUsername);
+        setEmail(user.email ?? "");
+        // setAvatar(
+        //   user.user_metadata.avatar_url ||
+        //     "https://cdn.builder.io/api/v1/image/assets/TEMP/79bd5203f63e2a5e79bf3c947570b8ed31965494"
+        // ); // Lấy avatar từ user metadata
+
+      
       } else {
         setUserId(null);
         setUsername("");
