@@ -99,7 +99,50 @@ export default function Profile() {
   // useEffect(() => {
   //   fetchProfile();
   // }, []);
-  const fetchProfile = async () => {
+//   const fetchProfile = async () => {
+//   setIsLoading(true);
+
+//   const {
+//     data: { user },
+//     error: authError,
+//   } = await supabase.auth.getUser();
+
+//   if (authError || !user) {
+//     console.error("Lỗi lấy thông tin user:", authError);
+//     setIsLoading(false);
+//     return;
+//   }
+
+//   setUser(user);
+
+//   const { data, error } = await supabase
+//     .from("users")
+//     .select("id, user_name, email, avatar_url")
+//     .eq("id", user.id)
+//     .single();
+
+//   if (error || !data) {
+//     console.error("Lỗi lấy thông tin profile từ bảng users:", error);
+//     setIsLoading(false);
+//     return;
+//   }
+
+//   // Gán avatar mặc định nếu chưa có
+//   const avatarUrl = data.avatar_url || "default-avatar.png";
+
+//   setProfile({
+//     id: data.id,
+//     user_name: data.user_name || "No username",
+//     email: data.email || "No email",
+//     avatar_url: avatarUrl,
+//     avatar_file: null,
+//   });
+
+//   setUsername(data.user_name || "");
+//   setAvatarPreview(avatarUrl);
+//   setIsLoading(false);
+// };
+const fetchProfile = async () => {
   setIsLoading(true);
 
   const {
@@ -122,85 +165,66 @@ export default function Profile() {
     .single();
 
   if (error || !data) {
-    console.error("Lỗi lấy thông tin profile từ bảng users:", error);
+    console.error("Lỗi lấy thông tin profile:", error);
     setIsLoading(false);
     return;
   }
 
-  // Gán avatar mặc định nếu chưa có
-  const avatarUrl = data.avatar_url || "default-avatar.png";
-
   setProfile({
     id: data.id,
-    user_name: data.user_name || "No username",
-    email: data.email || "No email",
-    avatar_url: avatarUrl,
+    user_name: data.user_name,
+    email: data.email,
+    avatar_url: data.avatar_url || "default-avatar.png",
     avatar_file: null,
   });
 
-  setUsername(data.user_name || "");
-  setAvatarPreview(avatarUrl);
+  setUsername(data.user_name);
+  setAvatarPreview(data.avatar_url || "default-avatar.png");
   setIsLoading(false);
 };
+
   useEffect(() => {
     fetchProfile();
   }, []);
+
   // const handleUpdate = async () => {
-  // if (!profile || !user) return;
+  //   if (!profile || !user) return;
 
-  // setIsLoading(true); // Optional: hiển thị loading
+  //   setIsLoading(true);
 
-  // let avatar_url = profile.avatar_url;
+  //   let avatar_url = profile.avatar_url;
 
-  // 1. Upload avatar file nếu có
-  // if (avatarFile) {
-  //   const fileExt = avatarFile.name.split(".").pop();
-  //   const filePath = `avatars/${user.id}.${fileExt}`;
+  //   // 1. Upload file nếu có chọn avatar mới
+  //   if (avatarFile) {
+  //     const fileExt = avatarFile.name.split(".").pop();
+  //     const filePath = `avatars/${user.id}.${fileExt}`;
 
-  //   const { error: uploadError } = await supabase.storage
-  //     .from("avatar")
-  //     .upload(filePath, avatarFile, {
-  //       upsert: true,
-  //       cacheControl: "3600",
-  //     });
+  //     const { error: uploadError } = await supabase.storage
+  //       .from("avatar")
+  //       .upload(filePath, avatarFile, {
+  //         upsert: true,
+  //         cacheControl: "3600",
+  //       });
 
-  //   if (uploadError) {
-  //     Notifications.show({
-  //       title: "Upload failed",
-  //       message: uploadError.message,
-  //       color: "red",
-  //     });
-  //     setIsLoading(false);
-  //     return;
+  //     if (uploadError) {
+  //       Notifications.show({
+  //         title: "Upload failed",
+  //         message: uploadError.message,
+  //         color: "red",
+  //       });
+  //       setIsLoading(false);
+  //       return;
+  //     }
+
+  //     // Lấy public URL
+  //     const { data: publicUrlData } = supabase.storage
+  //       .from("avatar")
+  //       .getPublicUrl(filePath);
+
+  //     avatar_url = publicUrlData.publicUrl;
   //   }
 
-  //   // 2. Lấy public URL của avatar
-  //   const { data: publicUrlData } = supabase.storage
-  //     .from("avatar")
-  //     .getPublicUrl(filePath);
-
-  //   avatar_url = publicUrlData.publicUrl;
-  // }
-
-  //   // 3. Cập nhật user auth metadata
-  //   const { error: updateAuthError } = await supabase.auth.updateUser({
-  //     data: {
-  //       user_name: username,
-  //       avatar_url: avatar_url,
-  //     },
-  //   });
-
-  //   if (updateAuthError) {
-  //     Notifications.show({
-  //       title: "Update failed",
-  //       message: updateAuthError.message,
-  //       color: "red",
-  //     });
-  //     setIsLoading(false);
-  //     return;
-  //   }
-
-  //   // 4. Cập nhật user DB record
+  //   // 2. Cập nhật bảng users
   //   const { error: updateDbError } = await supabase
   //     .from("users")
   //     .update({
@@ -212,7 +236,7 @@ export default function Profile() {
   //   if (updateDbError) {
   //     console.error("Lỗi cập nhật DB:", updateDbError);
   //     Notifications.show({
-  //       title: "Database Update Failed",
+  //       title: "Cập nhật thất bại",
   //       message: updateDbError.message,
   //       color: "red",
   //     });
@@ -220,84 +244,55 @@ export default function Profile() {
   //     return;
   //   }
 
-  //   // 5. Thành công
   //   Notifications.show({
-  //     title: "Success",
-  //     message: "Profile updated successfully!",
+  //     title: "Thành công",
+  //     message: "Cập nhật hồ sơ thành công!",
   //     color: "green",
   //   });
 
   //   setIsEditing(false);
-  //   fetchProfile();
+  //   fetchProfile(); // reload lại thông tin
   //   setIsLoading(false);
   // };
-  const handleUpdate = async () => {
-    if (!profile || !user) return;
+const handleUpdate = async () => {
+  if (!profile || !user) return;
 
-    setIsLoading(true);
+  setIsLoading(true);
 
-    let avatar_url = profile.avatar_url;
+  const avatar_url = avatarPreview || profile.avatar_url || "default-avatar.png";
 
-    // 1. Upload file nếu có chọn avatar mới
-    if (avatarFile) {
-      const fileExt = avatarFile.name.split(".").pop();
-      const filePath = `avatars/${user.id}.${fileExt}`;
+  const { error: updateDbError } = await supabase
+    .from("users")
+    .update({
+      user_name: username,
+      avatar_url: avatar_url,
+    })
+    .eq("id", user.id);
 
-      const { error: uploadError } = await supabase.storage
-        .from("avatar")
-        .upload(filePath, avatarFile, {
-          upsert: true,
-          cacheControl: "3600",
-        });
-
-      if (uploadError) {
-        Notifications.show({
-          title: "Upload failed",
-          message: uploadError.message,
-          color: "red",
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      // Lấy public URL
-      const { data: publicUrlData } = supabase.storage
-        .from("avatar")
-        .getPublicUrl(filePath);
-
-      avatar_url = publicUrlData.publicUrl;
-    }
-
-    // 2. Cập nhật bảng users
-    const { error: updateDbError } = await supabase
-      .from("users")
-      .update({
-        user_name: username,
-        avatar_url: avatar_url,
-      })
-      .eq("id", user.id);
-
-    if (updateDbError) {
-      console.error("Lỗi cập nhật DB:", updateDbError);
-      Notifications.show({
-        title: "Cập nhật thất bại",
-        message: updateDbError.message,
-        color: "red",
-      });
-      setIsLoading(false);
-      return;
-    }
-
+  if (updateDbError) {
+    console.error("Lỗi cập nhật DB:", updateDbError);
     Notifications.show({
-      title: "Thành công",
-      message: "Cập nhật hồ sơ thành công!",
-      color: "green",
+      title: "Database Update Failed",
+      message: updateDbError.message,
+      color: "red",
     });
-
-    setIsEditing(false);
-    fetchProfile(); // reload lại thông tin
     setIsLoading(false);
-  };
+    return;
+  }
+
+  Notifications.show({
+    title: "Success",
+    message: "Profile updated successfully!",
+    color: "green",
+  });
+
+  setIsEditing(false);
+  fetchProfile();
+  setIsLoading(false);
+};
+//load lại trang khi update thành công
+
+  
 
   const handleFileChange = (file: File | null) => {
     if (file) {
@@ -311,7 +306,7 @@ export default function Profile() {
       navigate("/");
     }
   }, [isLoading, user]);
-
+    
   return (
     <div id="background-image">
   <Header />
