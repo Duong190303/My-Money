@@ -52,6 +52,52 @@ export default function Profile() {
     return () => authListener.subscription.unsubscribe();
   }, []);
 
+  // const fetchProfile = async () => {
+  //   setIsLoading(true);
+
+  //   const {
+  //     data: { user },
+  //     error: authError,
+  //   } = await supabase.auth.getUser();
+
+  //   if (authError || !user) {
+  //     console.error("Lỗi lấy thông tin user:", authError);
+  //     setIsLoading(false);
+  //     return;
+  //   }
+
+  //   setUser(user);
+
+  //   const { data, error } = await supabase
+  //     .from("users")
+  //     .select("id, user_name, email, avatar_url")
+  //     .eq("id", user.id)
+  //     .single();
+
+  //   if (error || !data) {
+  //     console.error("Lỗi lấy thông tin profile:", error);
+  //     setIsLoading(false);
+  //     return;
+  //   }
+
+  //   const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
+
+  //   setProfile({
+  //     id: data.id,
+  //     user_name: data.user_name,
+  //     email: data.email,
+  //     avatar_url: data.avatar_url || "default-avatar.png",
+  //     avatar_file: null,
+  //   });
+
+  //   setUsername(data.user_name);
+  //   setAvatarPreview(avatar_url);
+  //   setIsLoading(false);
+  // };
+
+  // useEffect(() => {
+  //   fetchProfile();
+  // }, []);
   const fetchProfile = async () => {
     setIsLoading(true);
 
@@ -70,7 +116,7 @@ export default function Profile() {
 
     const { data, error } = await supabase
       .from("users")
-      .select("id, user_name, email")
+      .select("id, user_name, email, avatar_url")
       .eq("id", user.id)
       .single();
 
@@ -80,24 +126,19 @@ export default function Profile() {
       return;
     }
 
-    const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
-
     setProfile({
       id: data.id,
       user_name: data.user_name,
       email: data.email,
-      avatar_url,
+      avatar_url: data.avatar_url || "default-avatar.png",
       avatar_file: null,
     });
 
     setUsername(data.user_name);
-    setAvatarPreview(avatar_url);
+    setAvatarPreview(data.avatar_url || "default-avatar.png"); // ✅ sửa tại đây
     setIsLoading(false);
   };
 
-    useEffect(() => {
-    fetchProfile();
-  }, []);
   const handleUpdate = async () => {
     if (!profile || !user) return;
 
@@ -136,7 +177,7 @@ export default function Profile() {
 
     const { error } = await supabase
       .from("users")
-      .update({ user_name: username })
+      .update({ user_name: username, avatar_url: avatar_url })
       .eq("id", user.id);
 
     if (error) {
@@ -169,15 +210,15 @@ export default function Profile() {
       setAvatarPreview(URL.createObjectURL(file));
     }
   };
-//chuyển về trang chủ khi ở trạng thái không có user
-useEffect(() => {
-  if (!isLoading && !user) {
-    navigate("/");}
-}, [isLoading, user]);
-
+  //chuyển về trang chủ khi ở trạng thái không có user
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate("/");
+    }
+  }, [isLoading, user]);
 
   return (
-    <div id="background-image"  >
+    <div id="background-image">
       <Header />
       <Center>
         <Container>
@@ -197,12 +238,13 @@ useEffect(() => {
             }}
           >
             {isEditing ? (
-              <Stack align="center"  id="profile-stack">
+              <Stack align="center" id="profile-stack">
                 <Avatar
-                  src={avatarPreview || profile?.avatar_url}
+                  src={avatarPreview || "default-avatar.png"}
                   radius="xl"
                   size="xl"
                 />
+
                 <TextInput
                   id="username"
                   label="Username"
@@ -229,8 +271,12 @@ useEffect(() => {
                 </Group>
               </Stack>
             ) : (
-              <Stack align="center" id="profile-stack-update" >
-                <Avatar src={profile?.avatar_url} radius="xl" size="xl" />
+              <Stack align="center" id="profile-stack-update">
+                <Avatar
+                  src={profile?.avatar_url || "default-avatar.png"}
+                  radius="xl"
+                  size="xl"
+                />
                 <Title order={3}>Profile</Title>
                 <Container id="profile-container" p={0} mt="md">
                   <ThemeIcon
