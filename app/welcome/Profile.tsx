@@ -37,6 +37,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   if (typeof window === "undefined") return null;
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -52,52 +53,6 @@ export default function Profile() {
     return () => authListener.subscription.unsubscribe();
   }, []);
 
-  // const fetchProfile = async () => {
-  //   setIsLoading(true);
-
-  //   const {
-  //     data: { user },
-  //     error: authError,
-  //   } = await supabase.auth.getUser();
-
-  //   if (authError || !user) {
-  //     console.error("Lỗi lấy thông tin user:", authError);
-  //     setIsLoading(false);
-  //     return;
-  //   }
-
-  //   setUser(user);
-
-  //   const { data, error } = await supabase
-  //     .from("users")
-  //     .select("id, user_name, email, avatar_url")
-  //     .eq("id", user.id)
-  //     .single();
-
-  //   if (error || !data) {
-  //     console.error("Lỗi lấy thông tin profile:", error);
-  //     setIsLoading(false);
-  //     return;
-  //   }
-
-  //   const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
-
-  //   setProfile({
-  //     id: data.id,
-  //     user_name: data.user_name,
-  //     email: data.email,
-  //     avatar_url: data.avatar_url || "default-avatar.png",
-  //     avatar_file: null,
-  //   });
-
-  //   setUsername(data.user_name);
-  //   setAvatarPreview(avatar_url);
-  //   setIsLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   fetchProfile();
-  // }, []);
   const fetchProfile = async () => {
     setIsLoading(true);
 
@@ -126,6 +81,8 @@ export default function Profile() {
       return;
     }
 
+    const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
+
     setProfile({
       id: data.id,
       user_name: data.user_name,
@@ -135,74 +92,100 @@ export default function Profile() {
     });
 
     setUsername(data.user_name);
-    setAvatarPreview(data.avatar_url || "default-avatar.png"); // ✅ sửa tại đây
+    setAvatarPreview(avatar_url);
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
   const handleUpdate = async () => {
-    if (!profile || !user) return;
+  if (!profile || !user) return;
 
-    let avatar_url = profile.avatar_url;
+  setIsLoading(true); // Optional: hiển thị loading
 
-    if (avatarFile) {
-      const fileExt = avatarFile.name.split(".").pop();
-      const filePath = `avatars/${user.id}.${fileExt}`;
+  let avatar_url = profile.avatar_url;
 
-      const { error: uploadError } = await supabase.storage
-        .from("avatar")
-        .upload(filePath, avatarFile, {
-          upsert: true,
-          cacheControl: "3600",
-        });
+  // 1. Upload avatar file nếu có
+  if (avatarFile) {
+    const fileExt = avatarFile.name.split(".").pop();
+    const filePath = `avatars/${user.id}.${fileExt}`;
 
-      if (uploadError) {
-        Notifications.show({
-          title: "Upload failed",
-          message: uploadError.message,
-          color: "red",
-        });
-        return;
-      }
+    const { error: uploadError } = await supabase.storage
+      .from("avatar")
+      .upload(filePath, avatarFile, {
+        upsert: true,
+        cacheControl: "3600",
+      });
 
-      const { data } = supabase.storage.from("avatar").getPublicUrl(filePath);
-      avatar_url = data.publicUrl;
-    }
-
-    const { error: updateError } = await supabase.auth.updateUser({
-      data: {
-        user_name: username,
-        avatar_url: avatar_url,
-      },
-    });
-
-    const { error } = await supabase
-      .from("users")
-      .update({ user_name: username, avatar_url: avatar_url })
-      .eq("id", user.id);
-
-    if (error) {
-      console.error("Lỗi cập nhật username:", error);
-    }
-
-    if (updateError) {
+    if (uploadError) {
       Notifications.show({
-        title: "Update failed",
-        message: updateError.message,
+        title: "Upload failed",
+        message: uploadError.message,
         color: "red",
       });
+      setIsLoading(false);
       return;
     }
 
-    Notifications.show({
-      title: "Success",
-      message: "Profile updated",
-      color: "green",
-    });
+    // 2. Lấy public URL của avatar
+    const { data: publicUrlData } = supabase.storage
+      .from("avatar")
+      .getPublicUrl(filePath);
 
-    setIsEditing(false);
-    fetchProfile();
-    // navigate("/");
-  };
+    avatar_url = publicUrlData.publicUrl;
+  }
+
+  // 3. Cập nhật user auth metadata
+  const { error: updateAuthError } = await supabase.auth.updateUser({
+    data: {
+      user_name: username,
+      avatar_url: avatar_url,
+    },
+  });
+
+  if (updateAuthError) {
+    Notifications.show({
+      title: "Update failed",
+      message: updateAuthError.message,
+      color: "red",
+    });
+    setIsLoading(false);
+    return;
+  }
+
+  // 4. Cập nhật user DB record
+  const { error: updateDbError } = await supabase
+    .from("users")
+    .update({
+      user_name: username,
+      avatar_url: avatar_url,
+    })
+    .eq("id", user.id);
+
+  if (updateDbError) {
+    console.error("Lỗi cập nhật DB:", updateDbError);
+    Notifications.show({
+      title: "Database Update Failed",
+      message: updateDbError.message,
+      color: "red",
+    });
+    setIsLoading(false);
+    return;
+  }
+
+  // 5. Thành công
+  Notifications.show({
+    title: "Success",
+    message: "Profile updated successfully!",
+    color: "green",
+  });
+
+  setIsEditing(false);
+  fetchProfile();
+  setIsLoading(false);
+};
 
   const handleFileChange = (file: File | null) => {
     if (file) {
@@ -218,7 +201,7 @@ export default function Profile() {
   }, [isLoading, user]);
 
   return (
-    <div id="background-image">
+        <div id="background-image"  >
       <Header />
       <Center>
         <Container>
@@ -238,13 +221,12 @@ export default function Profile() {
             }}
           >
             {isEditing ? (
-              <Stack align="center" id="profile-stack">
+              <Stack align="center"  id="profile-stack">
                 <Avatar
-                  src={avatarPreview || "default-avatar.png"}
+                  src={avatarPreview || profile?.avatar_url}
                   radius="xl"
                   size="xl"
                 />
-
                 <TextInput
                   id="username"
                   label="Username"
@@ -271,12 +253,8 @@ export default function Profile() {
                 </Group>
               </Stack>
             ) : (
-              <Stack align="center" id="profile-stack-update">
-                <Avatar
-                  src={profile?.avatar_url || "default-avatar.png"}
-                  radius="xl"
-                  size="xl"
-                />
+              <Stack align="center" id="profile-stack-update" >
+                <Avatar src={profile?.avatar_url} radius="xl" size="xl" />
                 <Title order={3}>Profile</Title>
                 <Container id="profile-container" p={0} mt="md">
                   <ThemeIcon

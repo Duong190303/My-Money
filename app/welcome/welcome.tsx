@@ -55,7 +55,7 @@ export function Home() {
         )}
 
           <img className="coin-bg"
-            src="/shiny-coins-loop.gif"
+            src="/icon.gif"
             alt="coin"
           />
       </Group>
