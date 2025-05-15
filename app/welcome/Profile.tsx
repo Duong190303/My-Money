@@ -37,6 +37,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   if (typeof window === "undefined") return null;
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -80,8 +81,7 @@ export default function Profile() {
       return;
     }
 
-    // const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
-    const avatar_url = data.avatar_url || "default-avatar.png";
+    const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
 
     setProfile({
       id: data.id,
@@ -92,102 +92,101 @@ export default function Profile() {
     });
 
     setUsername(data.user_name);
-    // setAvatarPreview(avatar_url);
-    setAvatarPreview(data.avatar_url || "default-avatar.png");
-
+    setAvatarPreview(avatar_url);
     setIsLoading(false);
   };
 
   useEffect(() => {
     fetchProfile();
   }, []);
+  
 
   const handleUpdate = async () => {
-    if (!profile || !user) return;
+  if (!profile || !user) return;
 
-    setIsLoading(true); // Optional: hiển thị loading
+  setIsLoading(true); // Optional: hiển thị loading
 
-    let avatar_url = profile.avatar_url;
+  let avatar_url = profile.avatar_url;
 
-    // 1. Upload avatar file nếu có
-    if (avatarFile) {
-      const fileExt = avatarFile.name.split(".").pop();
-      const filePath = `avatars/${user.id}.${fileExt}`;
+  // 1. Upload avatar file nếu có
+  // if (avatarFile) {
+  //   const fileExt = avatarFile.name.split(".").pop();
+  //   const filePath = `avatars/${user.id}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from("avatar")
-        .upload(filePath, avatarFile, {
-          upsert: true,
-          cacheControl: "3600",
-        });
+  //   const { error: uploadError } = await supabase.storage
+  //     .from("avatar")
+  //     .upload(filePath, avatarFile, {
+  //       upsert: true,
+  //       cacheControl: "3600",
+  //     });
 
-      if (uploadError) {
-        Notifications.show({
-          title: "Upload failed",
-          message: uploadError.message,
-          color: "red",
-        });
-        setIsLoading(false);
-        return;
-      }
+  //   if (uploadError) {
+  //     Notifications.show({
+  //       title: "Upload failed",
+  //       message: uploadError.message,
+  //       color: "red",
+  //     });
+  //     setIsLoading(false);
+  //     return;
+  //   }
 
-      // 2. Lấy public URL của avatar
-      const { data: publicUrlData } = supabase.storage
-        .from("avatar")
-        .getPublicUrl(filePath);
+  //   // 2. Lấy public URL của avatar
+  //   const { data: publicUrlData } = supabase.storage
+  //     .from("avatar")
+  //     .getPublicUrl(filePath);
 
-      avatar_url = publicUrlData.publicUrl;
-    }
+  //   avatar_url = publicUrlData.publicUrl;
+  // }
 
-    // 3. Cập nhật user auth metadata
-    const { error: updateAuthError } = await supabase.auth.updateUser({
-      data: {
-        user_name: username,
-        // avatar_url: avatar_url,
-      },
-    });
+  // 3. Cập nhật user auth metadata
+  const { error: updateAuthError } = await supabase.auth.updateUser({
+    data: {
+      user_name: username,
+      avatar_url: avatar_url,
+    },
+  });
 
-    if (updateAuthError) {
-      Notifications.show({
-        title: "Update failed",
-        message: updateAuthError.message,
-        color: "red",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    // 4. Cập nhật user DB record
-    const { error: updateDbError } = await supabase
-      .from("users")
-      .update({
-        user_name: username,
-        avatar_url: avatar_url,
-      })
-      .eq("id", user.id);
-
-    if (updateDbError) {
-      console.error("Lỗi cập nhật DB:", updateDbError);
-      Notifications.show({
-        title: "Database Update Failed",
-        message: updateDbError.message,
-        color: "red",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    // 5. Thành công
+  if (updateAuthError) {
     Notifications.show({
-      title: "Success",
-      message: "Profile updated successfully!",
-      color: "green",
+      title: "Update failed",
+      message: updateAuthError.message,
+      color: "red",
     });
-
-    setIsEditing(false);
-    fetchProfile();
     setIsLoading(false);
-  };
+    return;
+  }
+
+  // 4. Cập nhật user DB record
+  const { error: updateDbError } = await supabase
+    .from("users")
+    .update({
+      user_name: username,
+      avatar_url: avatar_url,
+    })
+    .eq("id", user.id);
+
+  if (updateDbError) {
+    console.error("Lỗi cập nhật DB:", updateDbError);
+    Notifications.show({
+      title: "Database Update Failed",
+      message: updateDbError.message,
+      color: "red",
+    });
+    setIsLoading(false);
+    return;
+  }
+
+  // 5. Thành công
+  Notifications.show({
+    title: "Success",
+    message: "Profile updated successfully!",
+    color: "green",
+  });
+
+  setIsEditing(false);
+  fetchProfile();
+  setIsLoading(false);
+};
 
   const handleFileChange = (file: File | null) => {
     if (file) {
@@ -203,7 +202,7 @@ export default function Profile() {
   }, [isLoading, user]);
 
   return (
-    <div id="background-image">
+        <div id="background-image"  >
       <Header />
       <Center>
         <Container>
@@ -223,7 +222,7 @@ export default function Profile() {
             }}
           >
             {isEditing ? (
-              <Stack align="center" id="profile-stack">
+              <Stack align="center"  id="profile-stack">
                 <Avatar
                   src={avatarPreview || profile?.avatar_url}
                   radius="xl"
@@ -255,7 +254,7 @@ export default function Profile() {
                 </Group>
               </Stack>
             ) : (
-              <Stack align="center" id="profile-stack-update">
+              <Stack align="center" id="profile-stack-update" >
                 <Avatar src={profile?.avatar_url} radius="xl" size="xl" />
                 <Title order={3}>Profile</Title>
                 <Container id="profile-container" p={0} mt="md">
