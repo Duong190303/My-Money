@@ -16,6 +16,7 @@ import "../welcome/Style/Login.css";
 import { showNotification } from "@mantine/notifications";
 import { Form } from "react-router";
 import { Image } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 
 export function Login() {
   const [loading, setLoading] = useState(false);
@@ -63,7 +64,7 @@ export function Login() {
       });
 
       if (error || !data.user) {
-        showNotification({
+        Notifications.show({
           title: "Login failed",
           message: "Email or password incorrectly",
           color: "red",
@@ -86,7 +87,7 @@ export function Login() {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
       }
 
-      showNotification({
+      Notifications.show({
         title: "Login successfully",
         message: "Welcome to login",
         color: "teal",
@@ -113,41 +114,6 @@ const handleGoogleLogin = async () => {
     console.error("Error logging in:", error.message);
     return;
   }
-
-  // Đợi quá trình đăng nhập hoàn tất trước khi lấy thông tin user
-  setTimeout(async () => {
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-    
-    if (userError) {
-      console.error("Error getting user:", userError.message);
-      return;
-    }
-
-    const user = userData?.user;
-    if (!user) {
-      console.error("User data not found!");
-      return;
-    }
-
-    // Kiểm tra avatar có sẵn trong database
-    const { data: userInfo, error: userInfoError } = await supabase
-      .from("users")
-      .select("avatar_url")
-      .eq("id_user", user.id)
-      .single();
-
-    if (userInfoError) {
-      console.error("Error retrieving avatar:", userInfoError.message);
-    }
-
-    // Nếu user đã có avatar riêng, cập nhật vào Supabase để không bị ghi đè
-    if (userInfo?.avatar_url) {
-      localStorage.setItem("userAvatar", userInfo.avatar_url);
-    } else {
-      // Nếu chưa có avatar riêng, lưu avatar của Google nhưng KHÔNG ghi vào database
-      localStorage.setItem("userAvatar", user.user_metadata?.avatar_url || "");
-    }
-  }, 1000); // Delay để đảm bảo quá trình đăng nhập hoàn tất
 };
   const handleHomeClick = () => {
     window.location.href = "/"; // Chuyển đến trang chủ
@@ -167,7 +133,7 @@ const handleGoogleLogin = async () => {
 
       navigate("/"); // hoặc chuyển hướng tới trang xác nhận
     } catch (err: any) {
-      showNotification({
+      Notifications.show({
         title: "Register for failure",
         message: err.message || "Please try again",
         color: "red",
