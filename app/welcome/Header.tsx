@@ -28,20 +28,34 @@ export function Header() {
       } else if (user) {
         setUserId(user.id);
 
-        // Ưu tiên user_name (từ đăng ký thường), sau đó full_name / name (Google), cuối cùng dùng phần đầu email
-        const fallbackUsername =
-          user.user_metadata.user_name ||
-          user.user_metadata.full_name ||
-          user.user_metadata.name ||
-          user.email?.split("@")[0] || // phần trước @ trong email
-          "anonymous";
+        const { data, error } = await supabase
+          .from("users")
+          .select("id, user_name, email, avatar_url")
+          .eq("id", user.id)
+          .single();
 
-        setUsername(fallbackUsername);
-        setEmail(user.email ?? "");
-        setAvatar(
-          user.user_metadata.avatar_url ||
-            "https://cdn.builder.io/api/v1/image/assets/TEMP/79bd5203f63e2a5e79bf3c947570b8ed31965494"
-        ); // Lấy avatar từ user metadata
+        if (error) {
+          console.error("No User!", error.message);
+        } else if (data) {
+          setUsername(data.user_name);
+          setEmail(data.email);
+          setAvatar(data.avatar_url || "https://cdn.builder.io/api/v1/image/assets/TEMP/79bd5203f63e2a5e79bf3c947570b8ed31965494"); // Lấy avatar từ bảng users);
+        }
+        // Ưu tiên user_name (từ đăng ký thường), sau đó full_name / name (Google), cuối cùng dùng phần đầu email
+        // const fallbackUsername =
+        //   user.user_metadata.user_name ||
+        //   user.user_metadata.full_name ||
+        //   user.user_metadata.name ||
+        //   user.email?.split("@")[0] || // phần trước @ trong email
+        //   "anonymous";
+
+      //   setUsername(fallbackUsername);
+      //   setEmail(user.email ?? "");
+      //   setAvatar(
+      //     user.user_metadata.avatar_url ||
+      //       "https://cdn.builder.io/api/v1/image/assets/TEMP/79bd5203f63e2a5e79bf3c947570b8ed31965494"
+      //   ); // Lấy avatar từ user metadata
+      // } 
       } else {
         setUserId(null);
         setUsername("");
@@ -99,140 +113,162 @@ export function Header() {
     handleNotifications("/expenses", "Please login to access Expenses");
   return (
     <Container fluid className="header-background" px="lg" py="sm">
-  <Grid align="center" justify="space-between" className="home-header-container">
-    {/* Logo */}
-    <Grid.Col span="content">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/18083109a25a67b4d19a5291268bdd2c91ef258e"
-        className="home-logo"
-        alt="My Money"
-        style={{ height: "50px" }}
-      />
-    </Grid.Col>
+      <Grid
+        align="center"
+        justify="space-between"
+        className="home-header-container"
+      >
+        {/* Logo */}
+        <Grid.Col span="content">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/18083109a25a67b4d19a5291268bdd2c91ef258e"
+            className="home-logo"
+            alt="My Money"
+            style={{ height: "50px" }}
+          />
+        </Grid.Col>
 
-    {/* Navigation */}
-    <Grid.Col span="auto"
-      style={{ display: "flex", justifyContent: "center" }}>
-      <Group p="center" className="home-navigation"
-        style={{ display: "flex", justifyContent: "space-between",alignContent: "center" }}>
-        <Button
-          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
-          variant="white"
-          color="black"
-          size="md"
-          radius="xl"
-          className="home-nav-item"
-          onClick={() => navigate("/")}
+        {/* Navigation */}
+        <Grid.Col
+          span="auto"
+          style={{ display: "flex", justifyContent: "center" }}
         >
-          HOME
-        </Button>
-        <Button
-          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
-          variant="white"
-          color="black"
-          size="md"
-          radius="xl"
-          className="home-nav-item"
-          onClick={handleIncome}
-        >
-          INCOME
-        </Button>
-        <Button
-          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
-          variant="white"
-          color="black"
-          size="md"
-          radius="xl"
-          className="home-nav-item"
-          onClick={handleExpenses}
-        >
-          EXPENSES
-        </Button>
-        <Button
-          styles={{ label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" } }}
-          variant="white"
-          color="black"
-          size="md"
-          radius="xl"
-          className="home-nav-item"
-          onClick={handleDataReport}
-        >
-          DATA REPORT
-        </Button>
-      </Group>
-    </Grid.Col>
-
-    {/* Avatar / Popover */}
-    <Grid.Col span="content">
-      <div className="home-login-container">
-        <Popover
-          width={200}
-          opened={opened}
-          onChange={setOpened}
-          position="bottom"
-          withArrow
-          shadow="md"
-        >
-          <Popover.Target>
-            <Avatar
-              src={avatar}
-              alt="User Avatar"
-              color="black"
-              radius="xl"
-              onMouseEnter={() => setOpened(true)}
-              onMouseLeave={() => setOpened(false)}
-              style={{ cursor: "pointer", backgroundColor: "white" }}
-            />
-          </Popover.Target>
-          <Popover.Dropdown style={{ width: "30vh" }}
-            onMouseEnter={() => setOpened(true)}
-            onMouseLeave={() => setOpened(false)}
+          <Group
+            p="center"
+            className="home-navigation"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignContent: "center",
+            }}
           >
-            {userId ? (
-              <>
-                <Paper shadow="sm" radius="md" p="md">
-                  <Group align="bottom-left">
-                    <Avatar src={avatar} radius="xl" size="md" />
-                    <Box>
-                      <Text fw={500} size="sm">{username || "Loading..."}</Text>
-                      <Text size="xs" c="dimmed">{email || "Loading..."}</Text>
-                    </Box>
-                  </Group>
-                </Paper>
-                <Button
-                  variant="subtle"
-                  component={Link}
-                  to="/profile"
-                  fullWidth
-                  mt="sm"
-                >
-                  Profile <IconChevronRight size={16} style={{ marginLeft: 5 }} />
-                </Button>
-                <Button
-                  variant="subtle"
-                  onClick={handleLogout}
-                  fullWidth
-                  mt="sm"
-                  style={{ backgroundColor: "red", color: "white" }}
-                >
-                  Log out
-                </Button>
-              </>
-            ) : (
-              <Button
-                variant="subtle"
-                onClick={handleLogin}
-                fullWidth
-              >
-                Log in
-              </Button>
-            )}
-          </Popover.Dropdown>
-        </Popover>
-      </div>
-    </Grid.Col>
-  </Grid>
-</Container>
+            <Button
+              styles={{
+                label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+              }}
+              variant="white"
+              color="black"
+              size="md"
+              radius="xl"
+              className="home-nav-item"
+              onClick={() => navigate("/")}
+            >
+              HOME
+            </Button>
+            <Button
+              styles={{
+                label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+              }}
+              variant="white"
+              color="black"
+              size="md"
+              radius="xl"
+              className="home-nav-item"
+              onClick={handleIncome}
+            >
+              INCOME
+            </Button>
+            <Button
+              styles={{
+                label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+              }}
+              variant="white"
+              color="black"
+              size="md"
+              radius="xl"
+              className="home-nav-item"
+              onClick={handleExpenses}
+            >
+              EXPENSES
+            </Button>
+            <Button
+              styles={{
+                label: { fontFamily: "Poppins, sans-serif", fontSize: "20px" },
+              }}
+              variant="white"
+              color="black"
+              size="md"
+              radius="xl"
+              className="home-nav-item"
+              onClick={handleDataReport}
+            >
+              DATA REPORT
+            </Button>
+          </Group>
+        </Grid.Col>
 
+        {/* Avatar / Popover */}
+        <Grid.Col span="content">
+          <div className="home-login-container">
+            <Popover
+              width={200}
+              opened={opened}
+              onChange={setOpened}
+              position="bottom"
+              withArrow
+              shadow="md"
+            >
+              <Popover.Target>
+                <Avatar
+                  src={avatar}
+                  alt="User Avatar"
+                  color="black"
+                  radius="xl"
+                  onMouseEnter={() => setOpened(true)}
+                  onMouseLeave={() => setOpened(false)}
+                  style={{ cursor: "pointer", backgroundColor: "white" }}
+                />
+              </Popover.Target>
+              <Popover.Dropdown
+                style={{ width: "30vh" }}
+                onMouseEnter={() => setOpened(true)}
+                onMouseLeave={() => setOpened(false)}
+              >
+                {userId ? (
+                  <>
+                    <Paper shadow="sm" radius="md" p="md">
+                      <Group align="bottom-left">
+                        <Avatar src={avatar} radius="xl" size="md" />
+                        <Box>
+                          <Text fw={500} size="sm">
+                            {username || "Loading..."}
+                          </Text>
+                          <Text size="xs" c="dimmed">
+                            {email || "Loading..."}
+                          </Text>
+                        </Box>
+                      </Group>
+                    </Paper>
+                    <Button
+                      variant="subtle"
+                      component={Link}
+                      to="/profile"
+                      fullWidth
+                      mt="sm"
+                    >
+                      Profile{" "}
+                      <IconChevronRight size={16} style={{ marginLeft: 5 }} />
+                    </Button>
+                    <Button
+                      variant="subtle"
+                      onClick={handleLogout}
+                      fullWidth
+                      mt="sm"
+                      style={{ backgroundColor: "red", color: "white" }}
+                    >
+                      Log out
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant="subtle" onClick={handleLogin} fullWidth>
+                    Log in
+                  </Button>
+                )}
+              </Popover.Dropdown>
+            </Popover>
+          </div>
+        </Grid.Col>
+      </Grid>
+    </Container>
   );
 }
