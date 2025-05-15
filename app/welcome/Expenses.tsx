@@ -16,6 +16,7 @@ import { supabase } from "../supabase";
 import { Notifications } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
 import { Pagination } from "@mantine/core";
+import dayjs from 'dayjs';
 
 type Transaction = {
   id: number;
@@ -170,7 +171,7 @@ export default function Expenses() {
       id_cate: parseInt(selectedCategory),
       amount: parseFloat(amount),
       note: note,
-      date: date.toISOString().split("T")[0],
+      date: dayjs(date).format("YYYY-MM-DD"),
       transaction_type: "Expenses",
     };
 

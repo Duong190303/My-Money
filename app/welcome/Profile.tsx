@@ -19,6 +19,7 @@ import { Header } from "./Header";
 import { IconMail, IconUser } from "@tabler/icons-react";
 import "../welcome/Style/Profile.css";
 import { useNavigate } from "react-router-dom";
+
 type ProfileData = {
   id: string;
   user_name: string;
@@ -35,7 +36,6 @@ export default function Profile() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  if (typeof window === "undefined") return null;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function Profile() {
 
     const { data, error } = await supabase
       .from("users")
-      .select("id, user_name, email")
+      .select("id, user_name, email, avatar_url") // ✅ lấy avatar_url từ bảng users
       .eq("id", user.id)
       .single();
 
@@ -80,7 +80,7 @@ export default function Profile() {
       return;
     }
 
-    const avatar_url = user.user_metadata?.avatar_url || "default-avatar.png";
+    const avatar_url = data.avatar_url || "default-avatar.png"; // ✅ ưu tiên từ bảng users
 
     setProfile({
       id: data.id,
@@ -95,9 +95,10 @@ export default function Profile() {
     setIsLoading(false);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     fetchProfile();
   }, []);
+
   const handleUpdate = async () => {
     if (!profile || !user) return;
 
@@ -127,6 +128,7 @@ export default function Profile() {
       avatar_url = data.publicUrl;
     }
 
+    // ✅ Cập nhật vào user_metadata (nếu muốn dùng trong auth)
     const { error: updateError } = await supabase.auth.updateUser({
       data: {
         user_name: username,
@@ -134,19 +136,16 @@ export default function Profile() {
       },
     });
 
+    // ✅ Cập nhật avatar_url và user_name vào bảng users
     const { error } = await supabase
       .from("users")
-      .update({ user_name: username })
+      .update({ user_name: username, avatar_url }) // <-- THÊM avatar_url ở đây
       .eq("id", user.id);
 
-    if (error) {
-      console.error("Lỗi cập nhật username:", error);
-    }
-
-    if (updateError) {
+    if (error || updateError) {
       Notifications.show({
         title: "Update failed",
-        message: updateError.message,
+        message: error?.message || updateError?.message,
         color: "red",
       });
       return;
@@ -160,7 +159,6 @@ export default function Profile() {
 
     setIsEditing(false);
     fetchProfile();
-    // navigate("/");
   };
 
   const handleFileChange = (file: File | null) => {
@@ -169,15 +167,16 @@ export default function Profile() {
       setAvatarPreview(URL.createObjectURL(file));
     }
   };
-//chuyển về trang chủ khi ở trạng thái không có user
-useEffect(() => {
-  if (!isLoading && !user) {
-    navigate("/");}
-}, [isLoading, user]);
 
+  // ✅ Điều hướng về trang chủ nếu chưa đăng nhập
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate("/");
+    }
+  }, [isLoading, user]);
 
   return (
-    <div id="background-image"  >
+    <div id="background-image">
       <Header />
       <Center>
         <Container>
@@ -197,7 +196,7 @@ useEffect(() => {
             }}
           >
             {isEditing ? (
-              <Stack align="center"  id="profile-stack">
+              <Stack align="center" id="profile-stack">
                 <Avatar
                   src={avatarPreview || profile?.avatar_url}
                   radius="xl"
@@ -229,16 +228,11 @@ useEffect(() => {
                 </Group>
               </Stack>
             ) : (
-              <Stack align="center" id="profile-stack-update" >
+              <Stack align="center" id="profile-stack-update">
                 <Avatar src={profile?.avatar_url} radius="xl" size="xl" />
                 <Title order={3}>Profile</Title>
                 <Container id="profile-container" p={0} mt="md">
-                  <ThemeIcon
-                    variant="light"
-                    color="black"
-                    size="md"
-                    radius="xl"
-                  >
+                  <ThemeIcon variant="light" color="black" size="md" radius="xl">
                     <IconUser size={100} color="#fff" />
                   </ThemeIcon>
                   <Text size="lg" w={500}>
@@ -246,12 +240,7 @@ useEffect(() => {
                   </Text>
                 </Container>
                 <Container id="profile-container" p={0} mt="md">
-                  <ThemeIcon
-                    variant="light"
-                    color="black"
-                    radius="xl"
-                    size="md"
-                  >
+                  <ThemeIcon variant="light" color="black" radius="xl" size="md">
                     <IconMail size={20} color="#fff" />
                   </ThemeIcon>
                   <Text size="lg" w={500}>

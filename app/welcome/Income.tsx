@@ -17,6 +17,7 @@ import { showNotification } from "@mantine/notifications";
 import "../welcome/Style/Income.css";
 import { Pagination } from "@mantine/core";
 import { Grid } from "@mantine/core";
+import dayjs from 'dayjs';
 type Transaction = {
   id: number;
   id_user: string;
@@ -174,7 +175,7 @@ export default function Income() {
       id_cate: parseInt(selectedCategory),
       amount: parseFloat(amount),
       note: note,
-      date: date.toISOString().split("T")[0],
+      date: dayjs(date).format("YYYY-MM-DD"),
       transaction_type: "Income",
     };
 
