@@ -104,16 +104,52 @@ export function Login() {
 
     setLoading(false);
   };
+const handleGoogleLogin = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+  });
+
+  if (error) {
+    console.error("Error logging in:", error.message);
+    return;
+  }
+
+  // Đợi quá trình xác thực hoàn tất trước khi lấy thông tin người dùng
+  setTimeout(async () => {
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    
+    if (userError) {
+      console.error("Error getting user:", userError.message);
+      return;
+    }
+
+    const user = userData?.user;
+    if (!user) {
+      console.error("User data not found!");
+      return;
+    }
+
+    // Kiểm tra avatar có sẵn trong database
+    const { data: userInfo, error: userInfoError } = await supabase
+      .from("users")
+      .select("avatar_url")
+      .eq("id_user", user.id)
+      .single();
+
+    if (userInfoError) {
+      console.error("Error retrieving avatar:", userInfoError.message);
+    }
+
+    // Nếu user có avatar riêng, không cập nhật từ Google
+    localStorage.setItem(
+      "userAvatar",
+      userInfo?.avatar_url || user.user_metadata?.avatar_url || ""
+    );
+
+  }, 1000); // Delay để đảm bảo Google Sign-In hoàn tất
+};
   const handleHomeClick = () => {
     window.location.href = "/"; // Chuyển đến trang chủ
-  };
-  const handleGoogleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) {
-      console.error("Error logging in:", error.message);
-    }
   };
   /*Register */
   const handleRegister = async (values: typeof formRegister.values) => {
