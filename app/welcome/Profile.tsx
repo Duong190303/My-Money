@@ -29,6 +29,7 @@ type ProfileData = {
 };
 
 export default function Profile() {
+    if (typeof window === "undefined") return null;
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [username, setUsername] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
