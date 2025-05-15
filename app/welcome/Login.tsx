@@ -114,7 +114,7 @@ const handleGoogleLogin = async () => {
     return;
   }
 
-  // Đợi quá trình xác thực hoàn tất trước khi lấy thông tin người dùng
+  // Đợi quá trình đăng nhập hoàn tất trước khi lấy thông tin user
   setTimeout(async () => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
     
@@ -140,13 +140,14 @@ const handleGoogleLogin = async () => {
       console.error("Error retrieving avatar:", userInfoError.message);
     }
 
-    // Nếu user có avatar riêng, không cập nhật từ Google
-    localStorage.setItem(
-      "userAvatar",
-      userInfo?.avatar_url || user.user_metadata?.avatar_url || ""
-    );
-
-  }, 1000); // Delay để đảm bảo Google Sign-In hoàn tất
+    // Nếu user đã có avatar riêng, cập nhật vào Supabase để không bị ghi đè
+    if (userInfo?.avatar_url) {
+      localStorage.setItem("userAvatar", userInfo.avatar_url);
+    } else {
+      // Nếu chưa có avatar riêng, lưu avatar của Google nhưng KHÔNG ghi vào database
+      localStorage.setItem("userAvatar", user.user_metadata?.avatar_url || "");
+    }
+  }, 1000); // Delay để đảm bảo quá trình đăng nhập hoàn tất
 };
   const handleHomeClick = () => {
     window.location.href = "/"; // Chuyển đến trang chủ
