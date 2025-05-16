@@ -8,7 +8,7 @@ export default function Home() {
     <React.StrictMode>
     <MantineProvider>
       <Notifications />
-      <Welcome />
+      <Welcome />      
     </MantineProvider>
     </React.StrictMode>
   );

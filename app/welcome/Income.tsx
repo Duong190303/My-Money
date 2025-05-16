@@ -261,7 +261,6 @@ export default function Income() {
   };
 
   return (
-    <Notifications>
     <div className="income-background">
       <Header />
       <div id="income-container">
@@ -419,6 +418,5 @@ export default function Income() {
         </div>
       </div>
     </div>
-    </Notifications>
   );
 }
