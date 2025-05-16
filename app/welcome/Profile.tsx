@@ -19,7 +19,6 @@ import { Header } from "./Header";
 import { IconMail, IconUser } from "@tabler/icons-react";
 import "../welcome/Style/Profile.css";
 import { useNavigate } from "react-router-dom";
-import { data } from "react-router";
 type ProfileData = {
   id: string;
   user_name: string;
@@ -82,8 +81,8 @@ export default function Profile() {
     }
 
     // Ưu tiên lấy avatar từ metadata, fallback là DB
-    const avatar_url =
-      user.user_metadata?.avatar_url || data.avatar_url || "default-avatar.png";
+    // const avatar_url =
+    //   user.user_metadata?.avatar_url || data.avatar_url || "default-avatar.png";
 
     setProfile({
       id: data.id,

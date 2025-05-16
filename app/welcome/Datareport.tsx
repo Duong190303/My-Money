@@ -83,8 +83,8 @@ export default function TransactionPieChart() {
     if (!userId || !selectFullDate) return;
 
     const fetchTransactions = async () => {
-      const selectedMonth = dayjs(selectFullDate).month() + 1;
-      const selectedYear = dayjs(selectFullDate).year();
+      // const selectedMonth = dayjs(selectFullDate).month() + 1;
+      // const selectedYear = dayjs(selectFullDate).year();
 
       let query = supabase
         .from("transactions")

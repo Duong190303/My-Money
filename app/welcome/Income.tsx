@@ -239,10 +239,7 @@ export default function Income() {
     const { error } = await supabase
       .from("transactions")
       .delete()
-      .eq("id_user", userId)
-      .eq("id_cate", parseInt(selectedCategory))
-      .eq("date", date.toISOString().split("T")[0])
-      .eq("amount", parseFloat(amount));
+      .eq("id", editingTransactionId)
 
     if (error) {
       console.error("Lỗi xóa giao dịch:", error);

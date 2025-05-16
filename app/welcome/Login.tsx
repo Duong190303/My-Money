@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
 import { useDisclosure } from "@mantine/hooks";
 import {
   PasswordInput,
-  Stack,
   TextInput,
   Button,
   Loader,
@@ -12,7 +11,6 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "../welcome/Style/Login.css";
-// import Home from "../welcome/Home";
 import { showNotification } from "@mantine/notifications";
 import { Form } from "react-router";
 import { Image } from "@mantine/core";
@@ -24,7 +22,6 @@ export function Login() {
   const [visible, { toggle }] = useDisclosure(false);
   if (typeof window === "undefined") return null;
   const navigate = useNavigate();
-  const [isSignUp, setIsSignUp] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
   const formRegister = useForm({
@@ -34,7 +31,7 @@ export function Login() {
       confirmPassword: "",
     },
     validate: {
-      email: (value) => (/^\S+@\S+\.\S+$/.test(value) ? null : "Invalid email" ),
+      email: (value) => (/^\S+@\S+\.\S+$/.test(value) ? null : "Invalid email"),
       password: (value) =>
         value.length >= 8 ? null : "Password at least 8 characters",
       confirmPassword: (value, values) =>
@@ -76,7 +73,7 @@ export function Login() {
       // Lưu user info vào localStorage (hoặc context)
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Lấy thêm thông tin mở rộng từ bảng users (nếu cần)
+      // Lấy thêm thông tin mở rộng từ bảng users 
       const { data: userInfo } = await supabase
         .from("users")
         .select("*")
@@ -105,19 +102,17 @@ export function Login() {
 
     setLoading(false);
   };
-const handleGoogleLogin = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-  });
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
 
-  if (error) {
-    console.error("Error logging in:", error.message);
-    return;
-  }
-};
-  const handleHomeClick = () => {
-    window.location.href = "/"; // Chuyển đến trang chủ
+    if (error) {
+      console.error("Error logging in:", error.message);
+      return;
+    }
   };
+
   /*Register */
   const handleRegister = async (values: typeof formRegister.values) => {
     setLoading(true);
@@ -153,7 +148,9 @@ const handleGoogleLogin = async () => {
               <h3>Register Here</h3>
             </Center>
             <Center>
-              <span id="span">This web helps you manage your money effectively</span>
+              <span id="span">
+                This web helps you manage your money effectively
+              </span>
             </Center>
             <Form
               id="register-form"
@@ -167,7 +164,8 @@ const handleGoogleLogin = async () => {
                   radius="md"
                   styles={{
                     input: {
-                      width: "40vh",
+                      width: "100%",
+                      maxWidth: "40vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -182,7 +180,8 @@ const handleGoogleLogin = async () => {
                   radius="md"
                   styles={{
                     input: {
-                      width: "40vh",
+                      width: "100%",
+                      maxWidth: "40vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -197,7 +196,8 @@ const handleGoogleLogin = async () => {
                   radius="md"
                   styles={{
                     input: {
-                      width: "40vh",
+                      width: "100%",
+                      maxWidth: "40vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -214,9 +214,10 @@ const handleGoogleLogin = async () => {
                 styles={{
                   root: {
                     borderRadius: "20px",
-                    backgroundColor: "#35A7B9", // Màu nền input
+                    backgroundColor: "#35A7B9",
                     height: "40px",
-                    width: "150px",
+                    width: "150px", // giữ nguyên desktop
+                    maxWidth: "100%", // cho responsive
                     marginBottom: "20px",
                     color: "white",
                     marginLeft: "28%",
@@ -236,12 +237,13 @@ const handleGoogleLogin = async () => {
                 styles={{
                   root: {
                     borderRadius: "20px",
-                    backgroundColor: "white",
-                    color: "#333",
-                    border: "1px solid #ccc",
+                    backgroundColor: "#35A7B9",
                     height: "40px",
-                    width: "250px",
-                    marginLeft: "7%",
+                    width: "70%", // giữ nguyên desktop
+                    maxWidth: "100%", // cho responsive
+                    marginBottom: "20px",
+                    color: "white",
+                    marginLeft: "15%",
                     fontFamily: "Afaria, sans-serif",
                   },
                 }}
@@ -285,7 +287,8 @@ const handleGoogleLogin = async () => {
                   radius="md"
                   styles={{
                     input: {
-                      width: "40vh",
+                      width: "100%",
+                      maxWidth: "40vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -300,7 +303,8 @@ const handleGoogleLogin = async () => {
                   radius="md"
                   styles={{
                     input: {
-                      width: "40vh",
+                      width: "100%",
+                      maxWidth: "40vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -319,12 +323,13 @@ const handleGoogleLogin = async () => {
                 styles={{
                   root: {
                     borderRadius: "20px",
-                    backgroundColor: "#35A7B9", // Màu nền input
+                    backgroundColor: "#35A7B9",
                     height: "40px",
-                    width: "150px",
+                    width: "150px", // giữ nguyên desktop
+                    maxWidth: "100%", // cho responsive
                     marginBottom: "20px",
                     color: "white",
-                    marginLeft: "24%",
+                    marginLeft: "28%",
                     fontFamily: "Afaria, sans-serif",
                   },
                 }}
@@ -341,12 +346,13 @@ const handleGoogleLogin = async () => {
                 styles={{
                   root: {
                     borderRadius: "20px",
-                    backgroundColor: "white",
-                    color: "#333",
-                    border: "1px solid #ccc",
+                    backgroundColor: "#35A7B9",
                     height: "40px",
-                    width: "250px",
-                    marginLeft: "8%",
+                    width: "70%", // giữ nguyên desktop
+                    maxWidth: "100%", // cho responsive
+                    marginBottom: "20px",
+                    color: "white",
+                    marginLeft: "15%",
                     fontFamily: "Afaria, sans-serif",
                   },
                 }}

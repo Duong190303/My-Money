@@ -181,35 +181,10 @@ table {
   margin: 0 auto 16px auto;
 }
 
-/* .form-section span {
-  font-size: 17px;
-  font-family: "Afacad", sans-serif;
-  color: rgba(52, 133, 162, 1);
-  margin-bottom: 20px;
-} */
-
-/* .type {
-  width: 90%;
-  margin: 0 auto 16px auto;
-}
-
-.type input {
+#login-form,
+#register-form {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 14px;
 }
-
-.type input::placeholder {
-  color: #A9A8A9;
-}
-
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 4px;
-} */
 
 button {
   padding: 12px 70px;
@@ -460,4 +435,55 @@ button {
 #span {
   color: #3485a2;
   font-family: "Afacad", sans-serif;
+}
+@media screen and (max-width: 768px) {
+  .form-box-login {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+  }
+
+  .form-section {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .form-section h3 {
+    font-size: 26px;
+  }
+
+  #login-input input,
+  #register-input input,
+  #password-register,
+  #confirm-password-register {
+    width: 100% !important;
+  }
+
+  #register-button-form,
+  #login-button-form {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  #google-button {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .toggle-box {
+    display: none; /* Ẩn toggle ở mobile để tối ưu giao diện */
+  }
+
+  #form {
+    margin-top: 0;
+  }
+
+  #or {
+    margin: 20px 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .toggle-box {
+    display: none;
+  }
 }

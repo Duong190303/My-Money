@@ -3,11 +3,10 @@ import { Header } from "./Header";
 import { useEffect } from "react";
 import { useState } from "react";
 import { supabase } from "../supabase";
-import { Container, Stack, Title, Text, Image } from "@mantine/core";
 
 export function Home() {
+    if (typeof window === "undefined") return null;
   const [userId, setUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function getCurrentUser() {
       const {
@@ -24,7 +23,6 @@ export function Home() {
 
     getCurrentUser();
   }, []);
-  if (typeof window === "undefined") return null;
   return (
     <div className="home-background">
       <Header />

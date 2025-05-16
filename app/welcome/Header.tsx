@@ -270,13 +270,13 @@ export function Header() {
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/18083109a25a67b4d19a5291268bdd2c91ef258e"
             className="home-logo"
             alt="My Money"
-            style={{ height: "50px" }}
+            // style={{ height: "50px" }}
           />
         </Grid.Col>
 
         {/* Navigation (hidden on mobile) */}
         <Grid.Col span="auto" className="home-nav-wrapper">
-          <Group className="home-navigation" style={{ display: "flex" , justifyContent: "space-between", flexDirection: "row", marginLeft:"20%"}}>
+          <Group className="home-navigation" style={{ display: "flex" , justifyContent: "space-between", flexDirection: "row", marginLeft:"18%"}}>
             <Button className="home-nav-item" variant="white" color="black" size="md" radius="xl" onClick={() => navigate("/")}>HOME</Button>
             <Button className="home-nav-item" variant="white" color="black" size="md" radius="xl" onClick={handleIncome}>INCOME</Button>
             <Button className="home-nav-item" variant="white" color="black" size="md" radius="xl" onClick={handleExpenses}>EXPENSES</Button>
