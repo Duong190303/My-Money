@@ -14,6 +14,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { DateInput } from "@mantine/dates";
 import { supabase } from "../supabase";
 import { showNotification } from "@mantine/notifications";
+import { Notifications } from '@mantine/notifications';
 import "../welcome/Style/Income.css";
 import { Pagination } from "@mantine/core";
 import { Grid } from "@mantine/core";
@@ -162,7 +163,7 @@ export default function Income() {
 
   const handleSaveOrUpdate = async () => {
     if (!selectedCategory || !date || !amount) {
-      showNotification({
+      Notifications.show({
         title: "Lack of information",
         message: "Please fill in the information before saving.",
         color: "red",
@@ -196,13 +197,13 @@ export default function Income() {
 
     if (error) {
       console.error("Lỗi lưu giao dịch:", error);
-      showNotification({
+      Notifications.show({
         title: "Error",
         message: "Can not transfer transactions. Please try again.",
         color: "red",
       });
     } else {
-      showNotification({
+      Notifications.show({
         title: editingTransactionId ? "Success update" : "Add new successfully",
         message: editingTransactionId
           ? "The transaction has been updated."
@@ -246,7 +247,7 @@ export default function Income() {
     if (error) {
       console.error("Lỗi xóa giao dịch:", error);
     } else {
-      showNotification({
+      Notifications.show({
         title: "Delete successfully",
         message: "The transaction has been deleted!",
         color: "green",
@@ -260,6 +261,7 @@ export default function Income() {
   };
 
   return (
+    
     <div className="income-background">
       <Header />
       <div id="income-container">
