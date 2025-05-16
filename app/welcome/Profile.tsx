@@ -94,7 +94,7 @@ export default function Profile() {
     });
 
     setUsername(data.user_name);
-    setAvatarPreview(avatar_url);
+    setAvatarPreview(data.avatar_url);
     setIsLoading(false);
   };
 
