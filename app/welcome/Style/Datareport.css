@@ -25,14 +25,15 @@ body {
 
 } */
 .datareport-background {
-  height: 100vh;
-  background: linear-gradient(59deg, #177D82, #3CA6A5, #ebfffd);
-  position: relative;
-  padding: 0 2rem;
-  color: white;
-  overflow: hidden;
+    height: 100vh;
+    background: linear-gradient(59deg, #177D82, #3CA6A5, #ebfffd);
+    position: relative;
+    padding: 0 2rem;
+    color: white;
+    overflow: hidden;
 
 }
+
 .datareport-container {
     padding: 40px 30px 30px;
     display: grid;
@@ -40,9 +41,9 @@ body {
         "piechart total history"
         "chart chart history";
     gap: 20px;
-        height: 85vh;
-    width: 175vh;
-    margin-left: 5%;
+    height: 85vh;
+    width: 185vh;
+    margin-left: 4%;
 }
 
 .box {
@@ -141,11 +142,13 @@ input {
     font-size: 16px;
     color: #065f69;
 }
+
 .history h3 {
-width: 100%;
+    width: 100%;
     text-align: center;
     margin-top: 5%;
 }
+
 .titles {
     display: flex;
     font-size: 25px;
