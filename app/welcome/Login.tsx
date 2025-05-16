@@ -165,7 +165,7 @@ export function Login() {
                   styles={{
                     input: {
                       width: "100%",
-                      maxWidth: "40vh",
+                      maxWidth: "50vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -181,7 +181,7 @@ export function Login() {
                   styles={{
                     input: {
                       width: "100%",
-                      maxWidth: "40vh",
+                      maxWidth: "50vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -197,7 +197,7 @@ export function Login() {
                   styles={{
                     input: {
                       width: "100%",
-                      maxWidth: "40vh",
+                      maxWidth: "50vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -288,7 +288,7 @@ export function Login() {
                   styles={{
                     input: {
                       width: "100%",
-                      maxWidth: "40vh",
+                      maxWidth: "50vh",
                       marginBottom: "20px",
                     },
                   }}
@@ -304,7 +304,7 @@ export function Login() {
                   styles={{
                     input: {
                       width: "100%",
-                      maxWidth: "40vh",
+                      maxWidth: "50vh",
                       marginBottom: "20px",
                     },
                   }}

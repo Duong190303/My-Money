@@ -10,20 +10,6 @@ body {
     width: 100%;
 }
 
-/* .datareport-background {
-    background-image: url(/public/Datareport-background.png);
-    background-size: cover;
-    background-Position: center;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    font-family: 'Merriweather', sans-serif;
-    font-style: normal;
-
-} */
 .datareport-background {
     height: 100vh;
     background: linear-gradient(59deg, #177D82, #3CA6A5, #ebfffd);
