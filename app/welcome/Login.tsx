@@ -241,7 +241,7 @@ const handleGoogleLogin = async () => {
                     border: "1px solid #ccc",
                     height: "40px",
                     width: "250px",
-                    marginLeft: "12%",
+                    marginLeft: "7%",
                     fontFamily: "Afaria, sans-serif",
                   },
                 }}
@@ -324,7 +324,7 @@ const handleGoogleLogin = async () => {
                     width: "150px",
                     marginBottom: "20px",
                     color: "white",
-                    marginLeft: "28%",
+                    marginLeft: "24%",
                     fontFamily: "Afaria, sans-serif",
                   },
                 }}
@@ -346,7 +346,7 @@ const handleGoogleLogin = async () => {
                     border: "1px solid #ccc",
                     height: "40px",
                     width: "250px",
-                    marginLeft: "12%",
+                    marginLeft: "8%",
                     fontFamily: "Afaria, sans-serif",
                   },
                 }}
