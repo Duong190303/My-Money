@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/******************************************Datareport*******************************************/
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+.datareportBackground {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(59deg, #177D82, #3CA6A5, #ebfffd);
+    position: relative;
+    padding: 0 2rem;
+    color: white;
+    overflow: hidden;
+    /* position: relative; */
+
+    @media (max-width: 36em) {
+        max-height: rem(1000px);
+        min-height: rem(900px);
+        max-width: rem(425px);
+        padding: 0;
+    }
+
+    @media (min-width: 48em) {
+        max-height: rem(920px);
+        min-height: rem(900px);
+        max-width: rem(768px);
+    }
+
+    @media (min-width: 62em) {
+        max-height: rem(900px);
+        max-width: rem(1024px);
+    }
+
+    @media (min-width: 88em) {
+        max-width: rem(1440px);
+        min-height: rem(900px);
+    }
+
+}
+
+.datareportContainer {
+    display: grid;
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+
+    @media (max-width: 36em) {
+        padding: 20px 10px 30px;
+        max-width: rem(425px);
+        max-height: rem(1000px);
+        min-height: rem(900px);
+        grid-template-areas:
+            "piechart"
+            "total"
+            "chart"
+            "history";
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    @media (min-width: 48em) {
+        padding: 30px 10px 30px;
+        max-width: rem(768px);
+        max-height: rem(1000px);
+        min-height: rem(900px);
+        grid-template-areas:
+            "piechart total"
+            "chart chart"
+            "history history";
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+
+    @media (min-width: 62em) {
+        grid-template-areas:
+            "piechart total history"
+            "chart chart history";
+        padding: 30px 10px 30px;
+        gap: 2rem;
+        max-width: rem(1024px);
+        max-height: rem(900px);
+        min-height: rem(570px);
+    }
+
+    @media (min-width: 88em) {
+        padding: 40px 30px 30px;
+        max-width: rem(1440px);
+        max-height: rem(900px);
+        min-height: rem(700px);
+    }
+}
+
+.box {
+    background-color: rgba(53, 167, 185, 1);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+
+}
+
+.box p,
+input {
+    font-size: 16px;
+    color: #065f69;
+
+}
+
+
+
+.incomeExpense {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.income,
+.expense {
+    flex: 1;
+    padding: 10px 50px 20px;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.income {
+    color: #3c9987;
+}
+
+.expense {
+    color: #f76d6d;
+}
+
+
+/* Grid areas */
+.piechart {
+    grid-area: piechart;
+    background-color: #aad0d7;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    @media (min-width: 88em) {
+        max-height: rem(500px);
+        min-height: rem(250px);
+        max-width: rem(500px);
+        min-width: rem(500px);
+    }
+}
+
+.piechart p {
+    font-size: 16px;
+    color: #065f69;
+    align-items: center;
+    display: flex;
+
+    @media (min-width: 88em) {
+        min-height: 175px;
+    }
+}
+
+.total {
+    display: flex;
+    grid-area: total;
+    background-color: #8cc7c6;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (min-width: 88em) {
+        min-height: 250px;
+        min-width: 200px;
+        max-width: rem(350px);
+
+    }
+}
+
+.total p {
+    font-size: 16px;
+    color: #065f69;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#selectFullDate {
+    margin: none;
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: 36em) {
+        max-width: rem(400px);
+        min-width: rem(220px);
+    }
+
+    @media (min-width: 88em) {
+        max-width: rem(400px);
+        min-width: rem(200px);
+    }
+}
+
+.history,
+.noTransaction {
+    grid-area: history;
+    background-color: #99c7cf;
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 48em) {
+        max-height: rem(800px);
+        min-height: rem(400px);
+        max-width: rem(800px);
+        min-width: rem(600px);
+    }
+
+    @media (min-width: 88em) {
+        max-height: 615px;
+        max-width: rem(800px);
+        min-width: rem(400px);
+    }
+
+    .noTransaction p {
+        margin-top: 45%;
+        font-size: 16px;
+        color: #065f69;
+    }
+
+}
+
+#historyText {
+    margin-top: 45%;
+    font-size: 16px;
+    color: #065f69;
+}
+
+.history h3 {
+    width: 100%;
+    text-align: center;
+}
+
+.titles {
+    display: flex;
+    font-size: 25px;
+    color: #000000;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+}
+
+#titleTable {
+    display: flow;
+
+}
+
+.chart {
+    grid-area: chart;
+    background-color: #b8dfe6;
+    height: 100%;
+    font-size: 16px;
+    text-align: center;
+    color: #065f69;
+
+    @media (min-width: 88em) {
+        min-height: rem(250px);
+        max-height: rem(290px);
+    }
+
+}
+
+.chart p {
+    margin-top: 10%;
+    font-size: 16px;
+    color: #065f69;
+}
+
+.selectDatechart {
+    display: flex;
+}
+
+/* Animation */
+.box {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+}

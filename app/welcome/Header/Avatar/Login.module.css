@@ -1,0 +1,540 @@
+.containerW {
+  height: 100%;
+  width: 100%;
+  background: #a4e0dd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+
+  @media (max-width: 36em) {
+    max-width: rem(425px);
+    min-height: rem(900px);
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(768px);
+    min-height: rem(900px);
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(1024px);
+    min-height: rem(784px);
+  }
+
+  @media (min-width: 88em) {
+    max-width: rem(1440px);
+    min-height: rem(774px);
+  }
+
+}
+
+.formsWrapper {
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+
+  @media (max-width: 36em) {
+    max-width: rem(425px);
+    max-height: rem(800px);
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(768px);
+    max-height: rem(800px);
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(1024px);
+    max-height: rem(800px);
+  }
+
+  @media (min-width: 88em) {
+    max-width: rem(1440px);
+    max-height: rem(800px);
+  }
+}
+
+.containerW.active .formsWrapper {
+  transform: translateX(0%);
+}
+
+/* Container chính */
+.formBoxLogin {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: rgba(212, 169, 169, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #35a7b9;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+  @media (max-width: 36em) {
+    max-width: rem(425px);
+    max-height: rem(600px);
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(768px);
+    max-height: rem(600px);
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(800px);
+    max-height: rem(600px);
+    top: 12%;
+    right: 11%;
+  }
+
+  @media (min-width: 88em) {
+    max-width: rem(1000px);
+    max-height: rem(600px);
+    top: 10%;
+    right: 15%;
+  }
+}
+
+/* Mỗi form chiếm nửa chiều rộng */
+.formSection {
+  width: 50%;
+  padding: 40px;
+  background-color: #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Nội dung form */
+.formSection h3 {
+  font-size: 32px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: bold;
+  color: rgba(52, 133, 162, 1);
+}
+
+/* .loginForm,
+.registerForm {
+  width: 100%;
+} */
+
+.btn {
+  padding: 12px 70px;
+  background: linear-gradient(135deg, rgba(99, 189, 226, 1), rgba(65, 211, 170, 1));
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: 0.3s;
+  font-family: "Afacad", sans-serif;
+  font-size: 20px;
+  text-align: center;
+}
+
+
+.registerBtn:hover,
+.loginBtn:hover {
+  opacity: 0.8;
+  background: linear-gradient(135deg, rgb(35, 74, 90), rgb(43, 117, 146), rgb(27, 175, 133));
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px -10px;
+  transform: translateY(-2px);
+}
+
+
+/* TOGGLE PANEL */
+.toggleBox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+}
+
+.toggleBox::before {
+  content: '';
+  position: absolute;
+  left: -250%;
+  width: 300%;
+  height: 100%;
+  background: #35A7B9;
+  border-radius: 150px;
+  transition: 1.8s ease-in-out;
+  z-index: 2;
+}
+
+.containerW.active .toggleBox::before {
+  left: 50%;
+}
+
+.togglePanel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: .6s ease-in-out;
+  z-index: 3;
+}
+
+.togglePanel.toggleLeft {
+  left: 0;
+  transition-delay: 1.2s;
+}
+
+.containerW.active .togglePanel.toggleLeft {
+  left: -50%;
+  transition-delay: 0.6s;
+}
+
+.togglePanel.toggleRight {
+  right: -50%;
+  transition-delay: 0.6s;
+}
+
+.containerW.active .togglePanel.toggleRight {
+  right: 0;
+  transition-delay: 1.2s;
+}
+
+
+@media screen and (max-width: 650px) {
+  .containerW {
+    height: calc(100vh - 40px);
+  }
+
+  .formBoxLogin {
+    bottom: 0;
+    width: 100%;
+    height: 70%;
+  }
+
+  .containerW.active .formBox {
+    right: 0;
+    bottom: 30%;
+  }
+
+  .toggleBox::before {
+    left: 0;
+    top: -270%;
+    width: 100%;
+    height: 300%;
+    border-radius: 20vw;
+  }
+
+  .containerW.active .toggleBox::before {
+    left: 0;
+    top: 70%;
+  }
+
+  .container.active .togglePanel.toggleLeft {
+    left: 0;
+    top: -30%;
+  }
+
+  .togglePanel {
+    width: 100%;
+    height: 30%;
+  }
+
+  .togglePanel.toggleLeft {
+    top: 0;
+  }
+
+  .togglePanel.toggleRight {
+    right: 0;
+    bottom: -30%;
+  }
+
+  .container.active .togglePanel.toggleRight {
+    bottom: 0;
+  }
+}
+
+.togglePanel p {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-family: "Afacad", sans-serif;
+  color: #fff;
+}
+
+.togglePanel h1 {
+  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-weight: 800;
+  font-size: 40px;
+  font-family: "Afacad", sans-serif;
+  color: #fff;
+}
+
+.togglePanel span span {
+  color: #fdfdfd;
+  font-weight: 100;
+  font-size: 16px;
+
+}
+
+.googleLogin {
+  display: flex;
+  justify-content: center;
+}
+
+.googleLogin a {
+  display: inline-flex;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 24px;
+  color: #333;
+  margin: 0 8px;
+}
+
+
+
+
+
+.passwordRegister,
+.confirmPasswordRegister {
+  width: 40vh;
+  height: 5vh;
+}
+
+
+.or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #999;
+  margin: 10px 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 136%;
+  letter-spacing: 0%;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  position: relative;
+}
+
+.or::before,
+.or::after {
+  content: '';
+  flex: 1;
+  border: 1px solid rgba(191, 191, 191, 1)
+}
+
+.or:not(:empty)::before {
+  margin-right: .75em;
+}
+
+.or:not(:empty)::after {
+  margin-left: .75em;
+}
+
+
+
+
+/* .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: center;
+  font-family: "Afacad", sans-serif;
+} */
+
+.span {
+  color: #3485a2;
+  font-family: "Afacad", sans-serif;
+}
+
+@media screen and (max-width: 768px) {
+  .formboxLogin {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+  }
+
+  .formSection {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .formSection h3 {
+    font-size: 26px;
+  }
+
+  .loginInput input,
+  .registerInput input,
+  .passwordRegister,
+  .confirmPasswordRegister {
+    width: 100% !important;
+  }
+
+
+
+  .googleButton {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .toggleBox {
+    display: none;
+    /* Ẩn toggle ở mobile để tối ưu giao diện */
+  }
+
+  /* .form {
+    margin-top: 0;
+  } */
+
+  .or {
+    margin: 20px 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .toggleBox {
+    display: none;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: block;
+}
+
+
+.formSection {
+  width: 50%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+
+
+.toggleBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.togglePanel {
+  margin-bottom: 2rem;
+}
+
+.btn {
+  margin-top: 1rem;
+  border-radius: 20px;
+  padding: 10px 30px;
+  background-color: #ffffff;
+  color: #35a7b9;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #f1f1f1;
+}
+
+.btn {
+  margin-top: 1.5rem;
+  background-color: #fff;
+  color: #35a7b9;
+  border: none;
+  padding: 0.6rem 2rem;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+
+/* loginForm */
+
+.loginInput,
+.registerInput {
+  padding: 10px 0 20px;
+}
+
+.inputRoot,
+.inputLabel,
+.inputInput,
+.inputWrapper {
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 88em) {
+    max-width: rem(800px);
+    max-height: rem(100px);
+    min-height: 50px;
+    margin: 15px 0;
+  }
+}
+
+.loginButtonRoot {
+  background-color: #35a7b9;
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  padding: 0;
+
+  @media (min-width: 88em) {
+    max-width: rem(100px);
+    max-height: rem(50px);
+    min-height: 35px;
+    margin: 15px 130px;
+  }
+}
+
+.loginButtonForm:hover,
+.registerButtonForm:hover {
+  background: linear-gradient(135deg, rgb(35, 74, 90), rgb(43, 117, 146), rgb(27, 175, 133));
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px -10px;
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.registerButtonForm,
+.loginButtonForm {
+  width: 100% !important;
+}
+
+.googleButton {
+  background: linear-gradient(135deg, rgb(35, 74, 90), rgb(43, 117, 146), rgb(27, 175, 133));
+  border-radius: 20px;
+  color: #ffffff;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px -10px;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+}

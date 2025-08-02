@@ -1,0 +1,675 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  overflow-x: hidden;
+
+  @media (min-width: 62em) {
+    overflow: hidden;
+  }
+}
+
+.incomeBackground {
+  background-image: url(/public/Income-background.png);
+  background-size: cover;
+  background-Position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+
+
+  @media (max-width: 36em) {
+    height: rem(915px);
+    width: rem(425px);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 48em) {
+    height: rem(650px);
+    width: rem(768px);
+
+  }
+
+  @media (min-width: 62em) {
+    height: rem(650px);
+    width: rem(1024px);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(780px);
+    width: rem(1440px);
+  }
+
+  @media (min-width: 100em) {
+    height: rem(1290px);
+    width: rem(2560px);
+  }
+}
+
+#incomeContainer {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  align-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+
+  @media (max-width: 36em) {
+    width: 425px;
+    margin: 0 auto;
+    padding: 0 20px;
+    justify-content: center;
+  }
+
+  @media (min-width: 48em) {
+    height: rem(645px);
+    width: rem(768px);
+    padding: 0 20px;
+    margin-bottom: 15px;
+  }
+
+  @media (min-width: 62em) {
+    height: rem(730px);
+    width: rem(1024px);
+    top: 5%;
+    left: 10%;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(750px);
+    width: rem(1440px);
+    top: 5%;
+    left: 20%;
+  }
+
+  @media (min-width: 100em) {
+    height: rem(1290px);
+    width: rem(2560px);
+  }
+}
+
+.incomeContainer1 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: rotate(-15deg);
+  margin-left: 11%;
+  background-color: #289F99;
+  opacity: 0.5;
+  z-index: 2;
+
+  @media (max-width: 36em) {
+    display: none;
+  }
+
+  @media (min-width: 48em) {
+    display: none;
+  }
+
+  @media (min-width: 62em) {
+    display: block;
+    height: rem(500px);
+    width: rem(270px);
+    top: 0%;
+    left: -10%;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(550px);
+    width: rem(300px);
+    bottom: 20%;
+    left: -20%;
+  }
+
+  @media (min-width: 100em) {
+    height: rem(1290px);
+    width: rem(2560px);
+  }
+}
+
+#incomeContainer2 {
+  position: absolute;
+  /* display: flex; */
+  background-color: #45C4BE;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(69, 196, 190, 0.26);
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  margin-bottom: 10%;
+  z-index: 1;
+
+  @media (max-width: 36em) {
+    height: rem(800px);
+    width: rem(410px);
+    margin: 0 auto;
+    top: 2%;
+  }
+
+  @media (min-width: 48em) {
+    height: rem(500px);
+    width: rem(730px);
+    top: 5%;
+  }
+
+  @media (min-width: 62em) {
+    height: rem(480px);
+    width: rem(750px);
+    right: 14%;
+    top:-1%
+  }
+
+  @media (min-width: 88em) {
+    height: rem(550px);
+    width: rem(1000px);
+    right: 31%;
+    bottom: 0;
+
+  }
+
+  @media (min-width: 100em) {
+    height: rem(1290px);
+    width: rem(2560px);
+  }
+}
+
+.incomeContainer3 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+  z-index: 3;
+
+  @media (max-width: 36em) {
+    max-width: rem(420px);
+    max-height: rem(400px);
+    top: 8%;
+    justify-content: center;
+    align-items: center;
+    right: 2%;
+  }
+
+  @media (min-width: 48em) {
+    width: rem(250px);
+    height: rem(500px);
+    bottom: 13%;
+  }
+
+  @media (min-width: 62em) {
+    height: rem(500px);
+    width: rem(270px);
+    top: 0;
+    left: 6.5%;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(550px);
+    width: rem(350px);
+    bottom: 20%;
+    left: -5%;
+  }
+}
+
+#incomeText {
+  flex-grow: 1;
+  text-align: right;
+  font-size: 24px;
+  font-weight: 400;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+
+  @media (max-width: 36em) {
+    height: rem(760px);
+    width: rem(400px);
+    justify-content: space-between;
+    right: 1%;
+    top: 4%;
+  }
+
+  @media (min-width: 48em) {
+    height: rem(450px);
+    width: rem(435px);
+    right: 1%;
+    top: 8%;
+  }
+
+  @media (min-width: 62em) {
+    height: rem(550px);
+    width: rem(490px);
+    right: 1%;
+    top: -5%;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(450px);
+    width: rem(650px);
+    right: 1%;
+    top: 8%;
+  }
+}
+
+#transactionTableContainer {
+  margin-top: 2.3%;
+}
+
+#searchInput {
+  background-color: white;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+#transactionTable {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  height: 10px;
+
+  @media (max-width: 36em) {
+    height: rem(40px);
+    width: rem(400px);
+    right: 1%;
+    top: 8%;
+  }
+
+  @media (min-width: 48em) {
+    height: rem(40px);
+    width: rem(433px);
+    right: 1%;
+    top: 8%;
+  }
+
+  @media (min-width: 62em) {
+    height: rem(40px);
+    width: rem(490px);
+    right: 1%;
+    top: 8%;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(40px);
+    width: rem(650px);
+    right: 1%;
+    top: 8%;
+  }
+}
+
+#transactionTablethead {
+  color: #333;
+}
+
+#transactionTabletr td {
+  justify-items: center;
+  color: white;
+  font-size: 16px;
+}
+
+#transactionTableContent td {
+  width: 25%;
+  justify-items: anchor-center;
+  text-align: center;
+}
+
+#transactionTable td {
+  justify-items: anchor-center;
+  text-align: center;
+}
+
+#transactionText p {
+  margin-top: 20%;
+}
+
+
+#incomeForm {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  @media (max-width: 36em) {
+    height: rem(300px);
+    width: rem(410px);
+    left: 3%;
+    top: 5%;
+    padding: 10px 20px;
+  }
+
+  @media (min-width: 48em) {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(4px);
+    height: rem(450px);
+    width: rem(270px);
+    left: 3%;
+    top: 15%;
+    padding: 40px 20px;
+  }
+
+  @media (min-width: 62em) {
+    height: rem(500px);
+    width: rem(300px);
+    left: 3%;
+    top: 3%;
+    padding: 40px 20px;
+  }
+
+  @media (min-width: 88em) {
+    height: rem(550px);
+    width: rem(385px);
+    left: 3%;
+    top: 5%;
+    padding: 40px;
+  }
+}
+
+#incomeTitle {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0;
+  gap: 10px;
+
+  @media (max-width: 36em) {
+    max-height: rem(400px);
+    max-width: rem(400px);
+  }
+
+  @media (min-width: 48em) {
+    max-height: rem(400px);
+    max-width: rem(300px);
+  }
+
+  @media (min-width: 62em) {
+    max-height: rem(400px);
+    max-width: rem(650px);
+  }
+
+  @media (min-width: 88em) {
+    max-height: rem(400px);
+    max-width: rem(650px);
+  }
+}
+
+.incomeCategoryRoot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+  @media (max-width: 36em) {
+    max-height: rem(33px);
+    max-width: rem(150px);
+  }
+
+  @media (min-width: 48em) {
+    max-height: rem(33px);
+    max-width: rem(150px);
+  }
+
+  @media (min-width: 62em) {
+    max-height: rem(33px);
+    max-width: rem(150px);
+  }
+
+  @media (min-width: 88em) {
+    max-height: rem(33px);
+    max-width: rem(200px);
+  }
+}
+
+.incomeCategoryInput {
+  border-radius: 10px;
+  border: none;
+}
+
+.incomeDateRoot {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: none;
+
+  @media (max-width: 36em) {
+    max-height: rem(33px);
+    max-width: rem(230px);
+  }
+
+  @media (min-width: 48em) {
+    max-height: rem(33px);
+    max-width: rem(150px);
+  }
+
+  @media (min-width: 62em) {
+    max-height: rem(33px);
+    max-width: rem(200px);
+  }
+
+  @media (min-width: 88em) {
+    max-height: rem(33px);
+    max-width: rem(250px);
+  }
+}
+
+.incomeDateInput {
+  border-radius: 10px;
+  border: none;
+}
+
+.incomeAmountRoot {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 36em) {
+    max-height: rem(33px);
+    max-width: rem(300px);
+  }
+
+  @media (min-width: 48em) {
+    max-height: rem(33px);
+    max-width: rem(150px);
+  }
+
+  @media (min-width: 62em) {
+    max-height: rem(33px);
+    max-width: rem(320px);
+  }
+
+  @media (min-width: 88em) {
+    max-height: rem(33px);
+    max-width: rem(320px);
+  }
+
+}
+
+.incomeAmountInput {
+  border-radius: 10px;
+  border: none;
+}
+
+.incomeNoteRoot,
+.incomeNoteWrapper {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 36em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 48em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 62em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 88em) {
+    max-height: rem(150px);
+  }
+}
+
+.incomeNoteInput {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: none;
+
+  @media (max-width: 36em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 48em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 62em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 88em) {
+    max-height: rem(150px);
+  }
+}
+
+#incomeFormButton {
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  justify-content: space-between;
+  display: flex;
+}
+
+#incomeDeleteButton {
+  font-size: 20px;
+  font-weight: 400;
+  background-color: rgba(18, 234, 234);
+  color: black;
+  width: 90px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#incomeSaveButton {
+  font-size: 20px;
+  font-weight: 400;
+  background-color: rgba(18, 234, 234);
+  color: black;
+  width: 90px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incomeContainer3 h1 {
+  position: absolute;
+  font-weight: 800;
+  color: #004F5B;
+  font-size: 30px;
+  height: 7%;
+
+  @media (max-width: 36em) {
+    top: -14%;
+    left: 5%;
+  }
+
+  @media (min-width: 48em) {
+    top: 7%;
+    right: -10%;
+  }
+
+  @media (min-width: 62em) {
+    top: -4%;
+    right: -10%;
+  }
+
+
+  @media (min-width: 88em) {
+    right: -10%;
+    top: -2%;
+
+  }
+
+}
+
+#transactionTabletrContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+
+#paginationContainer {
+  margin-left: 25vh;
+  margin-bottom: 2vh;
+}
+
+/* .incomeBackground {
+  background-image: url('/public/Income-background.png');
+  background-size: cover;
+  background-position: center;
+} */
+
+.tableHeader {
+  width: 100%;
+
+  @media (min-width: 88em) {
+    height: rem(40px);
+    width: rem(500px);
+  }
+}
+
+.noTransactionCaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noTransactionCaptionText span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

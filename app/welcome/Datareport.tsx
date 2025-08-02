@@ -1,4 +1,4 @@
-import { Header } from "./Header";
+import { HeaderPage } from "./Header/HeaderPage";
 import { DatePickerInput } from "@mantine/dates";
 import "./Style/Datareport.css";
 import { useEffect, useState } from "react";
@@ -244,7 +244,7 @@ export default function TransactionPieChart() {
 
   return (
     <div className="datareport-background">
-      <Header />
+      <HeaderPage />
 
       <main className="datareport-container">
         <div className="box piechart">
