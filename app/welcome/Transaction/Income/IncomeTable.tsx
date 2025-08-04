@@ -32,7 +32,7 @@ export const IncomeTable: React.FC<IncomeTableProps> = ({
   );
   const [search, setSearch] = useState("");
   const [activePage, setPage] = useState(1);
-  const [itemsPerPage] = useState(6);
+  const [itemsPerPage] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
@@ -94,14 +94,14 @@ export const IncomeTable: React.FC<IncomeTableProps> = ({
                   className={classes.tableRow}
                   style={{ cursor: "pointer" }}
                 >
-                  <TableTd>{transaction.categories?.name ?? "N/A"}</TableTd>
+                  <TableTd className={classes.categoryText}>{transaction.categories?.name ?? "N/A"}</TableTd>
                   <TableTd>
                     {new Date(transaction.date).toLocaleDateString("vi-VN")}
                   </TableTd>
                   <TableTd>
                     {transaction.amount.toLocaleString("vi-VN")} $
                   </TableTd>
-                  <TableTd>{transaction.note}</TableTd>{" "}
+                  <TableTd className={classes.noteText}>{transaction.note}</TableTd>{" "}
                 </TableTr>
               ))
             ) : (

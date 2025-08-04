@@ -74,7 +74,7 @@ body {
   @media (min-width: 62em) {
     height: rem(730px);
     width: rem(1024px);
-    top: 5%;
+    bottom: 30%;
     left: 10%;
   }
 
@@ -160,14 +160,14 @@ body {
   @media (min-width: 48em) {
     height: rem(500px);
     width: rem(730px);
-    top: 5%;
+    top: -65%;
   }
 
   @media (min-width: 62em) {
     height: rem(480px);
     width: rem(750px);
     right: 14%;
-    top:-1%
+    top: -5%;
   }
 
   @media (min-width: 88em) {
@@ -244,17 +244,17 @@ body {
   }
 
   @media (min-width: 48em) {
-    height: rem(450px);
+    height: rem(400px);
     width: rem(435px);
     right: 1%;
-    top: 8%;
+    top: 7%;
   }
 
   @media (min-width: 62em) {
     height: rem(550px);
     width: rem(490px);
     right: 1%;
-    top: -5%;
+    top: 3%;
   }
 
   @media (min-width: 88em) {
@@ -645,6 +645,25 @@ body {
 #paginationContainer {
   margin-left: 300px;
   margin-bottom: 5px;
+
+  @media (max-width: 36em) {
+    margin-left: 0px;
+  }
+
+  @media (min-width: 48em) {
+    margin-bottom: 3px;
+    margin-left: 280px;
+  }
+
+  @media (min-width: 62em) {
+    margin-bottom: 3px;
+    margin-left: 280px;
+  }
+
+  @media (min-width: 88em) {
+    margin-bottom: 10px;
+    margin-left: 300px;
+  }
 }
 
 .tableHeader {
@@ -666,4 +685,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.noteText,
+.categoryText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,4 +1,4 @@
-// transaction-logic.ts
+// transaction.ts
 
 import { supabase } from "../../supabase";
 import dayjs from "dayjs";
