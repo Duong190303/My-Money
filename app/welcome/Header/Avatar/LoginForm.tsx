@@ -15,11 +15,11 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { loginWithEmail, loginWithGoogle } from "./authService"; // tùy path dự án
 import classes from "./Login.module.css";
-
+import { useNavigate } from "react-router-dom";
 export const LoginForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-
+  const navigate = useNavigate();
   const toggle = () => setVisible((v) => !v);
 
   const formLogin = useForm({
@@ -43,7 +43,8 @@ export const LoginForm: React.FC = () => {
         message: "Welcome back!",
         color: "teal",
       });
-      // redirect nếu cần: navigate('/dashboard')
+
+      navigate("/");
     } catch (err: any) {
       showNotification({
         title: "Login failed",
@@ -68,23 +69,19 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    // <Box className={`${classes.formSection} ${classes.loginSection}`}>
     <Box className={classes.form}>
       <Center>
         <Box component={"h3"}>Login Here</Box>
       </Center>
-      <Center>
-        <Text span className={classes.span}>
-          This web helps you manage your money effectively
-        </Text>
-      </Center>
-
+      <Text span className={classes.span}>
+        This web helps you manage your money effectively
+      </Text>
       <Box
         component="form"
         onSubmit={formLogin.onSubmit(handleLogin)}
         className={classes.loginForm + " " + classes.formLoginContainer}
       >
-        <Box className={classes.loginInput}>
+        <Box className={classes.loginInput} w={"100%"} h={"100%"}>
           <TextInput
             className={`${classes.input} ${classes.emailLogin} ${classes.nameLogin}`}
             classNames={{
@@ -113,31 +110,36 @@ export const LoginForm: React.FC = () => {
           />
         </Box>
 
-        <Button
-          className={classes.loginButtonForm}
-          fullWidth
-          classNames={{ root: classes.loginButtonRoot }}
-          variant="transparent"
-          type="submit"
-          disabled={loading}
-        >
-          {loading ? <Loader size="xs" /> : "Login"}
-        </Button>
+        <Center className={classes.centerButton}>
+          <Button
+            className={classes.loginButtonForm}
+            fullWidth
+            classNames={{
+              root: classes.loginButtonRoot,
+              label: classes.loginButtonLabel,
+              inner: classes.loginButtonInner,
+            }}
+            variant="transparent"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? <Loader size="xs" /> : "Login"}
+          </Button>
 
-        <Box className={classes.or}>
-          <Text span>OR</Text>
-        </Box>
+          <Box className={classes.or}>
+            <Text span>OR</Text>
+          </Box>
 
-        <Button
-          className={classes.googleButton}
-          fullWidth
-          classNames={{ root: classes.googleButtonRoot }}
-          variant="outline"
-          onClick={handleGoogleLogin}
-          leftSection={<Image src="/Google.png" alt="google" w={20} h={20} />}
-        >
-          Log in with Google
-        </Button>
+          <Button
+            className={classes.googleButton}
+            classNames={{ root: classes.googleButtonRoot }}
+            variant="outline"
+            onClick={handleGoogleLogin}
+            leftSection={<Image src="/Google.png" alt="google" w={20} h={20} />}
+          >
+            Log in with Google
+          </Button>
+        </Center>
       </Box>
     </Box>
     // </Box>

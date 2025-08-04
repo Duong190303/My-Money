@@ -18,10 +18,10 @@ export function Login() {
     <Box className={`${classes.containerW} ${isActive ? classes.active : ""}`}>
       <Box className={classes.formBoxLogin}>
         <Box className={classes.formsWrapper}>
-          <Box className={classes.formSection}>
+          <Box className={classes.formSection + " " + classes.formSectionRegister}>
             <RegisterForm />
           </Box>
-          <Box className={classes.formSection}>
+          <Box className={classes.formSection + " " + classes.formSectionLogin}>
             <LoginForm />
           </Box>
         </Box>

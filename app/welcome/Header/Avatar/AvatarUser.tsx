@@ -179,7 +179,7 @@ export const AvatarUser: React.FC = () => {
           overlay: classes.drawerOverlay,
         }}
       >
-        {!userId ? (
+        {userId ? (
           <Box className={classes.drawerContainer}>
             <Paper shadow="sm" radius="md" p="md" className={classes.paperUser}>
               <Group align="bottom-left">
@@ -221,7 +221,7 @@ export const AvatarUser: React.FC = () => {
         ) : (
           <Button
             variant="transparent"
-            id={classes.btnWithMymoney}
+            className={classes.btnWithMymoney}
             onClick={() => (window.location.href = "/login")}
           >
             Login

@@ -11,7 +11,7 @@
 
   @media (max-width: 36em) {
     max-width: rem(425px);
-    min-height: rem(900px);
+    min-height: rem(700px);
   }
 
   @media (min-width: 48em) {
@@ -36,11 +36,14 @@
   display: flex;
   width: 100%;
   height: 100%;
+  flex: 1;
   transition: transform 0.6s ease-in-out;
 
   @media (max-width: 36em) {
     max-width: rem(425px);
     max-height: rem(800px);
+    flex-direction: column;
+    transform: translateY(-65%);
   }
 
   @media (min-width: 48em) {
@@ -61,6 +64,10 @@
 
 .containerW.active .formsWrapper {
   transform: translateX(0%);
+
+  @media (max-width: 36em) {
+    transform: translateY(-13%);
+  }
 }
 
 /* Container chính */
@@ -72,7 +79,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #35a7b9;
+  background-color: #e6e6e6;
   color: white;
   display: flex;
   flex-direction: column;
@@ -80,20 +87,22 @@
   align-items: center;
 
 
-  @media (max-width: 36em) {
+  /* @media (max-width: 36em) {
     max-width: rem(425px);
     max-height: rem(600px);
-  }
+    top: 3%;
+  } */
 
   @media (min-width: 48em) {
-    max-width: rem(768px);
+    max-width: rem(700px);
     max-height: rem(600px);
+    top: 4%;
   }
 
   @media (min-width: 62em) {
     max-width: rem(800px);
     max-height: rem(600px);
-    top: 12%;
+    top: 4%;
     right: 11%;
   }
 
@@ -108,14 +117,21 @@
 /* Mỗi form chiếm nửa chiều rộng */
 .formSection {
   width: 50%;
-  padding: 40px;
   background-color: #e6e6e6;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: relative;
   z-index: 2;
+
+  @media (max-width: 36em) {
+    padding: 20px;
+  }
+
+  @media (min-width: 48em) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
 }
 
 /* Nội dung form */
@@ -139,7 +155,7 @@
   cursor: pointer;
   color: #ffffff;
   font-weight: bold;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   transition: 0.3s;
   font-family: "Afacad", sans-serif;
   font-size: 20px;
@@ -213,74 +229,25 @@
   transition-delay: 1.2s;
 }
 
-
-@media screen and (max-width: 650px) {
-  .containerW {
-    height: calc(100vh - 40px);
-  }
-
-  .formBoxLogin {
-    bottom: 0;
-    width: 100%;
-    height: 70%;
-  }
-
-  .containerW.active .formBox {
-    right: 0;
-    bottom: 30%;
-  }
-
-  .toggleBox::before {
-    left: 0;
-    top: -270%;
-    width: 100%;
-    height: 300%;
-    border-radius: 20vw;
-  }
-
-  .containerW.active .toggleBox::before {
-    left: 0;
-    top: 70%;
-  }
-
-  .container.active .togglePanel.toggleLeft {
-    left: 0;
-    top: -30%;
-  }
-
-  .togglePanel {
-    width: 100%;
-    height: 30%;
-  }
-
-  .togglePanel.toggleLeft {
-    top: 0;
-  }
-
-  .togglePanel.toggleRight {
-    right: 0;
-    bottom: -30%;
-  }
-
-  .container.active .togglePanel.toggleRight {
-    bottom: 0;
-  }
-}
-
 .togglePanel p {
-  margin-bottom: 20px;
   font-size: 20px;
   font-family: "Afacad", sans-serif;
   color: #fff;
+
+  @media (max-width: 36em) {
+    font-size: 18px;
+  }
 }
 
 .togglePanel h1 {
-  margin-bottom: 10px;
-  margin-bottom: 20px;
   font-weight: 800;
   font-size: 40px;
   font-family: "Afacad", sans-serif;
   color: #fff;
+
+  @media (max-width: 36em) {
+    font-size: 32px;
+  }
 }
 
 .togglePanel span span {
@@ -361,60 +328,7 @@
   font-family: "Afacad", sans-serif;
 } */
 
-.span {
-  color: #3485a2;
-  font-family: "Afacad", sans-serif;
-}
 
-@media screen and (max-width: 768px) {
-  .formboxLogin {
-    flex-direction: column;
-    width: 90%;
-    height: auto;
-  }
-
-  .formSection {
-    width: 100%;
-    padding: 30px 20px;
-  }
-
-  .formSection h3 {
-    font-size: 26px;
-  }
-
-  .loginInput input,
-  .registerInput input,
-  .passwordRegister,
-  .confirmPasswordRegister {
-    width: 100% !important;
-  }
-
-
-
-  .googleButton {
-    width: 100% !important;
-    margin-left: 0 !important;
-  }
-
-  .toggleBox {
-    display: none;
-    /* Ẩn toggle ở mobile để tối ưu giao diện */
-  }
-
-  /* .form {
-    margin-top: 0;
-  } */
-
-  .or {
-    margin: 20px 0;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .toggleBox {
-    display: none;
-  }
-}
 
 .hidden {
   display: none;
@@ -427,8 +341,12 @@
 
 .formSection {
   width: 50%;
-  padding: 40px;
   box-sizing: border-box;
+
+  @media (max-width: 36em) {
+    width: 100%;
+    top: 20%;
+  }
 }
 
 
@@ -440,12 +358,8 @@
   text-align: center;
 }
 
-.togglePanel {
-  margin-bottom: 2rem;
-}
-
 .btn {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   border-radius: 20px;
   padding: 10px 30px;
   background-color: #ffffff;
@@ -455,12 +369,9 @@
   cursor: pointer;
 }
 
-.btn:hover {
-  background-color: #f1f1f1;
-}
 
 .btn {
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
   background-color: #fff;
   color: #35a7b9;
   border: none;
@@ -490,11 +401,50 @@
   width: 100%;
   height: 100%;
 
+  @media (max-width: 36em) {
+    margin-bottom: 10px;
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(800px);
+    max-height: rem(100px);
+    min-height: 50px;
+    margin: 15px 0;
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(800px);
+    max-height: rem(100px);
+    min-height: 50px;
+    margin: 15px 0;
+  }
+
   @media (min-width: 88em) {
     max-width: rem(800px);
     max-height: rem(100px);
     min-height: 50px;
     margin: 15px 0;
+  }
+}
+
+.span {
+  color: #3485a2;
+  font-family: "Afacad", sans-serif;
+
+  @media (max-width: 36em) {
+    font-size: 12px;
+  }
+
+  @media (min-width: 48em) {
+    font-size: 11.5px;
+  }
+
+  @media (min-width: 62em) {
+    font-size: 14px;
+  }
+
+  @media (min-width: 88em) {
+    font-size: 16px;
   }
 }
 
@@ -506,12 +456,51 @@
   color: #fff;
   padding: 0;
 
+  @media (max-width: 36em) {
+    max-height: rem(50px);
+    min-height: 30px;
+    max-width: 100px;
+    margin: 10px 37%;
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(100px);
+    max-height: rem(50px);
+    min-height: 35px;
+    margin: 10px 97px;
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(100px);
+    max-height: rem(50px);
+    min-height: 35px;
+    margin: 10px 110px;
+  }
+
   @media (min-width: 88em) {
     max-width: rem(100px);
     max-height: rem(50px);
     min-height: 35px;
     margin: 15px 130px;
   }
+}
+
+.loginButtonLabel {
+  @media (max-width: 36em) {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.loginButtonInner {
+  @media (max-width: 36em) {
+    width: 100%;
+    height: 20px;
+  }
+
 }
 
 .loginButtonForm:hover,
@@ -537,4 +526,95 @@
     transform: translateY(-2px);
     transition: all 0.3s ease;
   }
+
+  @media (max-width: 36em) {
+    margin: 0 23%;
+    width: 200px;
+  }
+
+  @media (min-width: 48em) {
+    margin: 0 50px;
+    width: 200px;
+  }
+
+  @media (min-width: 62em) {
+    margin: 10px 60px;
+  }
+
+  @media (min-width: 88em) {
+    margin: 15px 80px;
+  }
+}
+
+@media (max-width: 36em) {
+  .containerW {
+    height: calc(100vh - 40px);
+  }
+
+  .formBoxLogin {
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .containerW.active .formBoxLogin {
+    right: 0;
+  }
+
+  .toggleBox::before {
+    left: 0;
+    top: -279%;
+    width: 100%;
+    height: 300%;
+    border-radius: 20vw;
+  }
+
+  .containerW.active .toggleBox::before {
+    left: 0;
+    top: 75%;
+  }
+
+  .containerW.active .togglePanel.toggleLeft {
+    left: 0;
+    top: -30%;
+  }
+
+  .togglePanel {
+    width: 100%;
+    height: 20%;
+  }
+
+  .togglePanel.toggleLeft {
+    top: -2%;
+  }
+
+  .togglePanel.toggleRight {
+    right: 0;
+    bottom: -30%;
+  }
+
+  .containerW.active .togglePanel.toggleRight {
+    bottom: 5%;
+  }
+}
+
+/* .containerW.active .formBoxLogin{ right: 50%; } */
+
+
+
+.containerW.active {
+  .formBoxLogin.formSectionRegister {
+    visibility: visible;
+  }
+
+  .formBoxLogin.formSectionLogin {
+    visibility: hidden;
+  }
+}
+
+.centerButton{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

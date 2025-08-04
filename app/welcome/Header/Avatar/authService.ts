@@ -14,7 +14,7 @@ export async function loginWithEmail(email: string, password: string) {
   const { data: userInfo } = await supabase
     .from("users")
     .select("*")
-    .eq("id_user", data.user.id)
+    .eq("id", data.user.id)
     .single();
 
   return {
@@ -23,12 +23,40 @@ export async function loginWithEmail(email: string, password: string) {
   };
 }
 
-export async function registerWithEmail(email: string, password: string) {
+export async function registerWithEmail(
+  user_name: string,
+  email: string,
+  password: string
+) {
   const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error) throw error;
+  const user = data.user;
 
-  return data.user;
+  if (!user) throw new Error("No user created");
+
+  // Check xem email đã tồn tại trong bảng users chưa
+  const { data: existing, error: checkError } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (existing) {
+    console.warn("User email already exists in users table");
+    return user;
+  }
+
+  // Chèn vào bảng users nếu chưa tồn tại
+  const { error: insertError } = await supabase.from("users").insert({
+    id: user.id,
+    user_name,
+    email,
+  });
+
+  if (insertError) throw insertError;
+
+  return user;
 }
 
 export async function loginWithGoogle() {

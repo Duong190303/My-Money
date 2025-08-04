@@ -1,0 +1,688 @@
+
+import { HeaderPage } from "../../Header/HeaderPage";
+import { Box } from "@mantine/core";
+import { useState, useEffect } from "react";
+import { IconSearch } from "@tabler/icons-react";
+import { DateInput } from "@mantine/dates";
+import { supabase } from "../../../supabase";
+import { Notifications } from "@mantine/notifications";
+import classes from "../transaction.module.css";
+import { Pagination } from "@mantine/core";
+import dayjs from "dayjs";
+import { ExpensesTable } from "./ExpensesTable";
+import { TableTranExpenses } from "./TableTranExpenses";
+
+type Transaction = {
+  id: number;
+  id_user: string;
+  id_cate: number;
+  amount: number;
+  note: string;
+  date: string;
+  transaction_type: string;
+  categories: { name: string }; // thêm thuộc tính categories
+};
+export default function Expenses() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [categories, setCategories] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [amount, setAmount] = useState("");
+  const [note, setNote] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string>("");
+  const [search, setSearch] = useState("");
+  const [sortedTransactions, setSortedTransactions] = useState(transactions);
+  const [editingTransactionId, setEditingTransactionId] = useState<
+    number | null
+  >(null);
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(1);
+  // 1. Lấy thông tin user hiện tại từ Supabase Auth
+  useEffect(() => {
+    async function getCurrentUser() {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+      if (error) {
+        console.error("Không lấy được người dùng:", error.message);
+      } else if (user) {
+        setUserId(user.id);
+        console.log("User đã đăng nhập:", user.id);
+      }
+    }
+
+    getCurrentUser();
+  }, []);
+
+  // 2. Lấy dữ liệu từ bảng users và bảng categories
+  useEffect(() => {
+    async function fetchCategories() {
+      const { data: categoriesData, error } = await supabase
+        .from("categories")
+        .select("id_cate, name")
+        .eq("id_type", 22222);
+      if (categoriesData) {
+        setCategories(
+          categoriesData.map((item) => ({
+            label: item.name,
+            value: item.id_cate.toString(),
+          }))
+        );
+      } else {
+        console.error("Error fetching categories:", error);
+      }
+
+      setLoading(false);
+    }
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      fetchTransactions();
+    }
+  }, [userId, activePage]);
+  const fetchTransactions = async () => {
+    if (!userId) return;
+
+    // Lấy toàn bộ transaction trước để lọc đúng
+    const { data, error } = await supabase
+      .from("transactions")
+      .select(
+        `
+          *,
+          categories (
+            name,
+            id_type
+          )
+        `
+      )
+      .eq("id_user", userId);
+
+    if (error) {
+      console.error("Error fetching transactions:", error);
+      return;
+    }
+
+    // Lọc ra các giao dịch có id_type là 22222
+    const filtered = (data || []).filter(
+      (tran) => tran.categories?.id_type === 22222
+    );
+
+    const totalFiltered = filtered.length;
+    const pages = Math.ceil(totalFiltered / itemsPerPage);
+
+    if (activePage > pages) {
+      setPage(pages || 1);
+    }
+
+    const start = (activePage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginated = filtered.slice(start, end);
+
+    setTransactions(paginated);
+    setSortedTransactions(paginated);
+    setTotalPages(pages);
+  };
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearch(searchTerm);
+
+    const filteredTransactions = transactions.filter((transaction) => {
+      // Kiểm tra các trường trực tiếp trong transaction
+      const basicMatch = Object.values(transaction).some((value) =>
+        String(value).toLowerCase().includes(searchTerm)
+      );
+
+      // Kiểm tra riêng cho categories.name nếu tồn tại
+      const categoryMatch = transaction.categories?.name
+        ?.toLowerCase()
+        .includes(searchTerm);
+
+      return basicMatch || categoryMatch;
+    });
+
+    setSortedTransactions(filteredTransactions);
+  };
+
+  const handleSaveOrUpdate = async () => {
+    if (!selectedCategory || !date || !amount) {
+      Notifications.show({
+        title: "Lack of information",
+        message: "Please fill in the information before saving.",
+        color: "red",
+      });
+      return;
+    }
+
+    const payload = {
+      id_user: userId,
+      id_cate: parseInt(selectedCategory),
+      amount: parseFloat(amount),
+      note: note,
+      date: dayjs(date).format("YYYY-MM-DD"),
+      transaction_type: "Expenses",
+    };
+
+    let error;
+
+    if (editingTransactionId) {
+      // Update
+      const result = await supabase
+        .from("transactions")
+        .update(payload)
+        .eq("id", editingTransactionId); // dùng ID để update chính xác
+      error = result.error;
+    } else {
+      // Insert
+      const result = await supabase.from("transactions").insert(payload);
+      error = result.error;
+    }
+
+    if (error) {
+      console.error("Lỗi lưu giao dịch:", error);
+      Notifications.show({
+        title: "Error",
+        message: "Can not transfer transactions. Please try again.",
+        color: "red",
+      });
+    } else {
+      Notifications.show({
+        title: editingTransactionId ? "Success update" : "Add new successfully",
+        message: editingTransactionId
+          ? "The transaction has been updated."
+          : "Spending has been saved!",
+        color: "green",
+      });
+      setAmount("");
+      setNote("");
+      setDate(null);
+      setSelectedCategory(null);
+      setEditingTransactionId(null); // reset lại để trở về trạng thái thêm mới
+      await fetchTransactions();
+    }
+  };
+
+  const handleRowClick = (transaction: Transaction) => {
+    setSelectedCategory(transaction.id_cate.toString());
+    setAmount(transaction.amount.toString());
+    setNote(transaction.note || "");
+    setDate(new Date(transaction.date));
+    setEditingTransactionId(transaction.id);
+  };
+  const handleDelete = async () => {
+    if (!selectedCategory || !date || !amount) {
+      Notifications.show({
+        title: "Lack of information",
+        message: "Please fill out the information to delete transactions!",
+        color: "red",
+      });
+      return;
+    }
+
+    const { error } = await supabase
+      .from("transactions")
+      .delete()
+      .eq("id_user", userId)
+      .eq("id_cate", parseInt(selectedCategory))
+      .eq("date", date.toISOString().split("T")[0])
+      .eq("amount", parseFloat(amount));
+
+    if (error) {
+      console.error("Lỗi xóa giao dịch:", error);
+    } else {
+      Notifications.show({
+        title: "Delete successfully",
+        message: "The transaction has been deleted!",
+        color: "green",
+      });
+      setAmount("");
+      setNote("");
+      setDate(null);
+      setSelectedCategory(null);
+      await fetchTransactions();
+    }
+  };
+
+  return (
+    <Box className={classes.incomeBackground}>
+      <HeaderPage />
+      <Box id={classes.incomeContainer}>
+        <ExpensesTable onRowClick={handleRowClick} />
+        <Box className={classes.incomeContainer1} />
+        <TableTranExpenses />
+      </Box>
+    </Box>
+  );
+}
+
+
+
+
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Table,
+  Text,
+  TextInput,
+  Box,
+  Pagination,
+  TableCaption,
+  TableThead,
+  TableTr,
+  TableTbody,
+  TableTd,
+} from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
+import classes from "../transaction.module.css";
+import { supabase } from "../../../supabase";
+type Transaction = {
+  id: number;
+  id_user: string;
+  id_cate: number;
+  amount: number;
+  note: string;
+  date: string;
+  categories: { name: string; id_type: number };
+};
+
+// Đổi tên để rõ ràng hơn, và nhận props từ component cha
+type IncomeTableProps = {
+  onRowClick: (transaction: Transaction) => void;
+};
+export const ExpensesTable: React.FC<IncomeTableProps> = ({ onRowClick }) => {
+  const [userId, setUserId] = useState<string>("");
+  const [allTransactions, setAllTransactions] = useState<Transaction[]>([]); // Lưu tất cả giao dịch của user
+  const [sortedTransactions, setSortedTransactions] = useState<Transaction[]>(
+    []
+  ); // Giao dịch để hiển thị (đã lọc và phân trang)
+  const [search, setSearch] = useState("");
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(1);
+
+  // 1. Lấy thông tin user hiện tại
+  useEffect(() => {
+    async function getCurrentUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      }
+    }
+    getCurrentUser();
+  }, []);
+
+  // 2. Fetch tất cả giao dịch của user một lần khi có userId
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchAllTransactions = async () => {
+      const { data, error } = await supabase
+        .from("transactions")
+        .select(`*, categories (name, id_type)`)
+        .eq("id_user", userId)
+        .order("date", { ascending: false }); // Sắp xếp sẵn
+
+      if (error) {
+        console.error("Error fetching transactions:", error);
+        return;
+      }
+
+      const incomeTransactions = (data || []).filter(
+        (tran) => tran.categories?.id_type === 11111
+      );
+      setAllTransactions(incomeTransactions);
+    };
+
+    fetchAllTransactions();
+  }, [userId]);
+
+  // 3. Lọc và phân trang dữ liệu mỗi khi data gốc, search, hoặc page thay đổi
+  useEffect(() => {
+    let filtered = allTransactions;
+
+    if (search) {
+      const searchTerm = search.toLowerCase();
+      filtered = allTransactions.filter(
+        (transaction) =>
+          transaction.categories?.name.toLowerCase().includes(searchTerm) ||
+          transaction.note.toLowerCase().includes(searchTerm) ||
+          transaction.amount.toString().includes(searchTerm) ||
+          transaction.date.includes(searchTerm)
+      );
+    }
+
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+
+    const start = (activePage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    setSortedTransactions(filtered.slice(start, end));
+  }, [allTransactions, search, activePage]);
+
+  return (
+    <Box id={classes.incomeContainer2}>
+      <Box id={classes.incomeText}>
+        <TextInput
+          id={classes.searchInput}
+          leftSection={<IconSearch size={16} stroke={1.5} />}
+          placeholder="Search for transactions by category, note,..."
+          value={search}
+          onChange={(event) => {
+            setSearch(event.currentTarget.value);
+            setPage(1); // Reset về trang 1 khi tìm kiếm
+          }}
+        />
+        <Table
+          id={classes.transactionTable}
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          layout="fixed"
+        >
+          <TableThead className={classes.tableHeader}>
+            <TableTr>
+              <TableTd>Catelogies</TableTd>
+              <TableTd>Date</TableTd>
+              <TableTd>Amount</TableTd>
+              <TableTd>Note</TableTd>
+            </TableTr>
+          </TableThead>
+          {sortedTransactions.length > 0 ? (
+            sortedTransactions.map((transaction) => (
+              <TableTbody>
+                {/* SỬA LỖI: Kiểm tra sortedTransactions thay vì transactions */}
+                {/* sortedTransactions.map((transaction) => ( */}
+                <TableTr
+                  // SỬA BUG: Key phải là duy nhất, dùng transaction.id
+                  key={transaction.id}
+                  onClick={() => onRowClick(transaction)}
+                  className={classes.tableRow} // Thêm class để có hiệu ứng hover
+                >
+                  <TableTd>{transaction.categories?.name ?? "N/A"}</TableTd>
+                  <TableTd>
+                    {new Date(transaction.date).toLocaleDateString("vi-VN")}
+                  </TableTd>
+                  <TableTd>
+                    {transaction.amount.toLocaleString("vi-VN")} $
+                  </TableTd>
+                  <TableTd>{transaction.note}</TableTd>
+                </TableTr>
+              </TableTbody>
+            ))
+          ) : (
+            <TableCaption
+              className={classes.noTransactionCaption}
+              w={{
+                base: "400px",
+                sm: "430px",
+                md: "490px",
+                lg: "490px",
+                xl: "650px",
+                xxl: "650px",
+              }}
+              h={{
+                base: "350px",
+                xs: "300px",
+                sm: "300px",
+                md: "300px",
+                lg: "300px",
+                xl: "350px",
+                xxl: "350px",
+              }}
+            >
+              <Text
+                span
+                c={"white"}
+                classNames={{
+                  root: classes.noTransactionText,
+                }}
+              >
+                No transaction has been recorded!
+              </Text>
+            </TableCaption>
+          )}
+        </Table>
+      </Box>
+      {totalPages > 1 && (
+        <Box id={classes.paginationContainer}>
+          <Pagination
+            value={activePage}
+            onChange={setPage}
+            total={totalPages}
+            size="sm"
+            color="teal"
+            radius="md"
+          />
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+
+
+
+"use client";
+
+import { useState, useEffect } from "react";
+import { Select, TextInput, Button, Textarea, Box } from "@mantine/core";
+import { supabase } from "../../../supabase";
+import { showNotification } from "@mantine/notifications";
+import { DateInput } from "@mantine/dates";
+import classes from "../transaction.module.css";
+import dayjs from "dayjs";
+
+export const TableTranExpenses: React.FC = () => {
+  const [categories, setCategories] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [amount, setAmount] = useState("");
+  const [note, setNote] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
+  const [userId, setUserId] = useState<string>("");
+  const [editingTransactionId, setEditingTransactionId] = useState<
+    number | null
+  >(null);
+
+  // 1. Fetch current user from Supabase Auth
+  useEffect(() => {
+    async function getCurrentUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      }
+    }
+    getCurrentUser();
+  }, []);
+
+  // 2. Fetch categories data from the 'categories' table
+  useEffect(() => {
+    async function fetchCategories() {
+      const { data: categoriesData, error } = await supabase
+        .from("categories")
+        .select("id_cate, name")
+        .eq("id_type", 11111);
+
+      if (categoriesData) {
+        setCategories(
+          categoriesData.map((item) => ({
+            label: item.name,
+            value: item.id_cate.toString(),
+          }))
+        );
+      } else {
+        console.error("Error fetching categories:", error);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+  const handleSaveOrUpdate = async () => {
+    if (!selectedCategory || !date || !amount) {
+      showNotification({
+        title: "Thiếu thông tin",
+        message: "Vui lòng điền đủ thông tin trước khi lưu.",
+        color: "red",
+      });
+      return;
+    }
+
+    const payload = {
+      id_user: userId,
+      id_cate: parseInt(selectedCategory),
+      amount: parseFloat(amount),
+      note: note,
+      date: dayjs(date).format("YYYY-MM-DD"),
+      transaction_type: "Income",
+    };
+
+    const { error } = editingTransactionId
+      ? await supabase
+          .from("transactions")
+          .update(payload)
+          .eq("id", editingTransactionId)
+      : await supabase.from("transactions").insert(payload);
+
+    if (error) {
+      console.error("Lỗi lưu giao dịch:", error);
+      showNotification({
+        title: "Lỗi",
+        message: "Không thể lưu giao dịch. Vui lòng thử lại.",
+        color: "red",
+      });
+    } else {
+      showNotification({
+        title: editingTransactionId
+          ? "Cập nhật thành công"
+          : "Thêm mới thành công",
+        message: editingTransactionId
+          ? "Giao dịch đã được cập nhật."
+          : "Khoản thu nhập đã được lưu!",
+        color: "green",
+      });
+      // Reset form
+      setAmount("");
+      setNote("");
+      setDate(null);
+      setSelectedCategory(null);
+      setEditingTransactionId(null);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!editingTransactionId) {
+      showNotification({
+        title: "Chưa chọn giao dịch",
+        message: "Bạn cần chọn một giao dịch để xóa!",
+        color: "red",
+      });
+      return;
+    }
+
+    const { error } = await supabase
+      .from("transactions")
+      .delete()
+      .eq("id", editingTransactionId);
+
+    if (error) {
+      console.error("Lỗi xóa giao dịch:", error);
+    } else {
+      showNotification({
+        title: "Xóa thành công",
+        message: "Giao dịch đã được xóa!",
+        color: "green",
+      });
+      // Reset form
+      setAmount("");
+      setNote("");
+      setDate(null);
+      setSelectedCategory(null);
+      setEditingTransactionId(null);
+    }
+  };
+  return (
+    <Box className={classes.incomeContainer3}>
+      <Box component="h1">EXPENSES</Box>
+      <Box
+        component="form"
+        id={classes.incomeForm}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSaveOrUpdate();
+        }}
+      >
+        <Box id={classes.incomeTitle}>
+          <Select
+            classNames={{
+              root: classes.incomeCategoryRoot,
+              input: classes.incomeCategoryInput,
+            }}
+            placeholder={"Categories"}
+            data={categories}
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            clearable
+            searchable
+          />
+          <DateInput
+            classNames={{
+              root: classes.incomeDateRoot,
+              input: classes.incomeDateInput,
+            }}
+            size="sm"
+            placeholder="Date"
+            valueFormat="DD/MM/YYYY"
+            value={date}
+            onChange={setDate}
+            popoverProps={{
+              withinPortal: true,
+            }}
+          />
+          <TextInput
+            type="number"
+            classNames={{
+              root: classes.incomeAmountRoot,
+              input: classes.incomeAmountInput,
+            }}
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <Textarea
+            classNames={{
+              root: classes.incomeNoteRoot,
+              input: classes.incomeNoteInput,
+              wrapper: classes.incomeNoteWrapper,
+            }}
+            placeholder="Note"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+        </Box>
+        <Box id={classes.incomeFormButton}>
+          <Button
+            type="button"
+            id={classes.incomeDeleteButton}
+            onClick={handleDelete}
+            disabled={!editingTransactionId}
+          >
+            Delete
+          </Button>
+          <Button type="submit" id={classes.incomeSaveButton}>
+            {editingTransactionId ? "Update" : "Save"}
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  );
+};

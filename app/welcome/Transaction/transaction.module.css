@@ -134,8 +134,8 @@ body {
 }
 
 #incomeContainer2 {
+  display: flex;
   position: absolute;
-  /* display: flex; */
   background-color: #45C4BE;
   width: 100%;
   height: 100%;
@@ -190,7 +190,7 @@ body {
   width: 100%;
   flex-direction: column;
   display: flex;
-  z-index: 3;
+  z-index: 2;
 
   @media (max-width: 36em) {
     max-width: rem(420px);
@@ -232,7 +232,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   position: absolute;
 
   @media (max-width: 36em) {
@@ -261,7 +261,7 @@ body {
     height: rem(450px);
     width: rem(650px);
     right: 1%;
-    top: 8%;
+    top: 7%;
   }
 }
 
@@ -643,15 +643,9 @@ body {
 }
 
 #paginationContainer {
-  margin-left: 25vh;
-  margin-bottom: 2vh;
+  margin-left: 300px;
+  margin-bottom: 5px;
 }
-
-/* .incomeBackground {
-  background-image: url('/public/Income-background.png');
-  background-size: cover;
-  background-position: center;
-} */
 
 .tableHeader {
   width: 100%;

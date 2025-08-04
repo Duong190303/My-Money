@@ -13,22 +13,26 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
-import classes from "./Login.module.css"; // Đổi tên phù hợp nếu cần
-import { Form } from "react-router-dom"; // ← dùng react-router
-import { registerWithEmail, loginWithGoogle } from "./authService"; // chỉnh path tùy theo dự án
+import classes from "./Login.module.css";
+import { Form } from "react-router-dom";
+import { registerWithEmail, loginWithGoogle } from "./authService";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const formRegister = useForm({
+  const form = useForm({
     initialValues: {
-      name: "",
+      user_name: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
 
     validate: {
+      user_name: (value) =>
+        value.trim().length > 0 ? null : "Name is required",
       email: (value) => (/^\S+@\S+\.\S+$/.test(value) ? null : "Invalid email"),
       password: (value) =>
         value.length >= 8 ? null : "Password must be at least 8 characters",
@@ -37,16 +41,31 @@ export const RegisterForm: React.FC = () => {
     },
   });
 
-  const handleRegister = async (values: typeof formRegister.values) => {
+  const handleRegister = async (values: typeof form.values) => {
     setLoading(true);
+
     try {
-      await registerWithEmail(values.email, values.password);
+      const user = await registerWithEmail(
+        values.user_name,
+        values.email,
+        values.password
+      );
+
+      if (!user) {
+        throw new Error("No user returned from Supabase.");
+      }
+
+      console.log(" Registered user:", user);
+
       showNotification({
         title: "Registered successfully",
         message: "Please check your email to confirm your account",
         color: "teal",
       });
+
+      navigate("/");
     } catch (err: any) {
+      console.error("Register error:", err);
       showNotification({
         title: "Register failed",
         message: err.message || "An error occurred",
@@ -70,7 +89,6 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    // <Box className={`${classes.formSection} ${classes.registerSection}`}>
     <Box className={classes.form}>
       <Center>
         <Box component="h3">Register Here</Box>
@@ -82,12 +100,12 @@ export const RegisterForm: React.FC = () => {
       </Center>
 
       <Form
-        onSubmit={formRegister.onSubmit(handleRegister)}
+        onSubmit={form.onSubmit(handleRegister)}
         className={classes.registerForm + " " + classes.formRegisterContainer}
       >
         <Box className={classes.registerInput}>
           <TextInput
-            className={`${classes.input} ${classes.emailLogin} ${classes.nameLogin}`}
+            className={`${classes.input} ${classes.nameLogin}`}
             classNames={{
               root: classes.inputRoot,
               input: classes.inputInput,
@@ -95,7 +113,7 @@ export const RegisterForm: React.FC = () => {
               wrapper: classes.inputWrapper,
             }}
             placeholder="Name"
-            {...formRegister.getInputProps("name")}
+            {...form.getInputProps("user_name")}
           />
 
           <TextInput
@@ -108,7 +126,7 @@ export const RegisterForm: React.FC = () => {
             }}
             type="email"
             placeholder="Email"
-            {...formRegister.getInputProps("email")}
+            {...form.getInputProps("email")}
           />
 
           <PasswordInput
@@ -120,7 +138,7 @@ export const RegisterForm: React.FC = () => {
               wrapper: classes.inputWrapper,
             }}
             placeholder="Password"
-            {...formRegister.getInputProps("password")}
+            {...form.getInputProps("password")}
           />
 
           <PasswordInput
@@ -132,36 +150,40 @@ export const RegisterForm: React.FC = () => {
               wrapper: classes.inputWrapper,
             }}
             placeholder="Re-enter Password"
-            {...formRegister.getInputProps("confirmPassword")}
+            {...form.getInputProps("confirmPassword")}
           />
         </Box>
 
-        <Button
-          variant="transparent"
-          type="submit"
-          disabled={loading}
-          className={classes.registerButtonForm}
-          classNames={{ root: classes.loginButtonRoot }}
-        >
-          {loading ? <Loader size="xs" /> : "Register"}
-        </Button>
+        <Center className={classes.centerButton}>
+          <Button
+            variant="transparent"
+            type="submit"
+            disabled={loading}
+            className={classes.registerButtonForm}
+            classNames={{
+              root: classes.loginButtonRoot,
+              label: classes.loginButtonLabel,
+              inner: classes.loginButtonInner,
+            }}
+          >
+            {loading ? <Loader size="xs" /> : "Register"}
+          </Button>
 
-        <Box className={classes.or}>
-          <Text span>OR</Text>
-        </Box>
+          <Box className={classes.or}>
+            <Text span>OR</Text>
+          </Box>
 
-        <Button
-          variant="transparent"
-          fullWidth
-          onClick={handleGoogleLogin}
-          className={classes.googleButton}
-          classNames={{ root: classes.googleButtonRoot }}
-          leftSection={<Image src="/Google.png" alt="google" w={20} h={20} />}
-        >
-          Log in with Google
-        </Button>
+          <Button
+            variant="transparent"
+            onClick={handleGoogleLogin}
+            className={classes.googleButton}
+            classNames={{ root: classes.googleButtonRoot }}
+            leftSection={<Image src="/Google.png" alt="google" w={20} h={20} />}
+          >
+            Log in with Google
+          </Button>
+        </Center>
       </Form>
     </Box>
-    // </Box>
   );
 };

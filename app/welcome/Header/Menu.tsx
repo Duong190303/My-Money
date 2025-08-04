@@ -53,24 +53,24 @@ export const Menu: React.FC = () => {
       <Button
         className={classes.homeNavItem}
         variant="transparent"
-        // onClick={handleIncome}
-        onClick={() => navigate("/income")}
+        onClick={handleIncome}
+        // onClick={() => navigate("/income")}
       >
         income
       </Button>
       <Button
         className={classes.homeNavItem}
         variant="transparent"
-        // onClick={handleExpenses}
-        onClick={() => navigate("/expenses")}
+        onClick={handleExpenses}
+        // onClick={() => navigate("/expenses")}
       >
         expenses
       </Button>
       <Button
         className={classes.homeNavItem}
         variant="transparent"
-        // onClick={handleDataReport}
-        onClick={() => navigate("/datareport")}
+        onClick={handleDataReport}
+        // onClick={() => navigate("/datareport")}
       >
         data report
       </Button>
