@@ -1,6 +1,6 @@
 "use client";
 
-import { Box } from "@mantine/core";
+import { Box, ScrollArea } from "@mantine/core";
 import { HeaderPage } from "../Header/HeaderPage";
 import classes from "./Datareport.module.css";
 import { PieChartCard } from "../DataReport/PiechartCard";
@@ -234,38 +234,40 @@ export default function DataReport() {
   );
 
   return (
-    <Box className={classes.datareportBackground}>
-      <HeaderPage />
-      <Box component="main" className={classes.datareportContainer}>
-        <PieChartCard
-          pieChartData={pieChartData}
-          transactionType={transactionType}
-          onTransactionTypeChange={setTransactionType}
-          loading={loading}
-        />
-        <TotalCard
-          selectFullDate={selectedDate}
-          onDateChange={setSelectedDate}
-          totalIncome={totalIncome}
-          totalExpenses={totalExpenses}
-          balance={balance}
-          loading={loading}
-          transactionType={transactionType}
-        />
-        <HistoryCard
-          transactions={transactions}
-          loading={loading}
-          selectedCategoryId={selectedCategoryId}
-          transactionType={transactionType} // Truyền prop mới
-        />
-        <ChartCard
-          selectFullDate={selectedDate}
-          timeRange={timeRange}
-          onTimeRangeChange={setTimeRange}
-          barChartData={barChartData}
-          loading={loading}
-        />
+    <ScrollArea mah={700} scrollbars="y">
+      <Box className={classes.datareportBackground}>
+        <HeaderPage />
+        <Box component="main" className={classes.datareportContainer}>
+          <PieChartCard
+            pieChartData={pieChartData}
+            transactionType={transactionType}
+            onTransactionTypeChange={setTransactionType}
+            loading={loading}
+          />
+          <TotalCard
+            selectFullDate={selectedDate}
+            onDateChange={setSelectedDate}
+            totalIncome={totalIncome}
+            totalExpenses={totalExpenses}
+            balance={balance}
+            loading={loading}
+            transactionType={transactionType}
+          />
+          <HistoryCard
+            transactions={transactions}
+            loading={loading}
+            selectedCategoryId={selectedCategoryId}
+            transactionType={transactionType} // Truyền prop mới
+          />
+          <ChartCard
+            selectFullDate={selectedDate}
+            timeRange={timeRange}
+            onTimeRangeChange={setTimeRange}
+            barChartData={barChartData}
+            loading={loading}
+          />
+        </Box>
       </Box>
-    </Box>
+    </ScrollArea>
   );
 }
