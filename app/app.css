@@ -173,24 +173,28 @@ body {
 
   @media (max-width: 36em) {
     max-width: rem(425px);
+    min-height: rem(664px);
     max-height: rem(664px);
     margin: 0 auto;
   }
 
   @media (min-width: 48em) {
     max-width: rem(768px);
-    max-height: rem(950px);
+    max-height: rem(960px);
+    min-height: rem(960px);
     margin: 0 auto;
   }
 
   @media (min-width: 62em) {
     max-width: rem(1024px);
-    max-height: rem(645px);
+    min-height: rem(665px);
+    max-height: rem(665px);
     margin: 0 auto;
   }
 
   @media (min-width: 88em) {
     max-width: rem(1440px);
+    min-height: rem(780px);
     max-height: rem(780px);
   }
 

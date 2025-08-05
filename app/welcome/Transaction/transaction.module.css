@@ -77,7 +77,7 @@ body {
   @media (min-width: 62em) {
     height: rem(730px);
     width: rem(1024px);
-    bottom: 30%;
+    bottom: -10%;
     left: 10%;
   }
 

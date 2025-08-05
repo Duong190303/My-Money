@@ -38,8 +38,8 @@
 
     @media (min-width: 100em) {
         max-width: rem(2650px);
-        max-height: rem(500px);
-        min-height: rem(500px);
+        /* max-height: rem(500px);
+        min-height: rem(500px); */
         padding: 0 1rem;
     }
 }
