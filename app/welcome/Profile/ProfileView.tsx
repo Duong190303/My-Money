@@ -92,47 +92,6 @@ export const ProfileView = () => {
   };
 
   return (
-    // <Box bg="#f0f4f8" py="xl">
-    //   <Center>
-    //     <Container w={480} p="xl" bg="white" style={{ borderRadius: 12 }}>
-    //       {isEditing ? (
-    //         <Stack align="center">
-    //           <Avatar src={avatarPreview || profile?.avatar_url} size="xl" />
-    //           <TextInput
-    //             label="Tên người dùng"
-    //             value={username}
-    //             onChange={(e) => setUsername(e.currentTarget.value)}
-    //           />
-    //           <FileInput label="Chọn ảnh đại diện" onChange={handleFileChange} />
-    //           <Group mt="md">
-    //             <Button variant="default" onClick={() => setIsEditing(false)}>
-    //               Hủy
-    //             </Button>
-    //             <Button onClick={handleUpdate} loading={isLoading}>
-    //               Lưu thay đổi
-    //             </Button>
-    //           </Group>
-    //         </Stack>
-    //       ) : (
-    //         <Stack align="center">
-    //           <Avatar src={profile?.avatar_url} size="xl" />
-    //           <Title order={3}>Thông tin cá nhân</Title>
-    //           <Group>
-    //             <ThemeIcon color="blue" variant="light"><IconUser size={18} /></ThemeIcon>
-    //             <Text>{profile?.user_name}</Text>
-    //           </Group>
-    //           <Group>
-    //             <ThemeIcon color="blue" variant="light"><IconMail size={18} /></ThemeIcon>
-    //             <Text>{profile?.email}</Text>
-    //           </Group>
-    //           <Button mt="md" onClick={() => setIsEditing(true)}>
-    //             Chỉnh sửa
-    //           </Button>
-    //         </Stack>
-    //       )}
-    //     </Container>
-    //   </Center>
-    // </Box>
     <Box className={classes.backgroundImage}>
       <HeaderPage />
       <Box className={classes.profileContainer}>
@@ -182,11 +141,11 @@ export const ProfileView = () => {
               <Title order={3}>Profile</Title>
               <Box className={classes.profileGroup}>
                 <Box className={classes.profileGroupText}>
-                  <Image src={"/public/user.png"} w={40} h={40} />
+                  <Image src={"/user.png"} w={40} h={40} />
                   <Text>{profile?.user_name || "No username"}</Text>
                 </Box>
                 <Box className={classes.profileGroupText}>
-                  <Image src={"/public/email.png"} w={40} h={40} />
+                  <Image src={"/email.png"} w={40} h={40} />
                   <Text>{profile?.email || "No email"}</Text>
                 </Box>
               </Box>
