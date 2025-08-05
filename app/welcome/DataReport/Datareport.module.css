@@ -19,11 +19,10 @@ body {
     padding: 0 2rem;
     color: white;
     overflow: hidden;
-    /* position: relative; */
 
     @media (max-width: 36em) {
-        max-height: rem(1000px);
-        min-height: rem(900px);
+        max-height: rem(2000px);
+        min-height: rem(2000px);
         max-width: rem(425px);
         padding: 0;
     }
@@ -84,8 +83,6 @@ body {
         grid-template-areas:
             "piechart total history"
             "chart chart history";
-        padding: 30px 10px 30px;
-        gap: 2rem;
         max-width: rem(1024px);
         max-height: rem(900px);
         min-height: rem(570px);
@@ -117,6 +114,7 @@ input {
 
 
 .incomeExpense {
+    width: 100%;
     display: flex;
     gap: 10px;
     margin-top: 10px;
@@ -125,11 +123,19 @@ input {
 .income,
 .expense {
     flex: 1;
-    padding: 10px 50px 20px;
     text-align: center;
     background-color: white;
     border-radius: 8px;
     font-weight: bold;
+
+
+}
+
+.incomeText,
+.expenseText {
+    @media (min-width) {
+        font-size: 18px;
+    }
 }
 
 .income {
@@ -147,15 +153,28 @@ input {
     background-color: #aad0d7;
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
     height: 100%;
     width: 100%;
 
+    @media (max-width: 24em) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media (min-width: 25em) {
+        flex-direction: row;
+    }
+
+    @media (min-width: 48em) {
+        flex-direction: row;
+    }
+
     @media (min-width: 88em) {
-        max-height: rem(500px);
-        min-height: rem(250px);
-        max-width: rem(500px);
-        min-width: rem(500px);
+        max-height: rem(250px);
+        min-height: rem(200px);
+        max-width: rem(450px);
+        min-width: rem(455px);
+        flex-direction: row;
     }
 }
 
@@ -179,15 +198,16 @@ input {
     justify-content: space-between;
 
     @media (min-width: 88em) {
-        min-height: 250px;
-        min-width: 200px;
+        min-height: rem(200px);
+        max-height: rem(250px);
+        min-width: rem(200px);
         max-width: rem(350px);
 
     }
 }
 
 .total p {
-    font-size: 16px;
+    font-size: 14px;
     color: #065f69;
     display: flex;
     align-items: center;
@@ -222,6 +242,12 @@ input {
         min-height: rem(400px);
         max-width: rem(800px);
         min-width: rem(600px);
+    }
+
+    @media (min-width: 62em) {
+        max-height: rem(615px);
+        max-width: rem(350px);
+        min-width: rem(350px);
     }
 
     @media (min-width: 88em) {
@@ -273,7 +299,7 @@ input {
 
     @media (min-width: 88em) {
         min-height: rem(250px);
-        max-height: rem(290px);
+        max-height: rem(400px);
     }
 
 }
@@ -307,4 +333,15 @@ input {
     justify-content: center;
     margin-top: 20px;
 
+}
+
+.note,
+.TableName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (min-width: 62em) {
+    width: 50px;
+  }
 }

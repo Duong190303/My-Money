@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"; // ADDED
 import { HeaderPage } from "../../Header/HeaderPage";
-import { Box } from "@mantine/core";
+import { Box, ScrollArea, ScrollAreaAutosize } from "@mantine/core";
 import classes from "../transaction.module.css";
 import { ExpensesTable } from "./ExpensesTable";
 import { TableTranExpenses } from "./TableTranExpenses";
@@ -13,7 +13,6 @@ import {
 import { getCurrentUserId } from "../TransactionSevice/IncomeService";
 
 export default function Income() {
-
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
@@ -39,20 +38,22 @@ export default function Income() {
   };
 
   return (
-    <Box className={classes.incomeBackground}>
-      <HeaderPage />
-      <Box id={classes.incomeContainer}>
-        <ExpensesTable
-          transactions={transactions}
-          onRowClick={handleRowClick}
-        />
-        <Box className={classes.incomeContainer1} />
-        <TableTranExpenses
-          selectedTransaction={selectedTransaction}
-          onDataChange={refreshTransactions}
-          onClear={handleClearSelection}
-        />
+    // <ScrollArea mah={700} style={{ width: "100%" }}>
+      <Box className={classes.incomeBackground}>
+        <HeaderPage />
+        <Box id={classes.incomeContainer}>
+          <ExpensesTable
+            transactions={transactions}
+            onRowClick={handleRowClick}
+          />
+          <Box className={classes.incomeContainer1} />
+          <TableTranExpenses
+            selectedTransaction={selectedTransaction}
+            onDataChange={refreshTransactions}
+            onClear={handleClearSelection}
+          />
+        </Box>
       </Box>
-    </Box>
+    // </ScrollArea>
   );
 }

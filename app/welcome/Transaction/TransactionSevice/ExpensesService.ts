@@ -32,7 +32,7 @@ export async function fetchExpenseTransactions(userId: string): Promise<Transact
     .from("transactions")
     .select("*, categories(name, id_type)")
     .eq("id_user", userId)
-    .eq("transaction_type", "Expense");
+    .eq("transaction_type", "Expenses");
 
   if (error) throw error;
   return data || [];
@@ -52,7 +52,7 @@ export async function saveOrUpdateExpense(
     amount: parseFloat(amount),
     note,
     date: dayjs(date).format("YYYY-MM-DD"),
-    transaction_type: "Expense",
+    transaction_type: "Expenses",
   };
 
   if (editingTransactionId) {

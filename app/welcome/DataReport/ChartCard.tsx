@@ -1,66 +1,31 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Box, Text, Select, Loader } from "@mantine/core";
+import React from "react";
+import { Box, Text, Select, Loader, Center } from "@mantine/core";
 import { BarChart } from "@mantine/charts";
 import classes from "./Datareport.module.css";
 
-import {
-  getCurrentUserId,
-  fetchAndFilterTransactions,
-  generateBarChartData,
-} from "./DataReportService";
+type BarChartDataPoint = {
+  date: string;
+  Income: number;
+  Expenses: number;
+};
 
-import type { Transaction, BarChartDataPoint } from "./DataReportService";
+interface ChartCardProps {
+  selectFullDate: Date | null;
+  timeRange: "Day" | "Week" | "Month" | "Year";
+  onTimeRangeChange: (value: "Day" | "Week" | "Month" | "Year") => void;
+  barChartData: BarChartDataPoint[];
+  loading: boolean;
+}
 
-export const ChartCard: React.FC = () => {
-  const [timeRange, setTimeRange] = useState<"Day" | "Week" | "Month" | "Year">(
-    "Day"
-  );
-  const [selectFullDate, setSelectFullDate] = useState<Date>(new Date());
-  const [userId, setUserId] = useState<string>("");
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [areaChartData, setAreaChartData] = useState<BarChartDataPoint[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Lấy ID người dùng
-  useEffect(() => {
-    const fetchUser = async () => {
-      const id = await getCurrentUserId();
-      setUserId(id);
-    };
-    fetchUser();
-  }, []);
-
-  // Lấy dữ liệu giao dịch khi userId hoặc timeRange đổi
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!userId || !selectFullDate) return;
-      setLoading(true);
-
-      const data = await fetchAndFilterTransactions(
-        userId,
-        selectFullDate,
-        timeRange,
-        "All"
-      );
-      setTransactions(data);
-
-      const chartData = generateBarChartData(data, timeRange);
-      setAreaChartData(chartData);
-
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [userId, selectFullDate, timeRange]);
-
-  // const handleTimeRangeChange = (
-  //   value: "Day" | "Week" | "Month" | "Year" | null
-  // ) => {
-  //   setTimeRange(value || "Day");
-  // };
-
+export const ChartCard: React.FC<ChartCardProps> = ({
+  selectFullDate,
+  timeRange,
+  onTimeRangeChange,
+  barChartData,
+  loading,
+}) => {
   return (
     <Box className={`${classes.box} ${classes.chart}`}>
       <Select
@@ -73,9 +38,9 @@ export const ChartCard: React.FC = () => {
             value === "Month" ||
             value === "Year"
           ) {
-            setTimeRange(value);
+            onTimeRangeChange(value);
           } else {
-            setTimeRange("Day"); // default to "Day" if value is null or invalid
+            onTimeRangeChange("Day");
           }
         }}
         data={[
@@ -88,12 +53,15 @@ export const ChartCard: React.FC = () => {
         mb="md"
       />
 
-    
-      {areaChartData.length > 0 ? (
+      {loading ? (
+        <Center style={{ height: '240px' }}>
+          <Loader />
+        </Center>
+      ) : barChartData.length > 0 ? (
         <BarChart
           id={classes.barchart}
           h={240}
-          data={areaChartData}
+          data={barChartData}
           dataKey="date"
           series={[
             { name: "Income", color: "teal" },
@@ -107,8 +75,8 @@ export const ChartCard: React.FC = () => {
           gridAxis="none"
         />
       ) : (
-        <Text>
-          There isn’t any transaction recorded for this period yet.
+        <Text p="md" ta="center">
+          Hiện chưa có giao dịch nào được ghi lại trong khoảng thời gian này.
         </Text>
       )}
     </Box>

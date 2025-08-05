@@ -1,89 +1,149 @@
+// // src/components/TotalCard.tsx
+
+// "use client";
+
+// import React from "react";
+// import { Box, Text, Loader } from "@mantine/core";
+// import { DatePickerInput } from "@mantine/dates";
+// import classes from "./Datareport.module.css";
+
+// // Định nghĩa các props mà component này cần để hoạt động
+// interface TotalCardProps {
+//   selectFullDate: Date | null;
+//   onDateChange: (date: Date | null) => void;
+//   totalIncome: number;
+//   totalExpenses: number;
+//   balance: number;
+//   loading: boolean;
+// }
+
+// export const TotalCard: React.FC<TotalCardProps> = ({
+//   selectFullDate,
+//   onDateChange,
+//   totalIncome,
+//   totalExpenses,
+//   balance,
+//   loading,
+
+// }) => {
+//   return (
+//     <Box className={`${classes.total} ${classes.box}`}>
+//       <DatePickerInput
+//         value={selectFullDate}
+//         onChange={onDateChange} // Gọi hàm từ props khi ngày thay đổi
+//         placeholder="Select date"
+//         maw={300}
+//       />
+
+//       {/* Hiển thị Loader khi component cha đang tải dữ liệu */}
+//       {loading ? (
+//         <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+//             <Loader />
+//         </Box>
+//       ) : (
+//         <>
+//           <Text component="p" mt="md" fw={500}>
+//             Total Balance: {balance.toLocaleString()}$
+//           </Text>
+
+//           <Box className={classes.incomeExpense}>
+//             {totalIncome > 0 && (
+//               <Box className={classes.income}>
+//                 Income
+//                 <br />
+//                 {totalIncome.toLocaleString()}$
+//               </Box>
+//             )}
+
+//             {totalExpenses > 0 && (
+//               <Box className={classes.expense}>
+//                 Expenses
+//                 <br />
+//                 {totalExpenses.toLocaleString()}$
+//               </Box>
+//             )}
+//           </Box>
+//         </>
+//       )}
+//     </Box>
+//   );
+// };
+// src/components/TotalCard.tsx
+
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Box, Text, Loader } from "@mantine/core";
+import React from "react";
+import { Box, Text, Loader, Center } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import classes from "./Datareport.module.css";
-import {
-  getCurrentUserId,
-  fetchAndFilterTransactions,
-  calculateTotals,
-} from "./DataReportService"; // đúng path tới logic
 
-export const TotalCard: React.FC = () => {
-  const [selectFullDate, setSelectFullDate] = useState<Date | null>(new Date());
-  const [userId, setUserId] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [totalIncome, setTotalIncome] = useState<number>(0);
-  const [totalExpenses, setTotalExpenses] = useState<number>(0);
-  const [balance, setBalance] = useState<number>(0);
+interface TotalCardProps {
+  selectFullDate: Date | null;
+  onDateChange: (date: Date | null) => void;
+  totalIncome: number;
+  totalExpenses: number;
+  balance: number;
+  loading: boolean;
+  transactionType: "All" | "Income" | "Expenses";
+}
 
-  // Lấy ID người dùng
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const id = await getCurrentUserId();
-      setUserId(id);
-    };
-    fetchUserId();
-  }, []);
-
-  // Lấy và tính toán giao dịch
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!userId || !selectFullDate) return;
-      setLoading(true);
-
-      const transactions = await fetchAndFilterTransactions(
-        userId,
-        selectFullDate,
-        "Month", // hoặc "Day", "Week", hoặc cho chọn tùy biến
-        "All"
-      );
-
-      const { totalIncome, totalExpenses, balance } =
-        calculateTotals(transactions);
-
-      setTotalIncome(totalIncome);
-      setTotalExpenses(totalExpenses);
-      setBalance(balance);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [userId, selectFullDate]);
-
+export const TotalCard: React.FC<TotalCardProps> = ({
+  selectFullDate,
+  onDateChange,
+  totalIncome,
+  totalExpenses,
+  balance,
+  loading,
+  transactionType,
+}) => {
   return (
     <Box className={`${classes.total} ${classes.box}`}>
       <DatePickerInput
-        id={classes.selectFullDate}
         value={selectFullDate}
-        onChange={setSelectFullDate}
+        onChange={onDateChange}
         placeholder="Select date"
         maw={300}
       />
+
+      {loading ? (
+        <Center style={{ height: '100px' }}>
+          <Loader />
+        </Center>
+      ) : (
         <>
+          {/* Phần hiển thị tiêu đề tổng */}
           <Text component="p" mt="md" fw={500}>
-            Total Balance: {balance.toLocaleString()}$
+            {transactionType === "All" && `Total Balance: ${balance.toLocaleString()}$`}
+            {transactionType === "Income" && `Total Income: ${totalIncome.toLocaleString()}$`}
+            {transactionType === "Expenses" && `Total Expenses: ${totalExpenses.toLocaleString()}$`}
           </Text>
 
+          {/* Logic hiển thị chi tiết Income và Expense */}
           <Box className={classes.incomeExpense}>
-            {totalIncome > 0 && (
+            {/* Hiển thị Income khi:
+            1. transactionType là "All" (và có dữ liệu)
+            2. transactionType là "Income" (và có dữ liệu) */}
+            {(transactionType === "All" || transactionType === "Income") && totalIncome > 0 && (
               <Box className={classes.income}>
-                Income
-                <Box component="br" />
+                <Text className={classes.incomeText}>Income</Text>
+                <Box component={"br"} />
                 {totalIncome.toLocaleString()}$
               </Box>
             )}
 
-            {totalExpenses > 0 && (
+            {/* Hiển thị Expenses khi:
+            1. transactionType là "All" (và có dữ liệu)
+            2. transactionType là "Expenses" (và có dữ liệu) */}
+            {(transactionType === "All" || transactionType === "Expenses") && totalExpenses > 0 && (
               <Box className={classes.expense}>
-                Expenses
-                <Box component="br" />
+                <Text className={classes.expenseText}>Expenses</Text>
+                <Box component={"br"} />
                 {totalExpenses.toLocaleString()}$
               </Box>
             )}
           </Box>
         </>
+      )}
     </Box>
   );
 };

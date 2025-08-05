@@ -1,8 +1,8 @@
-"use client"; 
+"use client";
 
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import { HeaderPage } from "../../Header/HeaderPage";
-import { Box } from "@mantine/core";
+import { Box, ScrollArea, ScrollAreaAutosize } from "@mantine/core";
 import classes from "../transaction.module.css";
 import { IncomeTable } from "./IncomeTable";
 import { TableTranIncome } from "./TableTranIncome";
@@ -10,11 +10,12 @@ import {
   fetchIncomeTransactions,
   getCurrentUserId,
   type Transaction,
-} from "../TransactionSevice/IncomeService"; 
+} from "../TransactionSevice/IncomeService";
 
 export default function Income() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   const refreshTransactions = async () => {
     const userId = await getCurrentUserId();
@@ -34,20 +35,25 @@ export default function Income() {
 
   const handleClearSelection = () => {
     setSelectedTransaction(null);
-  }
+  };
 
   return (
-    <Box className={classes.incomeBackground}>
-      <HeaderPage />
-      <Box id={classes.incomeContainer}>
-        <IncomeTable transactions={transactions} onRowClick={handleRowClick} />
-        <Box className={classes.incomeContainer1} />
-        <TableTranIncome
-          selectedTransaction={selectedTransaction}
-          onDataChange={refreshTransactions}
-          onClear={handleClearSelection}
-        />
+    // <ScrollArea mah={700} style={{ width: "100%" }}>
+      <Box className={classes.incomeBackground}>
+        <HeaderPage />
+        <Box id={classes.incomeContainer}>
+          <IncomeTable
+            transactions={transactions}
+            onRowClick={handleRowClick}
+          />
+          <Box className={classes.incomeContainer1} />
+          <TableTranIncome
+            selectedTransaction={selectedTransaction}
+            onDataChange={refreshTransactions}
+            onClear={handleClearSelection}
+          />
+        </Box>
       </Box>
-    </Box>
+    // </ScrollArea>
   );
 }

@@ -12,6 +12,8 @@ import {
   TableTr,
   TableTbody,
   TableTd,
+  Popover,
+  ThemeIcon,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import classes from "../transaction.module.css";
@@ -26,7 +28,6 @@ export const IncomeTable: React.FC<IncomeTableProps> = ({
   transactions,
   onRowClick,
 }) => {
-
   const [sortedTransactions, setSortedTransactions] = useState<Transaction[]>(
     []
   );
@@ -58,16 +59,33 @@ export const IncomeTable: React.FC<IncomeTableProps> = ({
   return (
     <Box id={classes.incomeContainer2}>
       <Box id={classes.incomeText}>
-        <TextInput
-          id={classes.searchInput}
-          leftSection={<IconSearch size={16} stroke={1.5} />}
-          placeholder="Search for transactions by category, note,..."
-          value={search}
-          onChange={(event) => {
-            setSearch(event.currentTarget.value);
-            setPage(1);
-          }}
-        />
+        <Popover
+          classNames={{ dropdown: classes.popoverDropdown }}
+          position="right"
+        >
+          <Popover.Target>
+            <ThemeIcon
+              className={classes.searchIcon}
+              variant="transparent"
+              radius={"md"}
+              size="lg"
+            >
+              <IconSearch size={25} stroke={1.5} color={"white"} />
+            </ThemeIcon>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <TextInput
+              id={classes.searchInput}
+              variant="transparent"
+              placeholder="Search for transactions by category, note,..."
+              value={search}
+              onChange={(event) => {
+                setSearch(event.currentTarget.value);
+                setPage(1);
+              }}
+            />
+          </Popover.Dropdown>
+        </Popover>
 
         <Table
           id={classes.transactionTable}
@@ -94,14 +112,18 @@ export const IncomeTable: React.FC<IncomeTableProps> = ({
                   className={classes.tableRow}
                   style={{ cursor: "pointer" }}
                 >
-                  <TableTd className={classes.categoryText}>{transaction.categories?.name ?? "N/A"}</TableTd>
+                  <TableTd className={classes.categoryText}>
+                    {transaction.categories?.name ?? "N/A"}
+                  </TableTd>
                   <TableTd>
                     {new Date(transaction.date).toLocaleDateString("vi-VN")}
                   </TableTd>
                   <TableTd>
                     {transaction.amount.toLocaleString("vi-VN")} $
                   </TableTd>
-                  <TableTd className={classes.noteText}>{transaction.note}</TableTd>{" "}
+                  <TableTd className={classes.noteText}>
+                    {transaction.note}
+                  </TableTd>{" "}
                 </TableTr>
               ))
             ) : (
