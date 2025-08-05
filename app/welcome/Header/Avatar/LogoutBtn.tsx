@@ -1,21 +1,20 @@
 import { Button } from "@mantine/core";
-// import { showNotification } from "@mantine/notifications";
 import { supabase } from "../../../supabase";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import classes from "./Login.module.css";
 
 export const LogoutBtn: React.FC = () => {
   const navigate = useNavigate();
 
-  const [userId, setUserId] = useState<string | null>(null);
-  const handleLogin = () => {
-    navigate("/login"); // Chuyển về trang Login
-  };
   const handleLogout = async () => {
-    // Đăng xuất khỏi phiên Supabase
     const { error } = await supabase.auth.signOut();
-    setUserId(null);
+    if (error) {
+      console.error("Lỗi khi đăng xuất:", error);
+    } else {
+      // Đăng xuất thành công, chuyển hướng người dùng về trang login
+      navigate("/login");
+    }
   };
 
-  return <Button onClick={handleLogout}>Logout</Button>;
+  return <Button className={classes.LogoutBtn} onClick={handleLogout}>Logout</Button>;
 };

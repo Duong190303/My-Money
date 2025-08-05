@@ -18,6 +18,7 @@ import { supabase } from "../../../supabase";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "../Header.module.css";
 import { Menu } from "../Menu";
+import { LogoutBtn } from "./LogoutBtn";
 
 export const AvatarUser: React.FC = () => {
   // if (typeof window === "undefined") return null;
@@ -107,60 +108,6 @@ export const AvatarUser: React.FC = () => {
   };
 
   return (
-    // <Grid>
-    //   <Grid.Col span="content" className={classes.homeLoginContainer}>
-    //     <Popover
-    //       width={200}
-    //       opened={popoverOpened}
-    //       onChange={setPopoverOpened}
-    //       position="bottom"
-    //       withArrow
-    //       shadow="md"
-    //     >
-    //       <Popover.Target>
-    //         <Avatar>
-    //           <Image src={avatar} alt="User Avatar" />
-    //         </Avatar>
-    //       </Popover.Target>
-    //       <Popover.Dropdown
-    //         onMouseEnter={() => setPopoverOpened(true)}
-    //         onMouseLeave={() => setPopoverOpened(false)}
-    //       >
-    //         {userId ? (
-    //           <>
-    //             <Paper shadow="sm" radius="md" p="md">
-    //               <Group align="bottom-left">
-    //                 <Avatar src={avatar} radius="xl" size="md" />
-    //                 <Box>
-    //                   <Text fw={500} size="sm">
-    //                     {username || "Loading..."}
-    //                   </Text>
-    //                   <Text size="xs" c="dimmed">
-    //                     {email || "Loading..."}
-    //                   </Text>
-    //                 </Box>
-    //               </Group>
-    //             </Paper>
-    //             <Button
-    //               variant="subtle"
-    //               component={Link}
-    //               to="/profile"
-    //               fullWidth
-    //               mt="sm"
-    //             >
-    //               Profile{" "}
-    //               <IconChevronRight size={16} style={{ marginLeft: 5 }} />
-    //             </Button>
-    //             <Button
-    //               variant="subtle"
-    //               onClick={handleLogout}
-    //               fullWidth
-    //               mt="sm"
-    //               style={{ backgroundColor: "red", color: "white" }}
-    //             >
-    //               Log out
-    //             </Button>
-    //           </>
     <>
       <Drawer
         opened={opened}
@@ -205,18 +152,7 @@ export const AvatarUser: React.FC = () => {
             <Box hiddenFrom="md">
               <Menu />
             </Box>
-            <Button
-              variant="subtle"
-              onClick={handleLogout}
-              fullWidth
-              className={classes.btnLogout}
-              classNames={{
-                label: classes.labelLogout,
-                root: classes.rootLogout,
-              }}
-            >
-              Log out
-            </Button>
+            <LogoutBtn />
           </Box>
         ) : (
           <Button

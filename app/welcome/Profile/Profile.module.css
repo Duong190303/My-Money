@@ -14,7 +14,8 @@ body {
   overflow: hidden;
 
   @media (max-width: 36em) {
-    max-height: rem(785px);
+    max-height: rem(670px);
+    min-height: rem(670px);
     max-width: rem(425px);
     margin: 0 auto;
   }
@@ -57,81 +58,144 @@ body {
   height: 100%;
 
   @media (max-width: 36em) {
-    min-width: rem(425px);
+    min-width: rem(280px);
     max-width: rem(425px);
-    min-height: rem(730px);
-    max-height: rem(900px);
+    min-height: rem(550px);
+    max-height: rem(550px);
+    padding: 0 10px;
   }
 
   @media (min-width: 48em) {
     min-width: rem(768px);
     max-width: rem(768px);
-    min-height: rem(720px);
-    max-height: rem(900px);
+    min-height: rem(600px);
+    max-height: rem(600px);
   }
 
   @media (min-width: 62em) {
     min-width: rem(1024px);
     max-width: rem(1024px);
-    min-height: rem(700px);
-    max-height: rem(900px);
+    min-height: rem(600px);
+    max-height: rem(600px);
   }
 
   @media (min-width: 88em) {
     min-width: rem(1440px);
     max-width: rem(1440px);
     min-height: rem(700px);
-    max-height: rem(900px);
+    max-height: rem(700px);
   }
 
 }
 
-.profileStack,
-.profileStackUpdate {
-  background-color: #5bb3b3;
-}
-
-.profileStack {
+.profilePaper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 1;
   backdrop-filter: blur(10px);
-  margin-bottom: rem(20px);
+  background-color: #5bb3b3;
+  width: 100%;
+  height: 100%;
+
+  @media (max-width: 36em) {
+    max-width: rem(400px);
+    max-height: rem(400px);
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(400px);
+    max-height: rem(350px);
+    padding: rem(20px);
+
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(500px);
+    max-height: rem(350px);
+    padding: rem(20px);
+
+  }
+
+  @media (min-width: 88em) {
+    max-width: rem(700px);
+    max-height: rem(350px);
+    padding: rem(20px);
+  }
+
+}
+
+.profilePaperUpdate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  background-color: #5bb3b3;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+
+  @media (max-width: 36em) {
+    max-width: rem(400px);
+    max-height: rem(400px);
+  }
+
+  @media (min-width: 48em) {
+    max-width: rem(400px);
+    max-height: rem(350px);
+  }
+
+  @media (min-width: 62em) {
+    max-width: rem(500px);
+    max-height: rem(350px);
+
+
+  }
+
+  @media (min-width: 88em) {
+    max-width: rem(700px);
+    max-height: rem(350px);
+
+  }
 }
 
 .profileBox {
   background-color: #5bb3b3;
   border-radius: 20px;
-  padding: 40px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 1);
-  position: relative;
   z-index: 1;
   backdrop-filter: blur(10px);
-  margin-bottom: rem(20px);
+  width: 100%;
+  height: 100%;
 
   @media (max-width: 36em) {
-    width: rem(370px);
-    height: rem(350px);
-
+    max-width: rem(400px);
+    min-width: rem(200px);
+    max-height: rem(350px);
+    padding: 20px 10px;
   }
 
   @media (min-width: 48em) {
-    width: rem(400px);
-    height: rem(350px);
-
+    max-width: rem(400px);
+    max-height: rem(400px);
+    padding: rem(20px);
+    margin-bottom: rem(100px);
   }
 
   @media (min-width: 62em) {
-    width: rem(500px);
-    height: rem(350px);
-
+    max-width: rem(400px);
+    max-height: rem(350px);
+    margin-bottom: rem(100px);
   }
 
   @media (min-width: 88em) {
-    width: rem(500px);
-    height: rem(350px);
+    max-width: rem(400px);
+    max-height: rem(350px);
+    padding: rem(20px);
+    margin-bottom: rem(100px);
 
   }
 }
@@ -139,7 +203,8 @@ body {
 .username,
 .avatar {
   font-size: 18px;
-  width: 40vh;
+  width: 100%;
+  border: none;
 }
 
 .avatar:hover {
@@ -158,6 +223,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
+  height: 100%
 }
 
 .profileGroupText {
@@ -165,4 +232,39 @@ body {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+}
+
+.editBtnBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.editBtn {
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: transform 0.5s ease-in-out;
+    background-color: rgb(0, 255, 238);
+  }
+}
+
+.btnBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.inputBox{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
 }

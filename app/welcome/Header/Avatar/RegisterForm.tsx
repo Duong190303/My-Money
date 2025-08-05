@@ -52,7 +52,7 @@ export const RegisterForm: React.FC = () => {
       );
 
       if (!user) {
-        throw new Error("No user returned from Supabase.");
+        throw new Error("No user.");
       }
 
       console.log(" Registered user:", user);
@@ -66,16 +66,30 @@ export const RegisterForm: React.FC = () => {
       navigate("/");
     } catch (err: any) {
       console.error("Register error:", err);
+      let emailError = "Đã xảy ra lỗi không xác định.";
+
+      // Kiểm tra lỗi cụ thể từ Supabase
+      if (err.message.includes("User already registered")) {
+        emailError = "The account has existed. Please login!";
+      } else if (err.message.includes("Unable to validate email address")) {
+        emailError = "Invalid email.";
+      } else {
+        emailError = err.message || emailError;
+      }
+
+      // Hiển thị lỗi ngay trên form cho trường email
+      form.setErrors({ email: emailError });
+
+      // Hiển thị thêm notification để người dùng dễ chú ý
       showNotification({
         title: "Register failed",
-        message: err.message || "An error occurred",
+        message: emailError,
         color: "red",
       });
     } finally {
       setLoading(false);
     }
   };
-
   const handleGoogleLogin = async () => {
     try {
       await loginWithGoogle();

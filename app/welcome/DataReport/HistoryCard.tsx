@@ -52,7 +52,7 @@ export const HistoryCard: React.FC<HistoryCardProps> = ({
       </Box>
 
       {loading ? (
-        <Center style={{ height: '200px' }}>
+        <Center style={{ height: "200px" }}>
           <Loader />
         </Center>
       ) : (
@@ -63,12 +63,14 @@ export const HistoryCard: React.FC<HistoryCardProps> = ({
                 paginated.map((item) => (
                   <Table.Tr key={item.id}>
                     <Table.Td className={classes.TableName}>
-                      <Text fw={500} className={classes.name}>{item.categories?.name || "Unknown"}</Text>
+                      <Text fw={500} className={classes.name}>
+                        {item.categories?.name || "Unknown"}
+                      </Text>
                       <Text fz="sm" c="dimmed" className={classes.note}>
                         {item.note}
                       </Text>
                     </Table.Td>
-                    <Table.Td style={{ textAlign: 'right' }}>
+                    <Table.Td style={{ textAlign: "right" }}>
                       <Text
                         c={item.transaction_type === "Income" ? "teal" : "red"}
                         fw={500}
@@ -76,8 +78,10 @@ export const HistoryCard: React.FC<HistoryCardProps> = ({
                         {item.amount.toLocaleString()}$
                       </Text>
                     </Table.Td>
-                    <Table.Td style={{ textAlign: 'right' }}>
-                      <Text fz="xs" c="dimmed">{item.date}</Text>
+                    <Table.Td style={{ textAlign: "right" }}>
+                      <Text fz="xs" c="dimmed">
+                        {item.date}
+                      </Text>
                     </Table.Td>
                   </Table.Tr>
                 ))
@@ -94,14 +98,18 @@ export const HistoryCard: React.FC<HistoryCardProps> = ({
           </Table>
 
           {finalFilteredTransactions.length > itemsPerPage && (
-            <Pagination
-              value={page}
-              onChange={setPage}
-              total={Math.ceil(finalFilteredTransactions.length / itemsPerPage)}
-              mt="md"
-              size="sm"
-              radius="xl"
-            />
+            <Center className={classes.pagination}>
+              <Pagination
+                value={page}
+                onChange={setPage}
+                total={Math.ceil(
+                  finalFilteredTransactions.length / itemsPerPage
+                )}
+                mt="md"
+                size="sm"
+                radius="xl"
+              />
+            </Center>
           )}
         </>
       )}

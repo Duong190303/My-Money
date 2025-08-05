@@ -12,7 +12,7 @@ import {
   Stack,
   Text,
   TextInput,
-  ThemeIcon,
+  Image,
   Title,
 } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
@@ -136,16 +136,15 @@ export const ProfileView = () => {
     <Box className={classes.backgroundImage}>
       <HeaderPage />
       <Box className={classes.profileContainer}>
-        <Box>
-          {/* <Container> */}
-          <Box className={classes.profileBox}>
-            {isEditing ? (
-              <Stack className={classes.profileStack}>
-                <Avatar
-                  src={
-                    avatarPreview || profile?.avatar_url || "default-avatar.png"
-                  }
-                />
+        <Box className={classes.profileBox}>
+          {isEditing ? (
+            <Box className={classes.profilePaperUpdate}>
+              <Avatar
+                src={
+                  avatarPreview || profile?.avatar_url || "default-avatar.png"
+                }
+              />
+              <Box className={classes.inputBox}>
                 <TextInput
                   className={classes.username}
                   label="Username"
@@ -159,60 +158,55 @@ export const ProfileView = () => {
                   accept="image/*"
                   onChange={handleFileChange}
                 />
-                <Group>
-                  <Button color="red" onClick={() => setIsEditing(false)}>
-                    Cancel
-                  </Button>
-                  <Button
-                    color="green"
-                    onClick={handleUpdate}
-                    loading={isLoading}
-                  >
-                    Update
-                  </Button>
-                </Group>
-              </Stack>
-            ) : (
-              <Stack align="center" className={classes.profileStackUpdate}>
-                <Avatar
-                  src={profile?.avatar_url || "default-avatar.png"}
-                  radius="xl"
-                  size="xl"
-                />
-                <Title order={3}>Profile</Title>
-                <Box className={classes.profileGroup}>
-                <Group align="center" className={classes.profileGroupText}>
-                  <ThemeIcon variant="light" color="blue" size="lg" radius="xl">
-                    <IconUser size={20} />
-                  </ThemeIcon>
-                  <Text size="md">{profile?.user_name || "No username"}</Text>
-                </Group>
-                <Group align="center">
-                  <ThemeIcon variant="light" color="blue" size="lg" radius="xl">
-                    <IconMail size={20} />
-                  </ThemeIcon>
-                  <Text size="md">{profile?.email || "No email"}</Text>
-                </Group>
-                </Box>
-              </Stack>
-            )}
-
-            {!isEditing && (
-              <Center>
-                <Button
-                  variant="outline"
-                  color="blue"
-                  bg="#fff"
-                  mt="md"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit Profile
+              </Box>
+              <Box className={classes.btnBox}>
+                <Button color="red" onClick={() => setIsEditing(false)}>
+                  Cancel
                 </Button>
-              </Center>
-            )}
-          </Box>
+                <Button
+                  color="green"
+                  onClick={handleUpdate}
+                  loading={isLoading}
+                >
+                  Update
+                </Button>
+              </Box>
+            </Box>
+          ) : (
+            <Box className={classes.profilePaper}>
+              <Avatar
+                src={profile?.avatar_url || "default-avatar.png"}
+                radius="xl"
+                size="xl"
+              />
+              <Title order={3}>Profile</Title>
+              <Box className={classes.profileGroup}>
+                <Box className={classes.profileGroupText}>
+                  <Image src={"/public/user.png"} w={40} h={40} />
+                  <Text>{profile?.user_name || "No username"}</Text>
+                </Box>
+                <Box className={classes.profileGroupText}>
+                  <Image src={"/public/email.png"} w={40} h={40} />
+                  <Text>{profile?.email || "No email"}</Text>
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {!isEditing && (
+            <Box className={classes.editBtnBox}>
+              <Button
+                variant="outline"
+                color="blue"
+                bg="#fff"
+                onClick={() => setIsEditing(true)}
+                className={classes.editBtn}
+              >
+                Edit Profile
+              </Button>
+            </Box>
+          )}
         </Box>
-        {/* </Container> */}
       </Box>
     </Box>
   );

@@ -133,8 +133,12 @@ input {
 
 .incomeText,
 .expenseText {
-    @media (min-width) {
+    @media (min-width: 48em) {
         font-size: 18px;
+    }
+
+    @media (min-width: 62em) {
+        font-size: 20px;
     }
 }
 
@@ -201,7 +205,7 @@ input {
         min-height: rem(200px);
         max-height: rem(250px);
         min-width: rem(200px);
-        max-width: rem(350px);
+        /* max-width: rem(350px); */
 
     }
 }
@@ -230,12 +234,17 @@ input {
     }
 }
 
+.history{
+    position: relative;
+}
+
 .history,
 .noTransaction {
     grid-area: history;
     background-color: #99c7cf;
     width: 100%;
     height: 100%;
+    
 
     @media (min-width: 48em) {
         max-height: rem(800px);
@@ -251,9 +260,10 @@ input {
     }
 
     @media (min-width: 88em) {
-        max-height: 615px;
+        max-height: 630px;
         max-width: rem(800px);
         min-width: rem(400px);
+        
     }
 
     .noTransaction p {
@@ -337,11 +347,18 @@ input {
 
 .note,
 .TableName {
-  white-space: nowrap;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
 
   @media (min-width: 62em) {
     width: 50px;
   }
+}
+
+.pagination{
+    position: absolute;
+    bottom: 10px;
+    right: 125px;
+
 }
