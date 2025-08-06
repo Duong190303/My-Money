@@ -20,8 +20,8 @@ body {
   flex: 1;
 
   @media (max-width: 36em) {
-    min-height: rem(920px);
-    max-height: rem(1000px);
+    min-height: rem(1150px);
+    min-height: rem(1150px);
     width: rem(425px);
     margin: 0 auto;
   }

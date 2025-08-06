@@ -43,8 +43,7 @@ export const IncomeTable: React.FC<IncomeTableProps> = ({
         tran.note?.toLowerCase().includes(searchLower) ||
         tran.categories?.name?.toLowerCase().includes(searchLower) ||
         tran.amount.toString().includes(searchLower) ||
-        tran.date.toString().includes(searchLower) ||
-        tran.id.toString().includes(searchLower)
+        tran.date.toString().includes(searchLower)
       );
     });
 
