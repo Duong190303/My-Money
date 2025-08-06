@@ -19,7 +19,7 @@ body {
   overflow-x: hidden;
   flex: 1;
 
-  @media (max-width: 22em) {
+  /* @media (max-width: 22em) {
     max-height: rem(950px);
     min-height: rem(950px);
     min-width: rem(320px);
@@ -44,6 +44,13 @@ body {
     max-height: rem(800px);
     min-height: rem(800px);
     min-width: rem(576px);
+    padding: 0;
+  } */
+
+  @media (max-width: 36em) {
+    max-height: rem(1000px);
+    min-height: rem(1000px);
+    max-width: rem(425px);
     padding: 0;
   }
 

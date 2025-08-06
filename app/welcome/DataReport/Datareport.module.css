@@ -19,7 +19,7 @@ body {
     padding: 0 2rem;
     color: white;
     overflow: hidden;
-    @media (max-width: 22em) {
+    /* @media (max-width: 22em) {
         max-height: rem(1600px);
         min-height: rem(1600px);
         min-width: rem(320px);
@@ -39,11 +39,19 @@ body {
         min-width: rem(425px);
         padding: 0;
     }
+
     @media (min-width: 36em) {
         max-height: rem(1700px);
         min-height: rem(1700px);
         min-width: rem(576px);
         padding: 0;
+    } */
+
+    @media (max-width: 36em) {
+        max-height: rem(1800px);
+        min-height: rem(1800px);
+        max-width: rem(425px);
+        padding: 0 1rem;
     }
 
     @media (min-width: 48em) {
@@ -71,6 +79,7 @@ body {
     gap: 20px;
     height: 100%;
     width: 100%;
+    justify-content: center;
 
     @media (max-width: 36em) {
         padding: 20px 10px 30px;
