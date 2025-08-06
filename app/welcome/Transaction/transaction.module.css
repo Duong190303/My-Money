@@ -22,14 +22,14 @@ body {
   @media (max-width: 22em) {
     max-height: rem(950px);
     min-height: rem(950px);
-    max-width: rem(425px);
+    max-width: rem(320px);
     padding: 0;
   }
 
   @media (min-width: 23em) {
     max-height: rem(1050px);
     min-height: rem(1050px);
-    max-width: rem(425px);
+    max-width: rem(375px);
     padding: 0;
   }
 
@@ -43,7 +43,7 @@ body {
   @media (min-width: 36em) {
     max-height: rem(800px);
     min-height: rem(800px);
-    max-width: rem(768px);
+    max-width: rem(576px);
     padding: 0;
   }
 
