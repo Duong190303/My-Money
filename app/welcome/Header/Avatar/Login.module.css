@@ -612,14 +612,14 @@
   }
 }
 
-.centerButton{
+.centerButton {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.LogoutBtn{
+.LogoutBtn {
   width: 100%;
   border-radius: 5px;
   padding: 10px 30px;
@@ -630,23 +630,31 @@
   cursor: pointer;
   position: absolute;
 
-  @media (max-width: 36em){
+  @media (width: 320px) {
+    top: 218%;
+  }
+
+  @media (width: 375px) {
+    top: 218%;
+  }
+
+  @media (width: 425px) {
+    top: 218%;
+  }
+
+  @media (min-width: 48em) {
+    top: 2160%;
+  }
+
+  @media (min-width: 62em) {
     top: 610px
   }
 
-  @media (min-width: 48em){
-    top: 610px
-  }
-
-  @media (min-width: 62em){
-    top: 610px
-  }
-
-  @media (min-width: 88em){
+  @media (min-width: 88em) {
     top: 720px
   }
 
-  &:hover{
+  &:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px -10px;
     transform: translateY(-2px);
     transition: all 0.5s ease;
