@@ -51,11 +51,6 @@ export const LoginForm: React.FC = () => {
         password: "Account or password incorrect.",
       });
 
-      // showNotification({
-      //   title: "Login failed",
-      //   message: err.message || "Wrong email or password",
-      //   color: "red",
-      // });
     } finally {
       setLoading(false);
     }
