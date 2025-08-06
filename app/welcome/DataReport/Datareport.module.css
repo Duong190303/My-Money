@@ -19,8 +19,27 @@ body {
     padding: 0 2rem;
     color: white;
     overflow: hidden;
+    @media (max-width: 22em) {
+        max-height: rem(1600px);
+        min-height: rem(1600px);
+        max-width: rem(425px);
+        padding: 0;
+    }
 
-    @media (max-width: 36em) {
+    @media (min-width: 23em) {
+        max-height: rem(1700px);
+        min-height: rem(1700px);
+        max-width: rem(425px);
+        padding: 0;
+    }
+
+    @media (min-width: 25em) {
+        max-height: rem(1750px);
+        min-height: rem(1750px);
+        max-width: rem(425px);
+        padding: 0;
+    }
+    @media (min-width: 36em) {
         max-height: rem(1700px);
         min-height: rem(1700px);
         max-width: rem(425px);
@@ -29,7 +48,7 @@ body {
 
     @media (min-width: 48em) {
         max-height: rem(1250px);
-        min-height: rem(1250px);
+        min-height: rem(1500px);
         max-width: rem(768px);
     }
 
@@ -249,7 +268,7 @@ input {
 
     @media (max-width: 36em) {
         max-height: rem(800px);
-        min-height: rem(740px);
+        min-height: rem(600px);
         max-width: rem(800px);
         min-width: rem(400px);
     }
@@ -358,11 +377,10 @@ input {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 16px;
     color: #065f69;
 
-    @media (max-width: 36em) {
-        max-width: 150px;
+    @media (max-width: 88em) {
+        max-width: 50px;
 
     }
 }
@@ -372,12 +390,12 @@ input {
 
     @media (max-width: 22em) {
         bottom: 10px;
-        right: 90px;
+        right: 140px;
     }
 
     @media (min-width: 23em) {
         bottom: 10px;
-        right: 110px;
+        right: 140px;
     }
 
     @media (min-width: 25em) {

@@ -22,7 +22,7 @@ export const HistoryCard: React.FC<HistoryCardProps> = ({
   transactionType, // Nhận prop mới
 }) => {
   const [page, setPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 7;
 
   // Áp dụng bộ lọc cho loại giao dịch trước
   const filteredByTransactionType =
