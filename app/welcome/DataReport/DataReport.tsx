@@ -234,7 +234,7 @@ export default function DataReport() {
   );
 
   return (
-    <ScrollArea mah={700} scrollbars="y">
+    <ScrollArea h={{base: "700px", xl: "800px"}} >
       <Box className={classes.datareportBackground}>
         <HeaderPage />
         <Box component="main" className={classes.datareportContainer}>

@@ -38,7 +38,7 @@ export default function Income() {
   };
 
   return (
-    // <ScrollArea mah={700} style={{ width: "100%" }}>
+    <ScrollArea h={{ base: "650px", md: "700px", xl: "800px" }} w={{base: "425px", sm: "100%", md: "100%", xl: "100%", xxl: "100%"}}>
       <Box className={classes.incomeBackground}>
         <HeaderPage />
         <Box id={classes.incomeContainer}>
@@ -54,6 +54,6 @@ export default function Income() {
           />
         </Box>
       </Box>
-    // </ScrollArea>
+    </ScrollArea>
   );
 }

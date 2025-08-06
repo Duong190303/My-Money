@@ -156,6 +156,8 @@ export const AvatarUser: React.FC = () => {
           </Box>
         ) : (
           <Button
+            fullWidth
+            w={"100%"}
             variant="transparent"
             className={classes.btnWithMymoney}
             onClick={() => (window.location.href = "/login")}

@@ -21,26 +21,28 @@ body {
     overflow: hidden;
 
     @media (max-width: 36em) {
-        max-height: rem(2000px);
-        min-height: rem(2000px);
+        max-height: rem(1700px);
+        min-height: rem(1700px);
         max-width: rem(425px);
         padding: 0;
     }
 
     @media (min-width: 48em) {
-        max-height: rem(920px);
-        min-height: rem(900px);
+        max-height: rem(1250px);
+        min-height: rem(1250px);
         max-width: rem(768px);
     }
 
     @media (min-width: 62em) {
-        max-height: rem(900px);
+        max-height: rem(700px);
+        min-height: rem(800px);
         max-width: rem(1024px);
+        padding: 0 1rem;
     }
 
     @media (min-width: 88em) {
         max-width: rem(1440px);
-        min-height: rem(900px);
+        min-height: rem(800px);
     }
 
 }
@@ -234,7 +236,7 @@ input {
     }
 }
 
-.history{
+.history {
     position: relative;
 }
 
@@ -244,7 +246,7 @@ input {
     background-color: #99c7cf;
     width: 100%;
     height: 100%;
-    
+
 
     @media (min-width: 48em) {
         max-height: rem(800px);
@@ -263,7 +265,7 @@ input {
         max-height: 630px;
         max-width: rem(800px);
         min-width: rem(400px);
-        
+
     }
 
     .noTransaction p {
@@ -347,18 +349,46 @@ input {
 
 .note,
 .TableName {
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-  @media (min-width: 62em) {
-    width: 50px;
-  }
+    @media (min-width: 62em) {
+        width: 50px;
+    }
 }
 
-.pagination{
+.pagination {
     position: absolute;
-    bottom: 10px;
-    right: 125px;
+
+    @media (max-width: 22em) {
+        bottom: 10px;
+        right: 90px;
+    }
+
+    @media (min-width: 23em) {
+        bottom: 10px;
+        right: 110px;
+    }
+
+    @media (min-width: 25em) {
+        bottom: 10px;
+        right: 130px;
+    }
+
+    @media (min-width: 48em) {
+        bottom: 10px;
+        right: 42%;
+    }
+
+    @media (min-width: 62em) {
+        bottom: 10px;
+        right: 115px;
+    }
+
+    @media (min-width: 88em) {
+        bottom: 10px;
+        right: 125px;
+    }
 
 }
