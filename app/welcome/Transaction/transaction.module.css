@@ -19,34 +19,6 @@ body {
   overflow-x: hidden;
   flex: 1;
 
-  /* @media (max-width: 22em) {
-    max-height: rem(950px);
-    min-height: rem(950px);
-    min-width: rem(320px);
-    padding: 0;
-  }
-
-  @media (min-width: 23em) {
-    max-height: rem(1050px);
-    min-height: rem(1050px);
-    min-width: rem(375px);
-    padding: 0;
-  }
-
-  @media (min-width: 25em) {
-    max-height: rem(1150px);
-    min-height: rem(1150px);
-    min-width: rem(425px);
-    padding: 0;
-  }
-
-  @media (min-width: 36em) {
-    max-height: rem(800px);
-    min-height: rem(800px);
-    min-width: rem(576px);
-    padding: 0;
-  } */
-
   @media (max-width: 36em) {
     max-height: rem(1000px);
     min-height: rem(1000px);
@@ -705,6 +677,7 @@ body {
 #paginationContainer {
   margin-left: 300px;
   margin-bottom: 5px;
+  z-index: 1000;
 
   @media (max-width: 36em) {
     margin-left: 0px;

@@ -6,14 +6,14 @@
 
     @media (max-width: 36em) {
         max-width: rem(425px);
-        max-height: rem(500px);
-        min-height: rem(500px);
+        max-height: rem(800px);
+        min-height: rem(600px);
         padding: 0 0.5rem;
     }
 
     @media (min-width: 48em) {
         max-width: rem(768px);
-        max-height: rem(700px);
+        max-height: rem(800px);
         min-height: rem(600px);
         display: flex;
         justify-content: center;
@@ -23,7 +23,7 @@
 
     @media (min-width: 62em) {
         max-width: rem(1024px);
-        max-height: rem(500px);
+        max-height: rem(800px);
         min-height: rem(500px);
         padding: 0 1rem;
     }
