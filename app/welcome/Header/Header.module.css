@@ -27,11 +27,13 @@
     @media (min-width: 100em) {
         max-width: rem(2560px);
         max-height: rem(150px);
+        display: flex;
+        justify-content: center;
     }
 
 }
 
-.headerMenu {
+/* .headerMenu {
     height: 100%;
     width: 100%;
 
@@ -48,7 +50,12 @@
         max-height: rem(50px);
         max-width: rem(800px);
     }
-}
+
+    @media (min-width: 100em) {
+        max-height: rem(80px);
+        max-width: rem(1000px);
+    }
+} */
 
 .homeHeaderContainer {
     width: 100%;
@@ -89,10 +96,10 @@
     }
 
     @media (min-width: 100em) {
-        max-width: rem(2560px);
+        max-width: rem(2450px);
         max-height: rem(150px);
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
     }
 
 }
@@ -164,6 +171,15 @@
     @media (min-width: 88em) {
         max-height: rem(50px);
         max-width: rem(550px);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    @media (min-width: 100em) {
+        max-height: rem(80px);
+        max-width: rem(1000px);
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -376,11 +392,6 @@
     @media (max-width: 36em) {
         display: none;
     }
-
-    @media (min-width: 48em) {
-        display: block;
-    }
-
 }
 
 .headerDrawerMenu {

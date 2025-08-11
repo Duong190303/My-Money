@@ -72,6 +72,14 @@ body {
         min-height: rem(800px);
     }
 
+    @media (min-width: 100em) {
+        max-width: rem(2650px);
+        min-height: rem(1250px);
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
 }
 
 .datareportContainer {
@@ -124,6 +132,14 @@ body {
         max-height: rem(900px);
         min-height: rem(700px);
     }
+
+    @media (min-width: 100em) {
+        padding: 40px 30px 30px;
+        max-width: rem(1440px);
+        max-height: rem(1000px);
+        min-height: rem(700px);
+    }
+    
 }
 
 .box {

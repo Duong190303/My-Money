@@ -89,6 +89,16 @@
         align-items: flex-start;
     }
 
+    @media (min-width: 100em) {
+        max-width: 600px;
+        font-size: 4rem;
+        top: 20%;
+        left: 5%;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
 }
 
 .TittleH1Text {
@@ -163,6 +173,12 @@
     @media (min-width: 88em) {
         top: 95%;
         align-items: flex-start;
+    }
+
+    @media (min-width: 100em) {
+        top: 95%;
+        align-items: flex-start;
+        font-size: 24px;
     }
 }
 
@@ -263,6 +279,15 @@
         max-width: rem(1000px);
         max-height: rem(800px);
         top: 40%;
+        right: 0;
+        left: 40%;
+        margin: auto;
+    }
+
+    @media (min-width: 100em) {
+        max-width: rem(1000px);
+        max-height: rem(800px);
+        top: 50%;
         right: 0;
         left: 40%;
         margin: auto;

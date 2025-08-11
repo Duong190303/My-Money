@@ -137,8 +137,10 @@ body {
   }
 
   @media (min-width: 100em) {
-    height: rem(1290px);
-    width: rem(2560px);
+    height: rem(550px);
+    width: rem(400px);
+    top: 8%;
+    left: -4%;
   }
 }
 
@@ -188,8 +190,10 @@ body {
   }
 
   @media (min-width: 100em) {
-    height: rem(1290px);
-    width: rem(2560px);
+    height: rem(550px);
+    width: rem(1000px);
+    right: 46.5%;
+    top: 60px;
   }
 }
 
@@ -228,6 +232,13 @@ body {
     width: rem(350px);
     top: 8%;
     left: -5%;
+  }
+
+  @media (min-width: 100em) {
+    height: rem(700px);
+    width: rem(400px);
+    top: 8%;
+    left: 10%;
   }
 }
 
@@ -272,6 +283,13 @@ body {
     right: 1%;
     top: 7%;
   }
+
+  @media (min-width: 100em) {
+    height: rem(600px);
+    width: rem(700px);
+    right: 1%;
+    top: 7%;
+  }
 }
 
 #transactionTableContainer {
@@ -302,6 +320,12 @@ body {
   }
 
   @media (min-width: 88em) {
+    max-height: rem(40px);
+    max-width: rem(500px);
+    /* min-width: rem(500px); */
+  }
+
+  @media (min-width: 100em) {
     max-height: rem(40px);
     max-width: rem(500px);
     /* min-width: rem(500px); */
@@ -339,6 +363,13 @@ body {
   @media (min-width: 88em) {
     height: rem(40px);
     width: rem(650px);
+    right: 1%;
+    top: 8%;
+  }
+
+  @media (min-width: 100em) {
+    height: rem(40px);
+    width: rem(700px);
     right: 1%;
     top: 8%;
   }
@@ -418,6 +449,14 @@ body {
     top: 5%;
     padding: 40px;
   }
+
+  @media (min-width: 100em) {
+    height: rem(550px);
+    width: rem(385px);
+    left: 3%;
+    top: 5%;
+    padding: 40px;
+  }
 }
 
 #incomeTitle {
@@ -450,6 +489,11 @@ body {
     max-height: rem(400px);
     max-width: rem(650px);
   }
+
+  @media (min-width: 100em) {
+    max-height: rem(400px);
+    max-width: rem(650px);
+  }
 }
 
 .incomeCategoryRoot {
@@ -474,6 +518,11 @@ body {
   }
 
   @media (min-width: 88em) {
+    max-height: rem(33px);
+    max-width: rem(200px);
+  }
+
+  @media (min-width: 100em) {
     max-height: rem(33px);
     max-width: rem(200px);
   }
@@ -514,6 +563,11 @@ body {
     max-height: rem(33px);
     max-width: rem(250px);
   }
+
+  @media (min-width: 100em) {
+    max-height: rem(33px);
+    max-width: rem(250px);
+  }
 }
 
 .incomeDateInput {
@@ -548,6 +602,11 @@ body {
     max-width: rem(320px);
   }
 
+  @media (min-width: 100em) {
+    max-height: rem(33px);
+    max-width: rem(320px);
+  }
+
 }
 
 .incomeAmountInput {
@@ -577,6 +636,10 @@ body {
   @media (min-width: 88em) {
     max-height: rem(150px);
   }
+
+  @media (min-width: 100em) {
+    max-height: rem(150px);
+  }
 }
 
 .incomeNoteInput {
@@ -598,6 +661,10 @@ body {
   }
 
   @media (min-width: 88em) {
+    max-height: rem(150px);
+  }
+
+  @media (min-width: 100em) {
     max-height: rem(150px);
   }
 }
@@ -665,6 +732,11 @@ body {
 
   }
 
+  @media (min-width: 100em) {
+    top: -2%;
+    right: 2%;
+  }
+
 }
 
 #transactionTabletrContainer {
@@ -694,6 +766,11 @@ body {
   }
 
   @media (min-width: 88em) {
+    margin-bottom: 10px;
+    margin-left: 300px;
+  }
+
+  @media (min-width: 100em) {
     margin-bottom: 10px;
     margin-left: 300px;
   }
@@ -750,6 +827,12 @@ body {
   }
 
   @media (min-width: 88em) {
+    max-width: rem(500px);
+    max-height: rem(40px);
+    padding: 0;
+  } 
+
+  @media (min-width: 100em) {
     max-width: rem(500px);
     max-height: rem(40px);
     padding: 0;

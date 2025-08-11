@@ -235,7 +235,7 @@ export default function DataReport() {
 
   return (
     <ScrollArea
-      h={{ base: "900px", md: "700px", xl: "800px" }}
+      h={{ base: "900px", md: "700px", xl: "1200px" }}
       w={{ base: "425px", sm: "100%", md: "100%", xl: "100%", xxl: "100%" }}
     >
       <Box className={classes.datareportBackground}>
